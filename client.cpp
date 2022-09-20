@@ -30,6 +30,7 @@ int main(int argc, char *argv[])
 	struct addrinfo hints, *servinfo, *p;
 	int rv;
 	char s[INET6_ADDRSTRLEN];
+	char *msg = "BONJOUR CACA";
 
 	if (argc != 2) {
 		fprintf(stderr,"usage: client hostname\n");
@@ -72,8 +73,8 @@ int main(int argc, char *argv[])
 
 	freeaddrinfo(servinfo);
 
-	if ((numbytes = recv(sockfd, buf, MAXDATASIZE-1, 0)) == -1) {
-		perror("recv");
+	if ((numbytes = send(sockfd, msg, strlen(msg), 0)) == -1) {
+		perror("send");
 		exit(1);
 	}
 

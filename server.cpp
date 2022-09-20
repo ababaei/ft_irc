@@ -36,7 +36,6 @@ int	get_listener_sock(void)
 			std::cerr << "socket error" << std::endl;
 			continue ;
 		}
-		std::cout << listener << "\n";
 		setsockopt(listener, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int));
 
 		if ((bind(listener, servinfo->ai_addr, servinfo->ai_addrlen)) < 0)
@@ -62,7 +61,6 @@ int	get_listener_sock(void)
 		exit(1);
 	}
 
-	std::cout << listener << "\n";
 	return (listener);
 }
 
@@ -87,7 +85,7 @@ int main(int argc, char **argv)
 	struct sockaddr_storage remoteaddr;
 	struct pollfd *arr;
 
-	char *buf[254];
+	char buf[254];
 
 	std::list<pollfd>::iterator it;
 	std::list<pollfd>::iterator itend;
@@ -109,18 +107,18 @@ int main(int argc, char **argv)
 		arr = (pollfd*)malloc(sizeof(*arr) * sizeof(pfds.size()));
 		std::copy(pfds.begin(), pfds.end(), arr);
 		int poll_count = poll(arr, pfds.size(), -1);
+		std::copy(arr, arr + pfds.size(), pfds.begin());
 
 		if (poll_count == -1)
 		{
 			std::cerr << "poll" << "\n";
 			exit(1);
 		}
-
 		itend = pfds.end();
 
-		for (it = pfds.begin();it != itend; it++)
+		for (it = pfds.begin();it != itend; ++it)
 		{
-			std::cout << "test fd:" << it->fd << "\n";
+		//	std::cout << "test fd:" << it->revents << "\n";
 			if (it->revents & POLLIN)
 			{
 				if (it->fd == listener)
@@ -129,9 +127,7 @@ int main(int argc, char **argv)
 					new_fd = accept(listener, (struct sockaddr *)&remoteaddr, &addr_size);
 
 					if (new_fd == -1)
-					{
 						std::cerr << "accept\n" ;
-					}
 					else
 					{
 						back_socket_to_list(&pfds, new_fd, 0, 0);
@@ -141,6 +137,7 @@ int main(int argc, char **argv)
 				else
 				{
 					int nbytes = recv(it->fd, buf, sizeof(buf), 0);
+					std::cout << "nbite:" << nbytes << "\n";
 					int sender_fd = it->fd;
 
 					if (nbytes <= 0)
