@@ -1,6 +1,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netdb.h>
+#include <algorithm>
 #include <poll.h>
 #include <iostream>
 #include <string>
@@ -75,6 +76,18 @@ void back_socket_to_list(std::list<pollfd> *pfds, int filed, short ev, short rev
 	pfds->push_back(tmp);
 }
 
+void print_pfds(std::list<pollfd> *pfds)
+{
+	std::cout << "fd:" << pfds->fd << " | ";
+	std::cout << "event:" << pfds->events << " | "; 
+	std::cout << "revent:" << pfds->revents << " | "; 
+}
+
+void print_all_pfds(std::list<pollfd> *pfds)
+{
+	for_each(pfds.begin(), pfds.end(), print_pfds);
+}
+
 int main(int argc, char **argv)
 {
 	std::list<pollfd> pfds;
@@ -116,7 +129,7 @@ int main(int argc, char **argv)
 		}
 		itend = pfds.end();
 
-		for (it = pfds.begin();it != itend; ++it)
+		for (it = pfds.begin(); it != itend; ++it)
 		{
 		//	std::cout << "test fd:" << it->revents << "\n";
 			if (it->revents & POLLIN)
@@ -130,13 +143,13 @@ int main(int argc, char **argv)
 						std::cerr << "accept\n" ;
 					else
 					{
-						back_socket_to_list(&pfds, new_fd, 0, 0);
+						back_socket_to_list(&pfds, new_fd, POLLIN, 0);
 						std::cout << "pollserver: new connection\n";
 					}
 				}
 				else
 				{
-					int nbytes = recv(it->fd, buf, sizeof(buf), 0);
+					int nbytes = recv(it->fd, &buf, sizeof(buf), 0);
 					std::cout << "nbite:" << nbytes << "\n";
 					int sender_fd = it->fd;
 
@@ -157,7 +170,7 @@ int main(int argc, char **argv)
 
 							if (dest_fd != listener && dest_fd != sender_fd)
 							{
-								if (send(dest_fd, buf, nbytes, 0) == -1)
+								if (send(dest_fd, &buf, nbytes, 0) == -1)
 									std::cerr << "send\n";
 							}
 						}

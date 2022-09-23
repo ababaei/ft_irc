@@ -73,7 +73,7 @@ int main(int argc, char *argv[])
 
 	freeaddrinfo(servinfo);
 
-	if ((numbytes = send(sockfd, msg, strlen(msg), 0)) == -1) {
+	if ((numbytes = send(sockfd, msg, 100, 0)) == -1) {
 		perror("send");
 		exit(1);
 	}
