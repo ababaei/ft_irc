@@ -7,6 +7,8 @@
 #include <sys/types.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
+#include <string>
+#include <iostream>
 
 #include <arpa/inet.h>
 
@@ -30,7 +32,9 @@ int main(int argc, char *argv[])
 	struct addrinfo hints, *servinfo, *p;
 	int rv;
 	char s[INET6_ADDRSTRLEN];
-	char *msg = "BONJOUR CACA";
+	//std::string msg = "BONJOUR CACA";
+	//char c_msg[100];
+	//strcpy(c_msg, msg.c_str());
 
 	if (argc != 2) {
 		fprintf(stderr,"usage: client hostname\n");
@@ -73,10 +77,20 @@ int main(int argc, char *argv[])
 
 	freeaddrinfo(servinfo);
 
-	if ((numbytes = send(sockfd, msg, strlen(msg), 0)) == -1) {
+/*	if ((numbytes = send(sockfd, c_msg, sizeof(char[100]), 0)) == -1) {
 		perror("send");
 		exit(1);
-	}
+	}*/
+	std::string msg;
+    while (1)
+    {
+        std::getline(std::cin, msg);
+        char c_msg[510];
+        strcpy(c_msg, msg.c_str());
+        send(sockfd, c_msg, sizeof(char[510]), 0);
+		recv(sockfd, c_msg, sizeof(char[510]), 0);
+		std::cout << c_msg << std::endl;
+    }
 
 	buf[numbytes] = '\0';
 
