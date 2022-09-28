@@ -155,8 +155,20 @@ void	Server::handle_new_connection()
 	socklen_t addr_size = sizeof(remote_addr);
 	int new_fd = accept(this->listener, (struct sockaddr *)&remote_addr, &addr_size);
 
-	add_socket_to_list(&this->pfds, new_fd, POLLIN, 0);
-	std::cout << "pollserver: new connection" << std::endl;
+	recv(new_fd, this->buf, sizeof(char[510]), 0);
+	std::string pass(buf);
+	recv(new_fd, this->buf, sizeof(char[510]), 0);
+	std::string nick(buf);
+	if ((pass.substr(5, pass.length() - 7)).compare(this->password) == 0)
+	{
+		add_socket_to_list(&this->pfds, new_fd, POLLIN, 0);
+		std::cout << "pollserver: new connection" << std::endl;
+	}
+	else
+	{
+		std::cout << "error" << std::endl;
+	}
+
 }
 
 void	Server::handle_command(std::list<pollfd>::iterator it)
