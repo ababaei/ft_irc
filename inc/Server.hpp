@@ -11,6 +11,7 @@
 # include <list>
 # include <unistd.h>
 # include <fcntl.h>
+# include "Register.hpp"
 
 #define PORT "6667"
 
@@ -45,6 +46,7 @@ class Server
 		struct pollfd		*arr_pfds;
 		char				buf[510];
 		int					listener;
+		Register			new_connection;
 
 };
 

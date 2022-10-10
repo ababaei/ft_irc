@@ -3,7 +3,8 @@ SRCSDIR		= .
 OBJSDIR		= objs
 INCLUDES	= .
 SRCS		= srcs/main.cpp \
-				srcs/Server.cpp
+				srcs/Server.cpp \
+				srcs/Register.cpp
 CC			= c++
 CFLAGS		= #-Wall -Wextra -Werror -std=c++98
 
