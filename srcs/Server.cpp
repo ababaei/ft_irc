@@ -6,6 +6,7 @@
 
 Server::Server(std::string pword, std::string given_port) : password(pword), port(given_port)
 {
+	this->address = "127.0.0.1";
 }
 
 Server::Server( const Server & src )
@@ -154,56 +155,37 @@ void	Server::handle_new_connection()
 	struct sockaddr_storage	remote_addr;
 	socklen_t addr_size = sizeof(remote_addr);
 	int new_fd = accept(this->listener, (struct sockaddr *)&remote_addr, &addr_size);
+	Client		new_client(new_fd);
 
-	/* get CAP */
-/*	std::cout << "cap part" << std::endl;
-	recv(new_fd, this->buf, sizeof(char[510]), 0);
-	std::string cap(buf);
-	cap = cap.substr(cap.find(" ") + 1, cap.find("\n"));
-	std::cout << "cap :" << cap << "#\n" << std::endl;
-
-	/* get PASS */
-/*	std::cout << "pass part" << std::endl;
-	recv(new_fd, this->buf, sizeof(char[510]), 0);
-	std::string pass(buf);
-	pass = pass.substr(pass.find(" ") + 1, pass.length() - 7);
-	std::cout << "pass :" << pass << "#\n" << std::endl;
-
-	/* get NICK */
-/*	std::cout << "nick part" << std::endl;
-	recv(new_fd, this->buf, sizeof(char[510]), 0);
-	std::string nick(buf);
-	nick = nick.substr(nick.find(" ") + 1, nick.length() - 7);
-	std::cout << "nick :" << nick << "#\n" << std::endl;
-*/
-	std::cout << "wtf" << std::endl;
-	while (this->new_connection.get_cap().empty() || this->new_connection.get_nick().empty() || this->new_connection.get_pass().empty())
+	std::string tmp;
+	while (new_client.get_cap().empty() || new_client.get_nick().empty() || new_client.get_pass().empty())
 	{
-		std::string tmp;
+		std::cout << "*";
 		if (tmp.empty())
 		{
-			recv(new_fd, this->buf, sizeof(char[510]), 0);
+			std::cout << "<rcv> ";
+			recv(new_client.get_fd(), this->buf, sizeof(char[510]), 0);
 			tmp = this->buf;
 		}
-		tmp = this->new_connection.handle_new_entry(tmp);
+		tmp = new_client.handle_new_entry(tmp);
+		std::cout << tmp << std::endl;
 	}
 
-	std::cout << "cap :" << this->new_connection.get_cap() << std::endl;
-	std::cout << "nick :" << this->new_connection.get_nick() << std::endl;
-	std::cout << "pass :" << this->new_connection.get_pass() << std::endl;
+	std::cout << "cap :" << new_client.get_cap() << std::endl;
+	std::cout << "nick :" << new_client.get_nick() << std::endl;
+	std::cout << "pass :" << new_client.get_pass() << std::endl;
 
-	//if ((pass.substr(5, pass.length() - 7)).compare(this->password) == 0)
-	//{
+	if ((!this->password.compare(new_client.get_pass()))
+	{
 		add_socket_to_list(&this->pfds, new_fd, POLLIN, 0);
-		std::string reply = ":127.0.0.1 001 " + this->new_connection.get_nick() + " :Welcome to the Internet Relay Network 127.0.0.1";
-		std::cout << send(new_fd, reply.c_str(), 510, SOCK_STREAM) << std::endl;
-		std::cout << reply << std::endl;
+		std::string reply = this->reply("001", new_client.get_nick(), "Welcome to the Internet Relay Chat Network " + this->address);
+		std::cout << send(new_client.get_fd(), reply.c_str(), reply.length() + 1, SOCK_STREAM) << std::endl;
 		std::cout << "pollserver: new connection" << std::endl;
-	//}
-	//else
-//	{
-//		std::cout << "error" << std::endl;
-//	}
+	}
+	else
+	{
+		
+	}
 
 }
 
@@ -211,6 +193,12 @@ void	Server::handle_command(std::list<pollfd>::iterator it)
 {
 	int	nbytes = recv(it->fd, this->buf, sizeof(char[510]), 0);
 	std::cout << this->buf << std::endl;
+}
+
+
+std::string	Server::reply(std::string reply_code, std::string target, std::string msg)
+{
+	return (":" + this->address + " " + reply_code + " " + target + " :" + msg);
 }
 
 /*

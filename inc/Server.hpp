@@ -12,6 +12,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include "Register.hpp"
+# include "Client.hpp"
 
 #define PORT "6667"
 
@@ -33,6 +34,7 @@ class Server
 		void			handle_new_connection();
 		void			handle_command(std::list<pollfd>::iterator it);
 		void			add_socket_to_list(std::list<pollfd> *pfds, int filed, short ev, short rev);
+		std::string		reply(std::string reply_code, std::string target,std::string msg);
 		
 		/* accessors */
 		std::string		get_password();
@@ -42,11 +44,13 @@ class Server
 
 		std::string			password;
 		std::string			port;
+		std::string			address;
 		std::list<pollfd>	pfds;
 		struct pollfd		*arr_pfds;
 		char				buf[510];
 		int					listener;
 		Register			new_connection;
+		std::list<Client>	clients;
 
 };
 
