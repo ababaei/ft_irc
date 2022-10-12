@@ -123,12 +123,22 @@ void	Server::poll_loop()
 	}
 }
 
-void	Server::polling()
+void	Server::list_to_arr()
 {
 	this->arr_pfds = (pollfd *)malloc(sizeof(this->arr_pfds) * sizeof(this->pfds.size()));
 	std::copy(this->pfds.begin(), this->pfds.end(), this->arr_pfds);
-	poll(this->arr_pfds, this->pfds.size(), -1);
+}
+
+void	Server::arr_to_list()
+{
 	std::copy(this->arr_pfds, this->arr_pfds + this->pfds.size(), this->pfds.begin());
+}
+
+void	Server::polling()
+{
+	list_to_arr();
+	poll(this->arr_pfds, this->pfds.size(), -1);
+	arr_to_list();
 }
 
 void	Server::handle_pfds()
@@ -155,56 +165,8 @@ void	Server::handle_new_connection()
 	socklen_t addr_size = sizeof(remote_addr);
 	int new_fd = accept(this->listener, (struct sockaddr *)&remote_addr, &addr_size);
 
-	/* get CAP */
-/*	std::cout << "cap part" << std::endl;
-	recv(new_fd, this->buf, sizeof(char[510]), 0);
-	std::string cap(buf);
-	cap = cap.substr(cap.find(" ") + 1, cap.find("\n"));
-	std::cout << "cap :" << cap << "#\n" << std::endl;
-
-	/* get PASS */
-/*	std::cout << "pass part" << std::endl;
-	recv(new_fd, this->buf, sizeof(char[510]), 0);
-	std::string pass(buf);
-	pass = pass.substr(pass.find(" ") + 1, pass.length() - 7);
-	std::cout << "pass :" << pass << "#\n" << std::endl;
-
-	/* get NICK */
-/*	std::cout << "nick part" << std::endl;
-	recv(new_fd, this->buf, sizeof(char[510]), 0);
-	std::string nick(buf);
-	nick = nick.substr(nick.find(" ") + 1, nick.length() - 7);
-	std::cout << "nick :" << nick << "#\n" << std::endl;
-*/
-	std::cout << "wtf" << std::endl;
-	while (this->new_connection.get_cap().empty() || this->new_connection.get_nick().empty() || this->new_connection.get_pass().empty())
-	{
-		std::string tmp;
-		if (tmp.empty())
-		{
-			recv(new_fd, this->buf, sizeof(char[510]), 0);
-			tmp = this->buf;
-		}
-		tmp = this->new_connection.handle_new_entry(tmp);
-	}
-
-	std::cout << "cap :" << this->new_connection.get_cap() << std::endl;
-	std::cout << "nick :" << this->new_connection.get_nick() << std::endl;
-	std::cout << "pass :" << this->new_connection.get_pass() << std::endl;
-
-	//if ((pass.substr(5, pass.length() - 7)).compare(this->password) == 0)
-	//{
-		add_socket_to_list(&this->pfds, new_fd, POLLIN, 0);
-		std::string reply = ":127.0.0.1 001 " + this->new_connection.get_nick() + " :Welcome to the Internet Relay Network 127.0.0.1";
-		std::cout << send(new_fd, reply.c_str(), 510, SOCK_STREAM) << std::endl;
-		std::cout << reply << std::endl;
-		std::cout << "pollserver: new connection" << std::endl;
-	//}
-	//else
-//	{
-//		std::cout << "error" << std::endl;
-//	}
-
+	add_socket_to_list(&this->pfds, new_fd, POLLIN, 0);
+	std::cout << "pollserver: new connection" << std::endl;
 }
 
 void	Server::handle_command(std::list<pollfd>::iterator it)

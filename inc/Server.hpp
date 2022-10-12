@@ -33,10 +33,11 @@ class Server
 		void			handle_new_connection();
 		void			handle_command(std::list<pollfd>::iterator it);
 		void			add_socket_to_list(std::list<pollfd> *pfds, int filed, short ev, short rev);
+		void			arr_to_list();
+		void			list_to_arr();
 		
 		/* accessors */
 		std::string		get_password();
-
 
 	private:
 
@@ -46,7 +47,7 @@ class Server
 		struct pollfd		*arr_pfds;
 		char				buf[510];
 		int					listener;
-		Register			new_connection;
+//		Register			new_connection;
 
 };
 
