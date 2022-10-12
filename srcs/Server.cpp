@@ -6,6 +6,7 @@
 
 Server::Server(std::string pword, std::string given_port) : password(pword), port(given_port)
 {
+	this->address = "127.0.0.1";
 }
 
 Server::Server( const Server & src )
@@ -164,6 +165,7 @@ void	Server::handle_new_connection()
 	struct sockaddr_storage	remote_addr;
 	socklen_t addr_size = sizeof(remote_addr);
 	int new_fd = accept(this->listener, (struct sockaddr *)&remote_addr, &addr_size);
+	Client		new_client(new_fd);
 
 	add_socket_to_list(&this->pfds, new_fd, POLLIN, 0);
 	std::cout << "pollserver: new connection" << std::endl;
@@ -173,6 +175,12 @@ void	Server::handle_command(std::list<pollfd>::iterator it)
 {
 	int	nbytes = recv(it->fd, this->buf, sizeof(char[510]), 0);
 	std::cout << this->buf << std::endl;
+}
+
+
+std::string	Server::reply(std::string reply_code, std::string target, std::string msg)
+{
+	return (":" + this->address + " " + reply_code + " " + target + " :" + msg);
 }
 
 /*

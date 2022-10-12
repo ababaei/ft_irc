@@ -1,14 +1,14 @@
-#include "../inc/Register.hpp"
+#include "../inc/Client.hpp"
 
 /*
 ** ------------------------------- CONSTRUCTOR --------------------------------
 */
 
-Register::Register()
+Client::Client(int fd) : fd(fd)
 {
 }
 
-Register::Register( const Register & src )
+Client::Client( const Client & src )
 {
 }
 
@@ -17,7 +17,7 @@ Register::Register( const Register & src )
 ** -------------------------------- DESTRUCTOR --------------------------------
 */
 
-Register::~Register()
+Client::~Client()
 {
 }
 
@@ -26,7 +26,7 @@ Register::~Register()
 ** --------------------------------- OVERLOAD ---------------------------------
 */
 
-Register &				Register::operator=( Register const & rhs )
+Client &				Client::operator=( Client const & rhs )
 {
 	//if ( this != &rhs )
 	//{
@@ -35,7 +35,7 @@ Register &				Register::operator=( Register const & rhs )
 	return *this;
 }
 
-std::ostream &			operator<<( std::ostream & o, Register const & i )
+std::ostream &			operator<<( std::ostream & o, Client const & i )
 {
 	//o << "Value = " << i.getValue();
 	return o;
@@ -46,7 +46,7 @@ std::ostream &			operator<<( std::ostream & o, Register const & i )
 ** --------------------------------- METHODS ----------------------------------
 */
 
-std::string		Register::handle_new_entry(std::string str)
+std::string		Client::handle_new_entry(std::string str)
 {
 	std::string key = str.substr(0, str.find(" "));
 	//std::cout << str << std::endl;
@@ -60,13 +60,14 @@ std::string		Register::handle_new_entry(std::string str)
 	return (str);
 }
 
-
 /*
 ** --------------------------------- ACCESSOR ---------------------------------
 */
 
-std::string		Register::get_cap() {return (this->cap); }
-std::string		Register::get_nick() {return (this->nick); }
-std::string		Register::get_pass() {return (this->pass); }
+std::string		Client::get_cap() {return (this->cap); }
+std::string		Client::get_nick() {return (this->nick); }
+std::string		Client::get_pass() {return (this->pass); }
+int				Client::get_fd() {return (this->fd); }
+
 
 /* ************************************************************************** */
