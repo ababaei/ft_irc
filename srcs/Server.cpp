@@ -18,29 +18,7 @@ Server::Server( const Server & src )
 ** -------------------------------- DESTRUCTOR --------------------------------
 */
 
-Server::~Server()
-{
-}
-
-
-/*
-** --------------------------------- OVERLOAD ---------------------------------
-*/
-
-Server &				Server::operator=( Server const & rhs )
-{
-	//if ( this != &rhs )
-	//{
-		//this->_value = rhs.getValue();
-	//}
-	return *this;
-}
-
-std::ostream &			operator<<( std::ostream & o, Server const & i )
-{
-	//o << "Value = " << i.getValue();
-	return o;
-}
+Server::~Server() { }
 
 
 /*
@@ -100,10 +78,10 @@ void	Server::set_listener_sock(void)
 	}
 
 	this->listener = listener;
-	add_socket_to_list(&this->pfds, listener, POLLIN, 0);
+	add_socket_to_list(listener, POLLIN, 0);
 }
 
-void	Server::add_socket_to_list(std::list<pollfd> *pfds, int filed, short ev, short rev)
+void	Server::add_socket_to_list(int filed, short ev, short rev)
 {
 	struct pollfd tmp;
 
@@ -111,7 +89,7 @@ void	Server::add_socket_to_list(std::list<pollfd> *pfds, int filed, short ev, sh
 	tmp.events = ev;
 	tmp.revents = rev;
 
-	pfds->push_back(tmp);
+	this->pfds.push_back(tmp);
 }
 
 void	Server::poll_loop()
@@ -140,6 +118,7 @@ void	Server::polling()
 	list_to_arr();
 	poll(this->arr_pfds, this->pfds.size(), -1);
 	arr_to_list();
+	free(this->arr_pfds);
 }
 
 void	Server::handle_pfds()
@@ -155,7 +134,15 @@ void	Server::handle_pfds()
 			if (it->fd == this->listener)
 				this->handle_new_connection();
 			else
-				this->handle_command(it);
+			{
+				int	nbytes = recv(it->fd, this->buf, sizeof(char[510]), 0);
+				int sender_fd = it->fd;
+
+				if (nbytes <= 0)
+					this->close_connection(sender_fd, nbytes, it++);
+				else
+					this->handle_command(buf, sender_fd, nbytes);
+			}
 		}
 	}
 }
@@ -165,15 +152,36 @@ void	Server::handle_new_connection()
 	struct sockaddr_storage	remote_addr;
 	socklen_t addr_size = sizeof(remote_addr);
 	int new_fd = accept(this->listener, (struct sockaddr *)&remote_addr, &addr_size);
-	Client		new_client(new_fd);
 
-	add_socket_to_list(&this->pfds, new_fd, POLLIN, 0);
+	add_socket_to_list(new_fd, POLLIN, 0);
 	std::cout << "pollserver: new connection" << std::endl;
 }
 
-void	Server::handle_command(std::list<pollfd>::iterator it)
+void Server::close_connection(int sender_fd, int nbytes, std::list<pollfd>::iterator rit)
+{	
+	std::list<pollfd>::iterator it = rit;
+	if (nbytes == 0)
+		std::cout << "socket " << sender_fd << " hang up\n";
+	else
+		std::cerr << "recv\n";
+	close(sender_fd);
+	this->pfds.erase(it);
+}
+
+void	Server::handle_command(char *buf, int sender_fd, int nbytes)
 {
-	int	nbytes = recv(it->fd, this->buf, sizeof(char[510]), 0);
+	std::list<pollfd>::iterator it;
+	std::list<pollfd>::iterator itend;
+
+	itend = this->pfds.end();
+	for (it = this->pfds.begin(); it != itend; it++)
+	{
+		if (it->fd != this->listener && it->fd != sender_fd)
+		{
+			if (send(it->fd, buf, nbytes, 0) == -1)
+				std::cerr << "send back\n";
+		}
+	}
 	std::cout << this->buf << std::endl;
 }
 
