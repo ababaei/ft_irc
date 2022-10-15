@@ -135,11 +135,14 @@ void	Server::handle_pfds()
 				this->handle_new_connection();
 			else
 			{
-				int	nbytes = recv(it->fd, this->buf, sizeof(char[510]), 0);
+				int	nbytes = recv(it->fd, this->buf, sizeof(this->buf), 0);
 				int sender_fd = it->fd;
 
 				if (nbytes <= 0)
-					this->close_connection(sender_fd, nbytes, it++);
+				{
+					this->close_connection(sender_fd, nbytes);
+					this->pfds.erase(it++);
+				}
 				else
 					this->handle_command(buf, sender_fd, nbytes);
 			}
@@ -157,15 +160,13 @@ void	Server::handle_new_connection()
 	std::cout << "pollserver: new connection" << std::endl;
 }
 
-void Server::close_connection(int sender_fd, int nbytes, std::list<pollfd>::iterator rit)
+void Server::close_connection(int sender_fd, int nbytes)
 {	
-	std::list<pollfd>::iterator it = rit;
 	if (nbytes == 0)
 		std::cout << "socket " << sender_fd << " hang up\n";
 	else
 		std::cerr << "recv\n";
 	close(sender_fd);
-	this->pfds.erase(it);
 }
 
 void	Server::handle_command(char *buf, int sender_fd, int nbytes)
