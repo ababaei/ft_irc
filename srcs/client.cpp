@@ -88,7 +88,7 @@ int main(int argc, char *argv[])
         char c_msg[510];
         strcpy(c_msg, msg.c_str());
         send(sockfd, c_msg, sizeof(char[510]), 0);
-		recv(sockfd, c_msg, sizeof(char[510]), 0);
+		//recv(sockfd, c_msg, sizeof(char[510]), 0);
 		std::cout << c_msg << std::endl;
     }
 

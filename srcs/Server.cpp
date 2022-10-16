@@ -96,7 +96,7 @@ void	Server::poll_loop()
 {
 	while (1)
 	{
-		std::cout << "polling fds..." << std::endl;
+		//std::cout << "polling fds..." << std::endl;
 		polling();
 		handle_pfds();
 	}
@@ -138,13 +138,14 @@ void	Server::handle_pfds()
 				int	nbytes = recv(it->fd, this->buf, sizeof(this->buf), 0);
 				int sender_fd = it->fd;
 
+				std::cout << "received " << nbytes << "\n";
 				if (nbytes <= 0)
 				{
 					this->close_connection(sender_fd, nbytes);
 					this->pfds.erase(it++);
 				}
 				else
-					this->handle_command(buf, sender_fd, nbytes);
+					this->handle_command(sender_fd, nbytes);
 			}
 		}
 	}
@@ -156,7 +157,8 @@ void	Server::handle_new_connection()
 	socklen_t addr_size = sizeof(remote_addr);
 	int new_fd = accept(this->listener, (struct sockaddr *)&remote_addr, &addr_size);
 
-	add_socket_to_list(new_fd, POLLIN, 0);
+	fcntl(new_fd, F_SETFL, O_NONBLOCK);
+	add_socket_to_list(new_fd, POLLIN | POLLOUT, 0);
 	std::cout << "pollserver: new connection" << std::endl;
 }
 
@@ -169,7 +171,7 @@ void Server::close_connection(int sender_fd, int nbytes)
 	close(sender_fd);
 }
 
-void	Server::handle_command(char *buf, int sender_fd, int nbytes)
+void	Server::handle_command(int sender_fd, int nbytes)
 {
 	std::list<pollfd>::iterator it;
 	std::list<pollfd>::iterator itend;
@@ -179,11 +181,12 @@ void	Server::handle_command(char *buf, int sender_fd, int nbytes)
 	{
 		if (it->fd != this->listener && it->fd != sender_fd)
 		{
-			if (send(it->fd, buf, nbytes, 0) == -1)
+			if (send(it->fd, this->buf, nbytes, 0) == -1)
 				std::cerr << "send back\n";
 		}
 	}
 	std::cout << this->buf << std::endl;
+	memset(this->buf, 0, 510);
 }
 
 

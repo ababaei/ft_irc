@@ -33,7 +33,7 @@ class Server
 		void			handle_pfds();
 		void			handle_new_connection();
 		void			close_connection(int sender_fd, int nbytes);
-		void			handle_command(char *buf, int sender_fd, int nbytes);
+		void			handle_command(int sender_fd, int nbytes);
 		void			add_socket_to_list(int filed, short ev, short rev);
 		//void			del_from_pfds(int sender_fd);
 		void			arr_to_list();
