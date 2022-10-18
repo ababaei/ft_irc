@@ -138,14 +138,16 @@ void	Server::handle_pfds()
 				int	nbytes = recv(it->fd, this->buf, sizeof(this->buf), 0);
 				int sender_fd = it->fd;
 
-				std::cout << "received " << nbytes << "\n";
+				std::cout << "received " << nbytes << " bytes\n";
 				if (nbytes <= 0)
 				{
 					this->close_connection(sender_fd, nbytes);
 					this->pfds.erase(it++);
 				}
 				else
-					this->handle_command(sender_fd, nbytes);
+					this->handle_raw(sender_fd, nbytes);
+				std::cout << this->message << "\n";
+				std::cout << "------------------------------\n";
 			}
 		}
 	}
@@ -159,7 +161,7 @@ void	Server::handle_new_connection()
 
 	fcntl(new_fd, F_SETFL, O_NONBLOCK);
 	add_socket_to_list(new_fd, POLLIN | POLLOUT, 0);
-	std::cout << "pollserver: new connection" << std::endl;
+	std::cout << "pollserver: new connection\n";
 }
 
 void Server::close_connection(int sender_fd, int nbytes)
@@ -171,8 +173,9 @@ void Server::close_connection(int sender_fd, int nbytes)
 	close(sender_fd);
 }
 
-void	Server::handle_command(int sender_fd, int nbytes)
+void	Server::handle_raw(int sender_fd, int nbytes)
 {
+/* BROADCAST FUNCTION TO BE PUT ELSEWHERE
 	std::list<pollfd>::iterator it;
 	std::list<pollfd>::iterator itend;
 
@@ -185,7 +188,16 @@ void	Server::handle_command(int sender_fd, int nbytes)
 				std::cerr << "send back\n";
 		}
 	}
-	std::cout << this->buf << std::endl;
+*/
+	std::string tmp(this->buf);
+	std::size_t pos;
+
+	pos = tmp.find("\r\n");
+	if (pos != std::string::npos)
+	{
+		message.clear();
+	}
+	message.append(this->buf, pos);
 	memset(this->buf, 0, 510);
 }
 
