@@ -145,7 +145,10 @@ void	Server::handle_pfds()
 					this->pfds.erase(it++);
 				}
 				else
+				{
 					this->handle_raw(sender_fd, nbytes);
+					this->User_list[sender_fd]->to_command(this->message);
+				}
 				std::cout << this->message << "\n";
 				std::cout << "------------------------------\n";
 			}
@@ -161,6 +164,7 @@ void	Server::handle_new_connection()
 
 	fcntl(new_fd, F_SETFL, O_NONBLOCK);
 	add_socket_to_list(new_fd, POLLIN | POLLOUT, 0);
+	User_list[new_fd] = new User(new_fd);
 	std::cout << "pollserver: new connection\n";
 }
 
@@ -195,16 +199,10 @@ void	Server::handle_raw(int sender_fd, int nbytes)
 	pos = tmp.find("\r\n");
 	if (pos != std::string::npos)
 	{
-		message.clear();
+		message.clear(); //this should change and parse the message user side
 	}
 	message.append(this->buf, pos);
 	memset(this->buf, 0, 510);
-}
-
-
-std::string	Server::reply(std::string reply_code, std::string target, std::string msg)
-{
-	return (":" + this->address + " " + reply_code + " " + target + " :" + msg);
 }
 
 /*

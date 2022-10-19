@@ -9,12 +9,17 @@
 # include <string>
 # include <cstring>
 # include <list>
+# include <new>
+# include <map>
 # include <unistd.h>
 # include <fcntl.h>
 # include "Register.hpp"
 # include "Client.hpp"
+# include "User.hpp"
 
 #define PORT "6667"
+
+class User;
 
 class Server
 {
@@ -35,10 +40,8 @@ class Server
 		void			close_connection(int sender_fd, int nbytes);
 		void			handle_raw(int sender_fd, int nbytes);
 		void			add_socket_to_list(int filed, short ev, short rev);
-		//void			del_from_pfds(int sender_fd);
 		void			arr_to_list();
 		void			list_to_arr();
-		std::string		reply(std::string reply_code, std::string target,std::string msg);
 		
 		/* accessors */
 		std::string		get_password();
@@ -49,8 +52,12 @@ class Server
 		std::string			password;
 		std::string			port;
 		std::string			address;
+
 		std::list<pollfd>	pfds;
 		struct pollfd		*arr_pfds;
+
+		std::map<int, User *> User_list;
+
 		char				buf[510];
 		int					listener;
 
@@ -58,4 +65,4 @@ class Server
 
 std::ostream &			operator<<( std::ostream & o, Server const & i );
 
-#endif /* ********************************************************** SERVER_H */
+#endif

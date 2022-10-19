@@ -4,7 +4,8 @@ OBJSDIR		= objs
 INCLUDES	= .
 SRCS		= srcs/main.cpp \
 				srcs/Server.cpp \
-				#srcs/Register.cpp
+				srcs/User.cpp \
+				srcs/NICK.cpp
 
 CC			= c++
 
