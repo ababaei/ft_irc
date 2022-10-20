@@ -8,7 +8,7 @@
 User::User(int fd) : fd(fd)
 {
 //    cmd_list["PASS"] = PASS;
-	cmd_list["NICK"] = NICK;
+	this->cmd_list["NICK"] = NICK;
 }
 
 User::~User() {}
@@ -23,19 +23,22 @@ void    User::to_command(std::string msg)
 	std::vector<std::string>	words;
 	std::string					tmp;
 
+	this->message = msg;
 	while (std::getline(ss, tmp, ' '))
 	{
 		words.push_back(tmp);
 	}
-	this->command = words[1];
-//	std::copy(words.begin() + 1, words.end(), param_list.begin());
+	this->command = words[0];
+	this->param_list.assign(words.begin() + 1, words.end());
+	std::cout << this->param_list[0] << "\n";
 
-	std::cout << this->command << "\n";
-
-	//this->exec_cmd();
+	this->exec_cmd();
 }
 
 void	User::exec_cmd()
 {
+	if (this->command == "CAP")
+		return ;
+	std::cout << this->command << "\n";
 	this->cmd_list[this->command](this->message);
 }
