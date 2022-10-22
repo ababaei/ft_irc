@@ -3,6 +3,14 @@
     // Hover to view descriptions of existing attributes.
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
-    "configurations": [],
-    "program": "/mnt/nfs/homes/ababaei/Documents/ft_irc/ft_irc"   
+    "configurations": [
+        {
+            "type": "vgdb",
+            "request": "launch",
+            "name": "C/C++ Debug",
+            "program": "${workspaceFolder}/ft_irc",
+            "args": ["6667", "toto"],
+            "cwd": "${workspaceFolder}"
+        }
+    ]
 }

@@ -1,0 +1,14 @@
+{
+    "files.associations": {
+        "*.tcc": "cpp",
+        "istream": "cpp",
+        "streambuf": "cpp"
+    },
+    "makefile.launchConfigurations": [
+        {
+            "cwd": "/mnt/nfs/homes/ababaei/Documents/ft_irc",
+            "binaryPath": "/mnt/nfs/homes/ababaei/Documents/ft_irc/ft_irc",
+            "binaryArgs": ["6667", "toto"]
+        }
+    ]
+}

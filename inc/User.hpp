@@ -17,7 +17,9 @@ class User
         std::string     get_nick();
         std::string     get_status();
 
+        void            set_nick(std::string nick);
         void            to_command(std::string msg);
+        std::vector<std::string> param_list;
 
 	private: //variables
         int             fd;
@@ -27,12 +29,12 @@ class User
 
         std::string     command;
         std::string     sub_cmd;
-        std::vector<std::string> param_list;
 
-        std::map<std::string, void (*)(std::string)> cmd_list;
+        std::map<std::string, void (*)(User *)> cmd_list;
         
         private: //method
         void			exec_cmd(void);          
+        void                    clear_cmd(void);
 /*
 inet_ntop(remoteaddr.ss_family, get_in_addr((struct sockaddr*)&remoteaddr),remoteIP, INET6_ADDRSTRLEN)
 */

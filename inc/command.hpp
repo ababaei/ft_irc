@@ -3,9 +3,10 @@
 
 # include <string>
 # include <iostream>
+# include "User.hpp"
 # include "Server.hpp"
 
-void PASS(std::string msg);
-void NICK(std::string msg);
+void PASS(User *User);
+void NICK(User *User);
 
 #endif
