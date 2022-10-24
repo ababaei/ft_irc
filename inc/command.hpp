@@ -8,5 +8,6 @@
 
 void PASS(User *User);
 void NICK(User *User);
+void USER(User *User);
 
 #endif

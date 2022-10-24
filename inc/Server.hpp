@@ -13,8 +13,6 @@
 # include <map>
 # include <unistd.h>
 # include <fcntl.h>
-# include "Register.hpp"
-# include "Client.hpp"
 # include "User.hpp"
 
 #define PORT "6667"

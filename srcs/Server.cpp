@@ -138,7 +138,7 @@ void	Server::handle_pfds()
 				int	nbytes = recv(it->fd, this->buf, sizeof(this->buf), 0);
 				int sender_fd = it->fd;
 
-				std::cout << "received " << nbytes << " bytes\n";
+				std::cout << "received " << nbytes << " bytes (" << this->buf << ")\n";
 				if (nbytes <= 0)
 				{
 					this->close_connection(sender_fd, nbytes);
@@ -147,10 +147,10 @@ void	Server::handle_pfds()
 				else
 				{
 					this->handle_raw(sender_fd, nbytes);
-					this->User_list[sender_fd]->to_command(this->message);
 				}
-				std::cout << this->message << "\n";
+				// std::cout << this->message << "\n";
 				std::cout << "------------------------------\n";
+
 			}
 		}
 	}
@@ -197,11 +197,14 @@ void	Server::handle_raw(int sender_fd, int nbytes)
 	std::size_t pos;
 
 	pos = tmp.find("\r\n");
-	if (pos != std::string::npos)
+	std::cout << "FOUND!!__" << pos << "\n";
+	while (((pos = tmp.find("\r\n")) != std::string::npos))
 	{
+		this->User_list[sender_fd]->to_command(tmp.substr(0, pos));
+		tmp = tmp.substr(pos + 2);
 		message.clear(); //this should change and parse the message user side
 	}
-	message.append(this->buf, pos);
+	message.append(this->buf);
 	memset(this->buf, 0, 510);
 }
 

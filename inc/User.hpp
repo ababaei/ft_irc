@@ -19,13 +19,13 @@ class User
 
         void            set_nick(std::string nick);
         void            to_command(std::string msg);
+        std::string     message;
         std::vector<std::string> param_list;
 
 	private: //variables
         int             fd;
         std::string     nick;
         std::string     status;
-        std::string     message;
 
         std::string     command;
         std::string     sub_cmd;

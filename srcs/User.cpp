@@ -9,6 +9,7 @@ User::User(int fd) : fd(fd)
 {
 //    cmd_list["PASS"] = PASS;
 	this->cmd_list["NICK"] = NICK;
+	this->cmd_list["USER"] = USER;
 }
 
 User::~User() {}
@@ -35,7 +36,7 @@ void    User::to_command(std::string msg)
 	}
 	this->command = words[0];
 	this->param_list.assign(words.begin() + 1, words.end());
-	//std::cout << this->param_list[0] << "\n";
+	std::cout << "size=" << this->param_list.size() << "\n";
 
 	this->exec_cmd();
 }
@@ -44,7 +45,7 @@ void	User::clear_cmd(void)
 {
 	this->message.clear();
 	this->command.clear();
-	this->cmd_list.clear();
+	// this->cmd_list.clear();
 }
 
 void	User::exec_cmd(void)

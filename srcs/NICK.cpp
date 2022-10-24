@@ -13,8 +13,7 @@ void    NICK(User *User)
     {
         
     }*/
-    std::cout << "FD = " << User->get_fd() << "\n";
+    //
 
     User->set_nick(nick);
-    std::cout << "NICK = " << User->get_nick() << "\n";
 }

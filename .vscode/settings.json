@@ -2,7 +2,8 @@
     "files.associations": {
         "*.tcc": "cpp",
         "istream": "cpp",
-        "streambuf": "cpp"
+        "streambuf": "cpp",
+        "iostream": "cpp"
     },
     "makefile.launchConfigurations": [
         {
