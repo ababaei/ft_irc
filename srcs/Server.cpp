@@ -171,7 +171,7 @@ void	Server::handle_new_connection()
 
 	fcntl(new_fd, F_SETFL, O_NONBLOCK);
 	add_socket_to_list(new_fd, POLLIN | POLLOUT, 0);
-	User_list[new_fd] = new User(new_fd);
+	User_list[new_fd] = new User(new_fd, this);
 	std::cout << "pollserver: new connection\n";
 }
 
