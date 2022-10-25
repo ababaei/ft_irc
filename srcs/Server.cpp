@@ -1,7 +1,7 @@
 #include "../inc/Server.hpp"
 
 /*
-** ------------------------------- CONSTRUCTOR --------------------------------
+** ------------------------------- CONSTRUCTOR/DESTRUCTOR --------------------------------
 */
 
 Server::Server(std::string pword, std::string given_port) : password(pword), port(given_port)
@@ -13,18 +13,13 @@ Server::Server( const Server & src )
 {
 }
 
-
-/*
-** -------------------------------- DESTRUCTOR --------------------------------
-*/
-
 Server::~Server() { }
-
 
 /*
 ** --------------------------------- METHODS ----------------------------------
 */
 
+/*vvvvvvvvvvvvvvvvvvvv Socket listener creation and adding socket to the server's list vvvvvvvvvvvvvvv*/
 void	Server::set_listener_sock(void)
 {
 	int listener;
@@ -92,6 +87,10 @@ void	Server::add_socket_to_list(int filed, short ev, short rev)
 	this->pfds.push_back(tmp);
 }
 
+/*	poll() function uses array and i wanted to work with container 
+	so i made two function to go to one from another. 
+vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv*/
+
 void	Server::poll_loop()
 {
 	while (1)
@@ -120,6 +119,11 @@ void	Server::polling()
 	arr_to_list();
 	free(this->arr_pfds);
 }
+
+/*  This function will check the results of poll() by doing a bitwise AND on the returned event.
+	If its the listener that has something to say, that means we have a new connection.
+	Otherwise, we have data to read with recv().
+	vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv*/
 
 void	Server::handle_pfds()
 {
@@ -156,6 +160,9 @@ void	Server::handle_pfds()
 	}
 }
 
+/*	This function will accept a new connection, add it to the server's fd list, 
+	alloc a new User and add it to the server's User map.
+vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv*/
 void	Server::handle_new_connection()
 {
 	struct sockaddr_storage	remote_addr;
@@ -192,7 +199,8 @@ void	Server::handle_raw(int sender_fd, int nbytes)
 				std::cerr << "send back\n";
 		}
 	}
-*/
+*/	
+	//vvvvvvvvvvvvvvvvvvvvvvv LOOP NEED TO BE CHECKED FOR SOME LOSSES CASES vvvvvvvvvvvvvvvvvvvvvvv
 	std::string tmp(this->buf);
 	std::size_t pos;
 
@@ -202,7 +210,7 @@ void	Server::handle_raw(int sender_fd, int nbytes)
 	{
 		this->User_list[sender_fd]->to_command(tmp.substr(0, pos));
 		tmp = tmp.substr(pos + 2);
-		message.clear(); //this should change and parse the message user side
+		message.clear();
 	}
 	message.append(this->buf);
 	memset(this->buf, 0, 510);

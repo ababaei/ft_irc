@@ -7,15 +7,18 @@
 # include <map>
 # include "Server.hpp"
 
+class Server;
+
 class User
 {
 	public:
-        User(int fd);
+        User(int fd, Server *server);
         ~User();
 
         int             get_fd();
         std::string     get_nick();
         std::string     get_status();
+        Server          *get_server();
 
         void            set_nick(std::string nick);
         void            to_command(std::string msg);
@@ -26,6 +29,7 @@ class User
         int             fd;
         std::string     nick;
         std::string     status;
+        Server          *server;
 
         std::string     command;
         std::string     sub_cmd;

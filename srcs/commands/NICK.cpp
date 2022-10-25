@@ -1,4 +1,4 @@
-#include "../inc/command.hpp"
+#include "../../inc/command.hpp"
 
 void    NICK(User *User)
 {

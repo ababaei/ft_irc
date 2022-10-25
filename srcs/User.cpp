@@ -5,18 +5,21 @@
 #include <iostream>
 #include <string>
 
-User::User(int fd) : fd(fd)
+/*	The cmd_list's functions are declared in command.hpp and defined in their respective files.
+vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv */
+User::User(int fd, Server *server) : fd(fd), server(server)
 {
-//    cmd_list["PASS"] = PASS;
+	this->cmd_list["PASS"] = PASS;
 	this->cmd_list["NICK"] = NICK;
 	this->cmd_list["USER"] = USER;
 }
 
 User::~User() {}
 
-int User::get_fd() { return (this->fd); }
-std::string User::get_nick() { return (this->nick); }
-std::string User::get_status() { return (this->status); }
+int				User::get_fd()		{ return (this->fd); }
+std::string		User::get_nick()	{ return (this->nick); }
+std::string		User::get_status()	{ return (this->status); }
+Server			*User::get_server()	{ return (this->server); }
 
 void	User::set_nick(std::string nick)
 {
@@ -45,7 +48,7 @@ void	User::clear_cmd(void)
 {
 	this->message.clear();
 	this->command.clear();
-	// this->cmd_list.clear();
+	this->param_list.clear();
 }
 
 void	User::exec_cmd(void)
