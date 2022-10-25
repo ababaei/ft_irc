@@ -4,7 +4,7 @@
 ** ------------------------------- CONSTRUCTOR/DESTRUCTOR --------------------------------
 */
 
-Server::Server(std::string pword, std::string given_port) : password(pword), port(given_port)
+Server::Server(std::string given_port, std::string pword): port(given_port), password(pword)
 {
 	this->address = "127.0.0.1";
 }
@@ -33,7 +33,7 @@ void	Server::set_listener_sock(void)
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_flags = AI_PASSIVE;
 
-	if ((status = getaddrinfo(NULL, PORT, &hints, &servinfo)) != 0)
+	if ((status = getaddrinfo(NULL, this->port.c_str(), &hints, &servinfo)) != 0)
 	{
 		std::cerr << "getaddrinfo error: " << gai_strerror(status) << std::endl;
 		exit(EXIT_FAILURE);

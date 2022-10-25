@@ -24,7 +24,7 @@ class Server
 
 	public:
 
-		Server(std::string pword, std::string arg_port);
+		Server(std::string arg_port, std::string pword);
 		Server( Server const & src );
 		~Server();
 
