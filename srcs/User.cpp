@@ -39,7 +39,7 @@ void    User::to_command(std::string msg)
 	}
 	this->command = words[0];
 	this->param_list.assign(words.begin() + 1, words.end());
-	std::cout << "size=" << this->param_list.size() << "\n";
+	// std::cout << "size=" << this->param_list.size() << "\n";
 
 	this->exec_cmd();
 }
@@ -55,9 +55,15 @@ void	User::clear_cmd(void)
 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvv*/
 void	User::exec_cmd(void)
 {
-	if (this->command == "CAP")
+	if (this->cmd_list.find(this->command) == this->cmd_list.end())
+	{
+		std::cout << "ERR: Command doesn't exist\n";
 		return ;
-	std::cout << "exe>" << this->command << "\n";
-	this->cmd_list[this->command](this);
+	}
+	else
+	{
+		std::cout << "exe>" << this->command << "\n";
+		this->cmd_list[this->command](this);
+	}
 	this->clear_cmd();
 }
