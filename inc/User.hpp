@@ -32,7 +32,7 @@ class User
         Server          *server;
 
         std::string     command;
-        std::string     sub_cmd;
+        // std::string     sub_cmd;
 
         std::map<std::string, void (*)(User *)> cmd_list;
         

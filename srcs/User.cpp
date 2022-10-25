@@ -51,6 +51,8 @@ void	User::clear_cmd(void)
 	this->param_list.clear();
 }
 
+/* TO PROTECT 
+vvvvvvvvvvvvvvvvvvvvvvvvvvvvvv*/
 void	User::exec_cmd(void)
 {
 	if (this->command == "CAP")
