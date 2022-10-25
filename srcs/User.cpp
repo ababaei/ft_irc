@@ -12,6 +12,12 @@ User::User(int fd, Server *server) : fd(fd), server(server)
 	this->cmd_list["PASS"] = PASS;
 	this->cmd_list["NICK"] = NICK;
 	this->cmd_list["USER"] = USER;
+	this->cmd_list["MODE"] = MODE;
+	this->cmd_list["WHOIS"] = WHOIS;
+	this->cmd_list["PING"] = PING;
+
+
+
 }
 
 User::~User() {}
