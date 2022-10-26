@@ -19,11 +19,13 @@ class User
         std::string     get_nick();
         std::string     get_username();
         // std::string     get_real_name();
+        std::string     get_hostname();
         std::string     get_status();
         Server          *get_server();
 
         void            set_nick(std::string nick);
         void            set_username(std::string username);
+        void            set_hostname(std::string hostname);
         // void            set_real_name(std::string real_name);
         void            to_command(std::string msg);
         std::string     message;
@@ -33,8 +35,8 @@ class User
         int             fd;
         std::string     nick;
         std::string     username;
-        std::string     real_name;
         std::string     hostname;
+        std::string     real_name;
         std::string     status;
         Server          *server;
 
