@@ -6,7 +6,7 @@
 /*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 18:53:39 by ali               #+#    #+#             */
-/*   Updated: 2022/10/26 21:05:57 by ali              ###   ########.fr       */
+/*   Updated: 2022/10/26 21:18:14 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ const std::string&	getReply(unsigned short& code, std::vector<std::string>& args
 const std::string&	getReplyEnd(unsigned short& code, std::vector<std::string>&args)
 {
 	switch(code)
+	{
 		case 1:
 			return ":Welcome to the Internet Relay Network " + args[0] + "!" + args[1] + "@" + args[2];
 		case 462:
@@ -153,4 +154,5 @@ const std::string&	getReplyEnd(unsigned short& code, std::vector<std::string>&ar
 			return args[0] + " :Unknown command";
 		case 4:
 			return args[0] + " " + args[1] + " " + args[2] + " " + args[3];
+	}
 }
