@@ -97,6 +97,7 @@ void	Server::poll_loop()
 		//std::cout << "polling fds..." << std::endl;
 		polling();
 		handle_pfds();
+		check_activity();
 	}
 }
 
@@ -117,6 +118,22 @@ void	Server::polling()
 	poll(this->_arr_pfds, this->_pfds.size(), -1);
 	arr_to_list();
 	free(this->_arr_pfds);
+}
+
+void	Server::check_activity(void)
+{
+	std::map<int, User *>::iterator it;
+	std::map<int, User *>::iterator itend;
+
+	itend = this->_User_list.end();
+	for (it = this->_User_list.begin(); it != itend; it++)
+	{
+		if(difftime( time(NULL), it->second->get_activity()) > 180)
+		{
+			//std::cout << "INACTIVE!\n";
+			it->second->set_status("inactive");
+		}
+	}	
 }
 
 /*  This function will check the results of poll() by doing a bitwise AND on the returned event.

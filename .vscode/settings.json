@@ -49,7 +49,10 @@
         "ranges": "cpp",
         "sstream": "cpp",
         "stdexcept": "cpp",
-        "typeinfo": "cpp"
+        "typeinfo": "cpp",
+        "chrono": "cpp",
+        "ctime": "cpp",
+        "ratio": "cpp"
     },
     "makefile.launchConfigurations": [
         {
