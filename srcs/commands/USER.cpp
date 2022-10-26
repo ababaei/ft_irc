@@ -8,7 +8,6 @@ void    USER(User *User)
     std::string username(User->param_list[1]);
     User->set_username(User->param_list[1]);
     //ajouter protection si no args
-    //send reply
     std::cout << "VAR USER IS : " << User->get_username() << std::endl;
 
     // ---------------------

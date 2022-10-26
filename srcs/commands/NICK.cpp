@@ -6,5 +6,6 @@ void    NICK(User *User)
     User->set_nick(nick);
     //ajouter protection si no args
     //send reply
+    //check forbiden char 
     std::cout << "VAR NICK IS : " << User->get_nick() << std::endl;
 }
