@@ -18,7 +18,7 @@ class User
         int             get_fd();
         std::string     get_nick();
         std::string     get_username();
-        // std::string     get_real_name();
+        std::string     get_real_name();
         std::string     get_hostname();
         std::string     get_status();
         Server          *get_server();
@@ -26,7 +26,7 @@ class User
         void            set_nick(std::string nick);
         void            set_username(std::string username);
         void            set_hostname(std::string hostname);
-        // void            set_real_name(std::string real_name);
+        void            set_real_name(std::string real_name);
         void            to_command(std::string msg);
         std::string     message;
         std::vector<std::string> param_list;

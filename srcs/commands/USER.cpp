@@ -10,4 +10,19 @@ void    USER(User *User)
     //ajouter protection si no args
     //send reply
     std::cout << "VAR USER IS : " << User->get_username() << std::endl;
+
+    // ---------------------
+//A Faire seulement lors du 1er 'USER' lors de l'etablisement de la connexion
+	//set hostname --> dans une fct separee ? 
+	User->set_hostname(User->param_list[2]);
+    std::cout << "VAR HOSTNAME IS : " << User->get_hostname() << std::endl;
+
+	//set hostname, utile ? --> dans une fct separee ? 
+	std::string realname;
+	for (int i = 3; i < User->param_list.size(); i++)
+		realname = realname + User->param_list[i] + ' ';
+
+	User->set_real_name(realname);
+    std::cout << "VAR REALNAME IS : " << User->get_real_name() << std::endl;
+// ---------------------
 }

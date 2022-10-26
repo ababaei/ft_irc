@@ -23,6 +23,7 @@ int User::get_fd() { return (this->fd); }
 std::string User::get_nick() { return (this->nick); }
 std::string User::get_username() { return (this->username); }
 std::string User::get_hostname() { return (this->hostname); }
+std::string User::get_real_name() { return (this->real_name); }
 std::string User::get_status() { return (this->status); }
 Server *User::get_server() { return (this->server); }
 
@@ -41,6 +42,10 @@ void User::set_hostname(std::string hostname)
 	this->hostname = hostname;
 }
 
+void User::set_real_name(std::string real_name)
+{
+	this->real_name = real_name;
+}
 
 void User::to_command(std::string msg)
 {
@@ -60,10 +65,6 @@ void User::to_command(std::string msg)
 	for (std::vector<std::string>::iterator it = words.begin(); it != words.end(); ++it)
 		std::cout << ' ' << *it;
 	std::cout << " //" << std::endl;
-
-	//set hostname --> dans une fct separee ? 
-	this->set_hostname(this->param_list[2]);
-    std::cout << "VAR HOSTNAME IS : " << this->get_hostname() << std::endl;
 
 	this->exec_cmd();
 }
