@@ -12,9 +12,6 @@ SRCS		= srcs/main.cpp \
 				srcs/commands/WHOIS.cpp \
 				srcs/commands/PING.cpp \
 
-
-
-
 CC			= c++
 
 CFLAGS		= #-Wall -Wextra -Werror -std=c++98
