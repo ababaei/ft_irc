@@ -7,23 +7,23 @@
 
 /*	The cmd_list's functions are declared in command.hpp and defined in their respective files.
 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv */
-User::User(int fd, Server *server) : fd(fd), server(server)
+User::User(int fd, Server *server) : _fd(fd), _server(server)
 {
-	this->cmd_list["PASS"] = PASS;
-	this->cmd_list["NICK"] = NICK;
-	this->cmd_list["USER"] = USER;
+	this->_cmd_list["PASS"] = PASS;
+	this->_cmd_list["NICK"] = NICK;
+	this->_cmd_list["USER"] = USER;
 }
 
 User::~User() {}
 
-int				User::get_fd()		{ return (this->fd); }
-std::string		User::get_nick()	{ return (this->nick); }
-std::string		User::get_status()	{ return (this->status); }
-Server			*User::get_server()	{ return (this->server); }
+int				User::get_fd()		{ return (this->_fd); }
+std::string		User::get_nick()	{ return (this->_nick); }
+std::string		User::get_status()	{ return (this->_status); }
+Server			*User::get_server()	{ return (this->_server); }
 
 void	User::set_nick(std::string nick)
 {
-	this->nick = nick;
+	this->_nick = nick;
 }
 
 void    User::to_command(std::string msg)
@@ -37,7 +37,7 @@ void    User::to_command(std::string msg)
 	{
 		words.push_back(tmp);
 	}
-	this->command = words[0];
+	this->_command = words[0];
 	this->param_list.assign(words.begin() + 1, words.end());
 	// std::cout << "size=" << this->param_list.size() << "\n";
 
@@ -47,7 +47,7 @@ void    User::to_command(std::string msg)
 void	User::clear_cmd(void)
 {
 	this->message.clear();
-	this->command.clear();
+	this->_command.clear();
 	this->param_list.clear();
 }
 
@@ -55,15 +55,15 @@ void	User::clear_cmd(void)
 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvv*/
 void	User::exec_cmd(void)
 {
-	if (this->cmd_list.find(this->command) == this->cmd_list.end())
+	if (this->_cmd_list.find(this->_command) == this->_cmd_list.end())
 	{
-		std::cout << "ERR: Command doesn't exist\n";
+		std::cout << "> error: Command doesn't exist\n";
 		return ;
 	}
 	else
 	{
-		std::cout << "exe>" << this->command << "\n";
-		this->cmd_list[this->command](this);
+		std::cout << "exe>" << this->_command << "\n";
+		this->_cmd_list[this->_command](this);
 	}
 	this->clear_cmd();
 }

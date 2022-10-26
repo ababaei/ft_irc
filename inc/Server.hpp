@@ -31,33 +31,34 @@ class Server
 		Server &		operator=( Server const & rhs );
 
 		void			set_listener_sock(); // set le socket listener
-		void			poll_loop();
-		void			polling();
+		void			add_socket_to_list(int filed, short ev, short rev);
 		void			handle_pfds();
 		void			handle_new_connection();
 		void			close_connection(int sender_fd, int nbytes);
 		void			handle_raw(int sender_fd, int nbytes);
-		void			add_socket_to_list(int filed, short ev, short rev);
+
 		void			arr_to_list();
 		void			list_to_arr();
+		void			poll_loop();
+		void			polling();
 		
 		/* accessors */
 		std::string		get_password();
 
 	private:
 
-		std::string			message;
-		std::string			password;
-		std::string			port;
-		std::string			address;
+		std::string			_message;
+		std::string			_password;
+		std::string			_port;
+		std::string			_address;
 
-		std::list<pollfd>	pfds;
-		struct pollfd		*arr_pfds;
+		std::list<pollfd>	_pfds;
+		struct pollfd		*_arr_pfds;
 
-		std::map<int, User *> User_list;
+		std::map<int, User *> _User_list;
 
-		char				buf[510];
-		int					listener;
+		char				_buf[510];
+		int					_listener;
 
 };
 

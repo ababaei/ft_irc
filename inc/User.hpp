@@ -26,15 +26,14 @@ class User
         std::vector<std::string> param_list;
 
 	private: //variables
-        int             fd;
-        std::string     nick;
-        std::string     status;
-        Server          *server;
+        int             _fd;
+        std::string     _nick;
+        std::string     _status;
+        Server          *_server;
 
-        std::string     command;
-        // std::string     sub_cmd;
+        std::string     _command;
 
-        std::map<std::string, void (*)(User *)> cmd_list;
+        std::map<std::string, void (*)(User *)> _cmd_list;
         
         private: //method
         void			exec_cmd(void);          

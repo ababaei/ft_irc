@@ -4,9 +4,9 @@
 ** ------------------------------- CONSTRUCTOR/DESTRUCTOR --------------------------------
 */
 
-Server::Server(std::string given_port, std::string pword): port(given_port), password(pword)
+Server::Server(std::string given_port, std::string pword): _port(given_port), _password(pword)
 {
-	this->address = "127.0.0.1";
+	this->_address = "127.0.0.1";
 }
 
 Server::Server( const Server & src )
@@ -33,7 +33,7 @@ void	Server::set_listener_sock(void)
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_flags = AI_PASSIVE;
 
-	if ((status = getaddrinfo(NULL, this->port.c_str(), &hints, &servinfo)) != 0)
+	if ((status = getaddrinfo(NULL, this->_port.c_str(), &hints, &servinfo)) != 0)
 	{
 		std::cerr << "getaddrinfo error: " << gai_strerror(status) << std::endl;
 		exit(EXIT_FAILURE);
@@ -72,7 +72,7 @@ void	Server::set_listener_sock(void)
 		exit(1);
 	}
 
-	this->listener = listener;
+	this->_listener = listener;
 	add_socket_to_list(listener, POLLIN, 0);
 }
 
@@ -84,13 +84,12 @@ void	Server::add_socket_to_list(int filed, short ev, short rev)
 	tmp.events = ev;
 	tmp.revents = rev;
 
-	this->pfds.push_back(tmp);
+	this->_pfds.push_back(tmp);
 }
 
 /*	poll() function uses array and i wanted to work with container 
 	so i made two function to go to one from another. 
 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv*/
-
 void	Server::poll_loop()
 {
 	while (1)
@@ -103,50 +102,49 @@ void	Server::poll_loop()
 
 void	Server::list_to_arr()
 {
-	this->arr_pfds = (pollfd *)malloc(sizeof(this->arr_pfds) * sizeof(this->pfds.size()));
-	std::copy(this->pfds.begin(), this->pfds.end(), this->arr_pfds);
+	this->_arr_pfds = (pollfd *)malloc(sizeof(this->_arr_pfds) * sizeof(this->_pfds.size()));
+	std::copy(this->_pfds.begin(), this->_pfds.end(), this->_arr_pfds);
 }
 
 void	Server::arr_to_list()
 {
-	std::copy(this->arr_pfds, this->arr_pfds + this->pfds.size(), this->pfds.begin());
+	std::copy(this->_arr_pfds, this->_arr_pfds + this->_pfds.size(), this->_pfds.begin());
 }
 
 void	Server::polling()
 {
 	list_to_arr();
-	poll(this->arr_pfds, this->pfds.size(), -1);
+	poll(this->_arr_pfds, this->_pfds.size(), -1);
 	arr_to_list();
-	free(this->arr_pfds);
+	free(this->_arr_pfds);
 }
 
 /*  This function will check the results of poll() by doing a bitwise AND on the returned event.
 	If its the listener that has something to say, that means we have a new connection.
 	Otherwise, we have data to read with recv().
-	vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv*/
-
+vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv*/
 void	Server::handle_pfds()
 {
 	std::list<pollfd>::iterator it;
 	std::list<pollfd>::iterator itend;
 
-	itend = this->pfds.end();
-	for (it = this->pfds.begin(); it != itend; it++)
+	itend = this->_pfds.end();
+	for (it = this->_pfds.begin(); it != itend; it++)
 	{
 		if (it->revents & POLLIN)
 		{
-			if (it->fd == this->listener)
+			if (it->fd == this->_listener)
 				this->handle_new_connection();
 			else
 			{
-				int	nbytes = recv(it->fd, this->buf, sizeof(this->buf), 0);
+				int	nbytes = recv(it->fd, this->_buf, sizeof(this->_buf), 0);
 				int sender_fd = it->fd;
 
-				std::cout << "received " << nbytes << " bytes (" << this->buf << ")\n";
+				std::cout << "< received " << nbytes << " bytes (" << this->_buf << ")\n";
 				if (nbytes <= 0)
 				{
 					this->close_connection(sender_fd, nbytes);
-					this->pfds.erase(it++);
+					this->_pfds.erase(it++);
 				}
 				else
 				{
@@ -167,11 +165,11 @@ void	Server::handle_new_connection()
 {
 	struct sockaddr_storage	remote_addr;
 	socklen_t addr_size = sizeof(remote_addr);
-	int new_fd = accept(this->listener, (struct sockaddr *)&remote_addr, &addr_size);
+	int new_fd = accept(this->_listener, (struct sockaddr *)&remote_addr, &addr_size);
 
 	fcntl(new_fd, F_SETFL, O_NONBLOCK);
 	add_socket_to_list(new_fd, POLLIN | POLLOUT, 0);
-	User_list[new_fd] = new User(new_fd, this);
+	_User_list[new_fd] = new User(new_fd, this);
 	std::cout << "pollserver: new connection\n";
 }
 
@@ -201,25 +199,25 @@ void	Server::handle_raw(int sender_fd, int nbytes)
 	}
 */	
 	//vvvvvvvvvvvvvvvvvvvvvvv LOOP NEED TO BE CHECKED FOR SOME LOSSES CASES vvvvvvvvvvvvvvvvvvvvvvv
-	std::string tmp(this->buf);
+	std::string tmp(this->_buf);
 	std::size_t pos;
 
 	pos = tmp.find("\r\n");
-	std::cout << "FOUND!!__" << pos << "\n";
+	// std::cout << "FOUND!!__" << pos << "\n";
 	while (((pos = tmp.find("\r\n")) != std::string::npos))
 	{
-		this->User_list[sender_fd]->to_command(tmp.substr(0, pos));
+		this->_User_list[sender_fd]->to_command(tmp.substr(0, pos));
 		tmp = tmp.substr(pos + 2);
-		message.clear();
+		_message.clear();
 	}
-	message.append(this->buf);
-	memset(this->buf, 0, 510);
+	_message.append(this->_buf);
+	memset(this->_buf, 0, 510);
 }
 
 /*
 ** --------------------------------- ACCESSOR ---------------------------------
 */
 
-std::string		Server::get_password() { return ( this->password ); }
+std::string		Server::get_password() { return ( this->_password ); }
 
 /* ************************************************************************** */
