@@ -67,7 +67,16 @@ void User::to_command(std::string msg)
 		std::cout << ' ' << *it;
 	std::cout << " //" << std::endl;
 
-	this->exec_cmd();
+//check password to connect
+    // std::cout << this->get_server()->get_password() << std::endl;
+    // if (this->param_list[0] == "")
+    //     std::cout << "FAILED TO CONNECT : no password" << std::endl;
+    // else if (this->get_server()->get_password() != this->param_list[0])
+    //     std::cout << "FAILED TO CONNECT : wrong password" << std::endl;
+    // else
+    //     std::cout << "CONNECTED/REGISTERED !" << std::endl;
+
+	// this->exec_cmd();
 }
 
 void User::clear_cmd(void)

@@ -37,7 +37,7 @@ class User
         std::string     _username;
         std::string     _hostname;
         std::string     _real_name;
-        std::string     _status;
+        std::string     _status; //connected ou enregistre / disconnected / en attente de connexion / inactif
         Server          *_server;
 
         std::string     _command;
