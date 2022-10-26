@@ -21,12 +21,18 @@ User::~User() {}
 
 int User::get_fd() { return (this->fd); }
 std::string User::get_nick() { return (this->nick); }
+std::string User::get_username() { return (this->username); }
 std::string User::get_status() { return (this->status); }
 Server *User::get_server() { return (this->server); }
 
 void User::set_nick(std::string nick)
 {
 	this->nick = nick;
+}
+
+void User::set_username(std::string username)
+{
+	this->username = username;
 }
 
 void User::to_command(std::string msg)
@@ -46,6 +52,8 @@ void User::to_command(std::string msg)
 	std::cout << "words is:" << std::endl;
 	for (std::vector<std::string>::iterator it = words.begin(); it != words.end(); ++it)
 		std::cout << ' ' << *it;
+	std::cout << " //" << std::endl;
+
 
 	this->exec_cmd();
 }
