@@ -9,5 +9,11 @@
 void PASS(User *User);
 void NICK(User *User);
 void USER(User *User);
+void MODE(User *User);
+void WHOIS(User *User);
+void PING(User *User);
+
+
+
 
 #endif

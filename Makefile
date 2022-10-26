@@ -7,7 +7,12 @@ SRCS		= srcs/main.cpp \
 				srcs/User.cpp \
 				srcs/commands/NICK.cpp \
 				srcs/commands/USER.cpp \
-				srcs/commands/PASS.cpp
+				srcs/commands/PASS.cpp \
+				srcs/commands/MODE.cpp \
+				srcs/commands/WHOIS.cpp \
+				srcs/commands/PING.cpp \
+
+
 
 
 CC			= c++
