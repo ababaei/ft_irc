@@ -1,5 +1,6 @@
 #include "../inc/User.hpp"
 #include "../inc/command.hpp"
+#include "../inc/colors.hpp"
 #include <sstream>
 #include <vector>
 #include <iostream>
@@ -72,13 +73,13 @@ void User::to_command(std::string msg)
 		std::cout << ' ' << *it;
 	std::cout << " //" << std::endl;
 
-// //check when no pwd
-std::cout << "command is :" << this->_command << std::endl;
-if (this->_command != "CAP" && this->_command != "PASS" && this->_nick == "" && this->_status != "connected/registered")
-{
-	std::cout << "FAILED TO CONNECT : no password" << std::endl;
-	exit(0); //Quitter de maniere plus propre
-}
+	// //check when no pwd
+	std::cout << "command is :" << this->_command << std::endl;
+	if (this->_command != "CAP" && this->_command != "PASS" && this->_nick == "" && this->_status != "connected/registered")
+	{
+		std::cout << RED "FAILED TO CONNECT : no password" E << std::endl;
+		exit(0); //Quitter de maniere plus propre
+	}
 	this->exec_cmd();
 }
 
