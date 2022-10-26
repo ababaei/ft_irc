@@ -73,7 +73,7 @@ void User::to_command(std::string msg)
 		std::cout << ' ' << *it;
 	std::cout << " //" << std::endl;
 
-	// //check when no pwd
+	// //check when no pwd --> A mettre dans une autre fct ?
 	std::cout << "command is :" << this->_command << std::endl;
 	if (this->_command != "CAP" && this->_command != "PASS" && this->_nick == "" && this->_status != "connected/registered")
 	{
