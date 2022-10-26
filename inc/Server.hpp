@@ -12,6 +12,7 @@
 # include <new>
 # include <map>
 # include <unistd.h>
+# include <ctime>
 # include <fcntl.h>
 # include "User.hpp"
 
@@ -26,24 +27,25 @@ class Server
 
 		Server(std::string arg_port, std::string pword);
 		Server( Server const & src );
-		~Server();
+		~Server(void);
 
 		Server &		operator=( Server const & rhs );
 
-		void			set_listener_sock(); // set le socket listener
+		void			set_listener_sock(void); // set le socket listener
 		void			add_socket_to_list(int filed, short ev, short rev);
-		void			handle_pfds();
-		void			handle_new_connection();
+		void			handle_pfds(void);
+		void			handle_new_connection(void);
 		void			close_connection(int sender_fd, int nbytes);
 		void			handle_raw(int sender_fd, int nbytes);
 
-		void			arr_to_list();
-		void			list_to_arr();
-		void			poll_loop();
-		void			polling();
+		void			arr_to_list(void);
+		void			list_to_arr(void);
+		void			poll_loop(void);
+		void			polling(void);
 		
+		void			check_activity(void);
 		/* accessors */
-		std::string		get_password();
+		std::string		get_password(void);
 
 	private:
 

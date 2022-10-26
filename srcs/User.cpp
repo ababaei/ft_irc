@@ -9,6 +9,7 @@
 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv */
 User::User(int fd, Server *server) : _fd(fd), _server(server)
 {
+	update_activity();
 	this->_cmd_list["NICK"] = NICK;
 	this->_cmd_list["PASS"] = PASS;
 	this->_cmd_list["USER"] = USER;
@@ -25,26 +26,32 @@ std::string User::get_username() { return (this->_username); }
 std::string User::get_hostname() { return (this->_hostname); }
 std::string User::get_real_name() { return (this->_real_name); }
 std::string User::get_status() { return (this->_status); }
+time_t	User::get_activity(void) { return(this->_last_activity); }
 Server *User::get_server() { return (this->_server); }
 
-void User::set_nick(std::string nick)
+void	User::set_nick(std::string nick)
 {
 	this->_nick = nick;
 }
 
-void User::set_username(std::string username)
+void	User::set_username(std::string username)
 {
 	this->_username = username;
 }
 
-void User::set_hostname(std::string hostname)
+void	User::set_hostname(std::string hostname)
 {
 	this->_hostname = hostname;
 }
 
-void User::set_real_name(std::string real_name)
+void	User::set_real_name(std::string real_name)
 {
 	this->_real_name = real_name;
+}
+
+void	User::set_status(std::string status)
+{
+	this->_status = status;
 }
 
 void User::to_command(std::string msg)
@@ -60,13 +67,7 @@ void User::to_command(std::string msg)
 	}
 	this->_command = words[0];
 	this->param_list.assign(words.begin() + 1, words.end());
-	// std::cout << "size=" << this->param_list.size() << "\n";
-	std::cout << "size=" << this->param_list.size() << "\n";
-	std::cout << "words is:" << std::endl;
-	for (std::vector<std::string>::iterator it = words.begin(); it != words.end(); ++it)
-		std::cout << ' ' << *it;
-	std::cout << " //" << std::endl;
-
+	
 	this->exec_cmd();
 }
 
@@ -90,6 +91,12 @@ void User::exec_cmd(void)
 	{
 		std::cout << "exe>" << this->_command << "\n";
 		this->_cmd_list[this->_command](this);
+		this->update_activity();
 	}
-	this->clear_cmd();
+}
+
+
+void	User::update_activity(void)
+{
+	this->_last_activity = time(NULL);
 }
