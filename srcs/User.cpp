@@ -19,14 +19,32 @@ User::User(int fd, Server *server) : _fd(fd), _server(server)
 
 User::~User() {}
 
-int				User::get_fd()		{ return (this->_fd); }
-std::string		User::get_nick()	{ return (this->_nick); }
-std::string		User::get_status()	{ return (this->_status); }
-Server			*User::get_server()	{ return (this->_server); }
+int User::get_fd() { return (this->fd); }
+std::string User::get_nick() { return (this->nick); }
+std::string User::get_username() { return (this->username); }
+std::string User::get_hostname() { return (this->hostname); }
+std::string User::get_real_name() { return (this->real_name); }
+std::string User::get_status() { return (this->status); }
+Server *User::get_server() { return (this->server); }
 
 void User::set_nick(std::string nick)
 {
 	this->_nick = nick;
+}
+
+void User::set_username(std::string username)
+{
+	this->username = username;
+}
+
+void User::set_hostname(std::string hostname)
+{
+	this->hostname = hostname;
+}
+
+void User::set_real_name(std::string real_name)
+{
+	this->real_name = real_name;
 }
 
 void User::to_command(std::string msg)
@@ -47,6 +65,7 @@ void User::to_command(std::string msg)
 	std::cout << "words is:" << std::endl;
 	for (std::vector<std::string>::iterator it = words.begin(); it != words.end(); ++it)
 		std::cout << ' ' << *it;
+	std::cout << " //" << std::endl;
 
 	this->exec_cmd();
 }

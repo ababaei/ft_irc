@@ -24,6 +24,7 @@ int main(int ac, char **av)
     Server  irc_serv(av[1], av[2]);
 
     // std::cout << irc_serv.get_password() << std::endl;
+    // std::cout << "get pwd : " << irc_serv.get_password() << std::endl;
     irc_serv.set_listener_sock();
     irc_serv.poll_loop();
 	return (0);

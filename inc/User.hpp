@@ -17,10 +17,16 @@ class User
 
         int             get_fd();
         std::string     get_nick();
+        std::string     get_username();
+        std::string     get_real_name();
+        std::string     get_hostname();
         std::string     get_status();
         Server          *get_server();
 
         void            set_nick(std::string nick);
+        void            set_username(std::string username);
+        void            set_hostname(std::string hostname);
+        void            set_real_name(std::string real_name);
         void            to_command(std::string msg);
         std::string     message;
         std::vector<std::string> param_list;
@@ -28,6 +34,9 @@ class User
 	private: //variables
         int             _fd;
         std::string     _nick;
+        std::string     _username;
+        std::string     _hostname;
+        std::string     _real_name;
         std::string     _status;
         Server          *_server;
 
