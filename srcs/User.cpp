@@ -47,6 +47,11 @@ void User::set_real_name(std::string real_name)
 	this->_real_name = real_name;
 }
 
+void User::set_status(std::string status)
+{
+	this->_status = status;
+}
+
 void User::to_command(std::string msg)
 {
 	std::stringstream ss(msg);
@@ -68,11 +73,12 @@ void User::to_command(std::string msg)
 	std::cout << " //" << std::endl;
 
 // //check when no pwd
-// std::cout << "command is :" << this->_command << std::endl;
-// if (this->_command != "CAP" && this->_command != "PASS")
-//         std::cout << "FAILED TO CONNECT : no password" << std::endl;
-
-
+std::cout << "command is :" << this->_command << std::endl;
+if (this->_command != "CAP" && this->_command != "PASS" && this->_nick == "" && this->_status != "connected/registered")
+{
+	std::cout << "FAILED TO CONNECT : no password" << std::endl;
+	exit(0); //Quitter de maniere plus propre
+}
 	this->exec_cmd();
 }
 

@@ -139,7 +139,6 @@ void	Server::handle_pfds()
 			{
 				int	nbytes = recv(it->fd, this->_buf, sizeof(this->_buf), 0);
 				int sender_fd = it->fd;
-
 				std::cout << "< received " << nbytes << " bytes (" << this->_buf << ")\n";
 				if (nbytes <= 0)
 				{

@@ -27,6 +27,7 @@ class User
         void            set_username(std::string username);
         void            set_hostname(std::string hostname);
         void            set_real_name(std::string real_name);
+        void            set_status(std::string real_name);
         void            to_command(std::string msg);
         std::string     message;
         std::vector<std::string> param_list;
