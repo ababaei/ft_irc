@@ -6,7 +6,7 @@
 /*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 16:39:02 by ali               #+#    #+#             */
-/*   Updated: 2022/10/27 17:53:51 by ali              ###   ########.fr       */
+/*   Updated: 2022/10/27 17:58:17 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	Channel::getUserLimit() const
 
 const std::string&	Channel::getUserList() const
 {
-	vector<User*> userList;
+	std::vector<User*> userList;
 	for (std::map<std::string, User*>::iterator it = users.begin();
 			it != users.end(); it++)
 		userList.push_back(it->second);
@@ -63,7 +63,7 @@ const std::string&	Channel::getUserList() const
 
 const std::string&	Channel::getNickList() const
 {
-	vector<User*> nickList;
+	std::vector<User*> nickList;
 	for (std::map<std::string, User*>::iterator it = users.begin();
 			it != users.end(); it++)
 		nickList.push_back(it->first);
