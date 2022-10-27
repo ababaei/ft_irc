@@ -32,9 +32,7 @@ int check_forbiden_char(std::string nick)
     {
         int i = 0;
         if (nick.length() != 1 && nick[i] == ':') // tbc
-        {
             i++;
-        }
         if (nick.length() == 1 && isalpha(nick[i]) == 0 && specialchar(nick[i]) == 0)
             return (-1);
         while (i < nick.length() - 1)
@@ -43,7 +41,6 @@ int check_forbiden_char(std::string nick)
                 return (-1);
             i++;
         }
-        std::cout << "CHAR IS " << nick[i] << std::endl;
         if (isalnum(nick[i]) == 0 && specialchar(nick[i]) == 0)
             return (-1);
         return (0);
@@ -69,5 +66,5 @@ void NICK(User *User)
     // 433    ERR_NICKNAMEINUSE : User is not a valid type
     // 484    ERR_RESTRICTED ?? : Sent by the server to a user upon connection to indicate
     //    the restricted nature of the connection (user mode "+r").
-    std::cout << "VAR NICK IS : " << User->get_nick() << std::endl;
+    std::cout << BBLUE "Your nick is: " << User->get_nick() << E << std::endl;
 }
