@@ -1,14 +1,14 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   getReply.cpp                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/26 18:53:39 by ali               #+#    #+#             */
-/*   Updated: 2022/10/26 21:18:14 by ali              ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+// /* ************************************************************************** */
+// /*                                                                            */
+// /*                                                        :::      ::::::::   */
+// /*   getReply.cpp                                       :+:      :+:    :+:   */
+// /*                                                    +:+ +:+         +:+     */
+// /*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
+// /*                                                +#+#+#+#+#+   +#+           */
+// /*   Created: 2022/10/26 18:53:39 by ali               #+#    #+#             */
+// /*   Updated: 2022/10/26 21:18:14 by ali              ###   ########.fr       */
+// /*                                                                            */
+// /* ************************************************************************** */
 
 #include "../../inc/replies.hpp"
 
@@ -18,10 +18,10 @@ const std::string&	getReply(unsigned short& code, std::vector<std::string>& args
 	int	codeint = static_cast<int>(code);
 	std::string codestr = std::to_string(codeint);
 
-	if (code < 10)
-		codestr = "0" + codestr;
-	else if (code < 100)
-		codestr = "00" + codestr;
+// 	if (code < 10)
+// 		codestr = "0" + codestr;
+// 	else if (code < 100)
+// 		codestr = "00" + codestr;
 
 	return (":OurSuperServer " + codestr + " " + target_nickname + " "
 		+ getReplyEnd(code, args) + "\r\n");
