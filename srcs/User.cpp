@@ -55,6 +55,11 @@ void	User::set_status(std::string status)
 	this->_status = status;
 }
 
+void	User::set_reply(std::string reply)
+{
+	this->_reply_buf = reply;
+}
+
 void User::to_command(std::string msg)
 {
 	std::stringstream ss(msg);
@@ -69,14 +74,7 @@ void User::to_command(std::string msg)
 	this->_command = words[0];
 	this->param_list.assign(words.begin() + 1, words.end());
 	// std::cout << "size=" << this->param_list.size() << "\n";
-	std::cout << "size=" << this->param_list.size() << "\n";
-	std::cout << "words is:" << std::endl;
-	for (std::vector<std::string>::iterator it = words.begin(); it != words.end(); ++it)
-		std::cout << ' ' << *it;
-	std::cout << " //" << std::endl;
-
-	// //check when no pwd --> A mettre dans une autre fct ?
-	std::cout << "command is :" << this->_command << std::endl;
+	//check when no pwd --> A mettre dans une autre fct ?
 	if (this->_command != "CAP" && this->_command != "PASS" && this->_nick == "" && this->_status != "connected/registered")
 	{
 		std::cout << RED "FAILED TO CONNECT : no password" E << std::endl;
@@ -109,6 +107,20 @@ void User::exec_cmd(void)
 	}
 }
 
+void	User::send_reply(void)
+{
+	size_t size = this->_reply_buf.length();
+	
+	if (size)
+	{
+		if (send(this->_fd, this->_reply_buf.c_str(), size, 0) == -1)
+			std::cerr << "error send\n";
+		this->_reply_buf.clear();
+		#ifdef DEBUG
+			std::cout << ">" << this->_reply_buf << "\n";
+		#endif
+	}
+}
 
 void	User::update_activity(void)
 {

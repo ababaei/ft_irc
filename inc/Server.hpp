@@ -16,7 +16,8 @@
 # include <fcntl.h>
 # include "User.hpp"
 
-#define PORT "6667"
+# define PORT "6667"
+# define DEBUG
 
 class User;
 

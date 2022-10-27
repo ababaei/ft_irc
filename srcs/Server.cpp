@@ -166,6 +166,7 @@ void Server::handle_pfds()
 				else
 				{
 					this->handle_raw(sender_fd, nbytes);
+					this->_User_list[sender_fd]->send_reply();
 				}
 				// std::cout << this->message << "\n";
 				std::cout << "------------------------------\n";
