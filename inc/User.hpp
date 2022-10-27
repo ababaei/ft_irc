@@ -42,6 +42,7 @@ class User
         std::string     _hostname;
         std::string     _real_name;
         std::string     _status; //connected ou enregistre / disconnected / en attente de connexion / inactif
+        std::map<std::string, std::string> modes; //1st string = channel, 2eme string = les modes. Exemple : toto, aiw
         Server          *_server;
 
         time_t _last_activity;
