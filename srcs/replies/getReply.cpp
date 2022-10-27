@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -7,7 +6,7 @@
 /*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 18:53:39 by ali               #+#    #+#             */
-/*   Updated: 2022/10/27 14:26:15 by ali              ###   ########.fr       */
+/*   Updated: 2022/10/27 14:33:34 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,44 +18,17 @@ const std::string	getReply(unsigned short& code, std::vector<std::string>& args,
 	std::stringstream ss;
 	ss << code;
 	std::string codestr = ss.str();
-=======
-// /* ************************************************************************** */
-// /*                                                                            */
-// /*                                                        :::      ::::::::   */
-// /*   getReply.cpp                                       :+:      :+:    :+:   */
-// /*                                                    +:+ +:+         +:+     */
-// /*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
-// /*                                                +#+#+#+#+#+   +#+           */
-// /*   Created: 2022/10/26 18:53:39 by ali               #+#    #+#             */
-// /*   Updated: 2022/10/26 21:18:14 by ali              ###   ########.fr       */
-// /*                                                                            */
-// /* ************************************************************************** */
+ 	if (code < 10)
+ 		codestr = "0" + codestr;
+ 	else if (code < 100)
+ 		codestr = "00" + codestr;
 
-#include "../../inc/replies.hpp"
-
-const std::string&	getReply(unsigned short& code, std::vector<std::string>& args,
-		const std::string& target_nickname)
-{
-	int	codeint = static_cast<int>(code);
-	std::string codestr = std::to_string(codeint);
->>>>>>> 29ce15684df15fc93a79bc046c028e31c199fba0
-
-// 	if (code < 10)
-// 		codestr = "0" + codestr;
-// 	else if (code < 100)
-// 		codestr = "00" + codestr;
-
-<<<<<<< HEAD
 	std::string end = getReplyEnd(code, args);
 	if (end != "")
 		return ":OurSuperServer " + codestr + " " + target_nickname + " " 
 		+ end + "\r\n";
 	else
 		return "";
-=======
-	return (":OurSuperServer " + codestr + " " + target_nickname + " "
-		+ getReplyEnd(code, args) + "\r\n");
->>>>>>> 29ce15684df15fc93a79bc046c028e31c199fba0
 }
 
 /* Pour RPL_NAMERPLY, RPL_WHOREPLY et RPL_WHOISCHANNELS, il y a des trucs que j'ai pas encore compris.
@@ -135,11 +107,6 @@ const std::string	getReplyEnd(unsigned short& code, std::vector<std::string>& ar
 			return args[0] + " :End of channel invite list";
 		case 331:
 			return args[0] + " :No topic is set";
-<<<<<<< HEAD
-=======
-		// case 332:
-			// return args[0] + " :" + args[1];
->>>>>>> 29ce15684df15fc93a79bc046c028e31c199fba0
 		case 353:
 			return /*truc chelou*/ args[0] + " :" /*truc chelou*/ + args[1] /*truc chelou*/;
 		case 366:
