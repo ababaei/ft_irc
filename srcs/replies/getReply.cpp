@@ -161,7 +161,7 @@ const std::string	getReplyEnd(unsigned short& code, std::vector<std::string>& ar
 	}
 	return "";
 }
-
+/*
 int main()
 {
 	std::vector<std::string> args;
@@ -180,3 +180,4 @@ int main()
 			std::cout << reply << std::endl;
 	}
 }
+*/
