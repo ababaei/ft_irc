@@ -5,13 +5,13 @@ INCLUDES	= .
 SRCS		= srcs/main.cpp \
 				srcs/Server.cpp \
 				srcs/User.cpp \
-				srcs/replies/getReply.cpp \
 				srcs/commands/NICK.cpp \
 				srcs/commands/USER.cpp \
 				srcs/commands/PASS.cpp \
 				srcs/commands/MODE.cpp \
 				srcs/commands/WHOIS.cpp \
 				srcs/commands/PING.cpp \
+				srcs/replies/getReply.cpp \
 
 CC			= c++
 
