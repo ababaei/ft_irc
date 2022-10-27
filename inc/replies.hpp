@@ -6,19 +6,27 @@
 /*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 17:32:17 by ali               #+#    #+#             */
-/*   Updated: 2022/10/26 21:06:59 by ali              ###   ########.fr       */
+/*   Updated: 2022/10/27 14:14:17 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef REPLIES_HPP
 # define REPLIES_HPP
+<<<<<<< HEAD:inc/Replies.hpp
+=======
 
 # include <iostream>
 # include <vector>
 # include <stdlib.h>
+>>>>>>> 29ce15684df15fc93a79bc046c028e31c199fba0:inc/replies.hpp
 
-const std::string&	getReply(unsigned short& code, std::vector<std::string>& args,
-		const std::string& target_nickname)
+# include <iostream>
+# include <vector>
+# include <sstream>
+
+const std::string getReplyEnd(unsigned short& code, std::vector<std::string>& args);
+const std::string	getReply(unsigned short& code, std::vector<std::string>& args,
+		const std::string& target_nickname);
 
 //		CONNECTION REGISTRATION (rfc 2812 3.1)
 

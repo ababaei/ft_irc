@@ -1,3 +1,25 @@
+<<<<<<< HEAD
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   getReply.cpp                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/26 18:53:39 by ali               #+#    #+#             */
+/*   Updated: 2022/10/27 14:26:15 by ali              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../inc/Replies.hpp"
+
+const std::string	getReply(unsigned short& code, std::vector<std::string>& args,
+		const std::string& target_nickname)
+{
+	std::stringstream ss;
+	ss << code;
+	std::string codestr = ss.str();
+=======
 // /* ************************************************************************** */
 // /*                                                                            */
 // /*                                                        :::      ::::::::   */
@@ -17,19 +39,29 @@ const std::string&	getReply(unsigned short& code, std::vector<std::string>& args
 {
 	int	codeint = static_cast<int>(code);
 	std::string codestr = std::to_string(codeint);
+>>>>>>> 29ce15684df15fc93a79bc046c028e31c199fba0
 
 // 	if (code < 10)
 // 		codestr = "0" + codestr;
 // 	else if (code < 100)
 // 		codestr = "00" + codestr;
 
+<<<<<<< HEAD
+	std::string end = getReplyEnd(code, args);
+	if (end != "")
+		return ":OurSuperServer " + codestr + " " + target_nickname + " " 
+		+ end + "\r\n";
+	else
+		return "";
+=======
 	return (":OurSuperServer " + codestr + " " + target_nickname + " "
 		+ getReplyEnd(code, args) + "\r\n");
+>>>>>>> 29ce15684df15fc93a79bc046c028e31c199fba0
 }
 
 /* Pour RPL_NAMERPLY, RPL_WHOREPLY et RPL_WHOISCHANNELS, il y a des trucs que j'ai pas encore compris.
  * Il faudra peut-être plus d'arguments que simplement les trucs indiqués <> pour ceux-là */
-const std::string&	getReplyEnd(unsigned short& code, std::vector<std::string>&args)
+const std::string	getReplyEnd(unsigned short& code, std::vector<std::string>& args)
 {
 	switch(code)
 	{
@@ -103,8 +135,11 @@ const std::string&	getReplyEnd(unsigned short& code, std::vector<std::string>&ar
 			return args[0] + " :End of channel invite list";
 		case 331:
 			return args[0] + " :No topic is set";
+<<<<<<< HEAD
+=======
 		// case 332:
 			// return args[0] + " :" + args[1];
+>>>>>>> 29ce15684df15fc93a79bc046c028e31c199fba0
 		case 353:
 			return /*truc chelou*/ args[0] + " :" /*truc chelou*/ + args[1] /*truc chelou*/;
 		case 366:
@@ -137,7 +172,7 @@ const std::string&	getReplyEnd(unsigned short& code, std::vector<std::string>&ar
 			return args[0] + " " + args[1] + " " + args[2] + " " + args[3] + " " + args[4] 
 				/*truc chelou*/ + " :" + args[5] + " " + args[6];
 		case 315:
-			return ; args[0] + " :End of WHO list";
+			return args[0] + " :End of WHO list";
 		case 311:
 			return args[0] + " " + args[1] + " " + args[2] + " * " + ":" + args[3];
 		case 319:
@@ -156,5 +191,25 @@ const std::string&	getReplyEnd(unsigned short& code, std::vector<std::string>&ar
 			return args[0] + " :Unknown command";
 		case 4:
 			return args[0] + " " + args[1] + " " + args[2] + " " + args[3];
+	}
+	return "";
+}
+
+int main()
+{
+	std::vector<std::string> args;
+	args.push_back("<arg0>");
+	args.push_back("<arg1>");
+	args.push_back("<arg2>");
+	args.push_back("<arg3>");
+	args.push_back("<arg4>");
+	args.push_back("<arg5>");
+	args.push_back("<arg6>");
+	args.push_back("<arg7>");
+	for (unsigned short i = 0; i < 500; i++)
+	{
+		std::string reply = getReply(i, args, "<target_nick>");
+		if (reply != "")
+			std::cout << reply << std::endl;
 	}
 }
