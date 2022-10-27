@@ -6,7 +6,7 @@
 /*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 18:53:39 by ali               #+#    #+#             */
-/*   Updated: 2022/10/27 14:35:12 by ali              ###   ########.fr       */
+/*   Updated: 2022/10/27 16:01:25 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ const std::string	getReply(unsigned short& code, std::vector<std::string>& args,
 	ss << code;
 	std::string codestr = ss.str();
  	if (code < 10)
- 		codestr = "0" + codestr;
- 	else if (code < 100)
  		codestr = "00" + codestr;
+ 	else if (code < 100)
+ 		codestr = "0" + codestr;
 
 	std::string end = getReplyEnd(code, args);
 	if (end != "")
