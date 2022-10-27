@@ -6,7 +6,7 @@
 /*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 16:39:02 by ali               #+#    #+#             */
-/*   Updated: 2022/10/27 17:40:58 by ali              ###   ########.fr       */
+/*   Updated: 2022/10/27 17:53:51 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,63 +74,63 @@ bool	Channel::isInvited(const std::string& nick) const
 {
 	if (std::find(inviteList.begin(), inviteList.end(), nick) != inviteList.end())
 		return true;
-	return false
+	return false;
 }
 
 bool	Channel::isBanned(const std::string& nick) const
 {
 	if (std::find(banList.begin(), banList.end(), nick) != banList.end())
 		return true;
-	return false
+	return false;
 }
 
 bool	Channel::isChanOp(const std::string& nick) const
 {
 	if (userModes[nick]["operator"] == true)
 		return true;
-	return false
+	return false;
 }
 
 bool	Channel::isVoiced(const std::string& nick) const
 {
 	if (userModes[nick]["voiced"] == true)
 		return true;
-	return false
+	return false;
 }
 
 bool	Channel::isSecret() const
 {
 	if (flags["secret"] == true)
 		return true;
-	return false
+	return false;
 }
 
 bool	Channel::isModerated() const
 {
 	if (flags["moderated"] == true)
 		return true;
-	return false
+	return false;
 }
 
 bool	Channel::isInviteOnly() const
 {
 	if (flags["inviteOnly"] == true)
 		return true;
-	return false
+	return false;
 }
 
 bool	Channel::isAnonymous() const
 {
 	if (flags["anonymous"] == true)
 		return true;
-	return false
+	return false;
 }
 
 void	Channel::banUser(const std::string& nick)
 {
 	banList.push_back(nick);
 	users.erase(nick);
-	userModes.erase(nick)
+	userModes.erase(nick);
 }
 
 void	Channel::inviteUser(const std::string& nick)
@@ -141,7 +141,7 @@ void	Channel::inviteUser(const std::string& nick)
 void	Channel::kickUser(const std::string& nick)
 {
 	users.erase(nick);
-	userModes.erase(nick)
+	userModes.erase(nick);
 }
 
 void	Channel::addUser(User* user)
