@@ -11,8 +11,10 @@
 #define WHITE "\e[0;37m"
 #define BOLD "\e[1;37m"
 #define ITALIC "\e[3;37m"
-#define ITGREY "\e[3;30m"
 #define UNDERL "\e[4;37m"
 #define E "\e[0m"
+
+#define ITGREY "\e[3;30m"
+#define BBLUE "\e[1;34m"
 
 #endif
