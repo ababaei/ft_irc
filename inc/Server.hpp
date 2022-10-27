@@ -46,6 +46,8 @@ class Server
 		void			check_activity(void);
 		/* accessors */
 		std::string		get_password(void);
+		std::map<int, User *>		get_user_list(void);
+
 
 	private:
 

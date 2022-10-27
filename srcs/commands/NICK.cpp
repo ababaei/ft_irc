@@ -1,11 +1,62 @@
 #include "../../inc/command.hpp"
+#include "../../inc/colors.hpp"
+#include "../../inc/User.hpp"
+#include "../../inc/Server.hpp"
+#include <iostream>
+#include <map>
+#include <string>
 
-void    NICK(User *User)
+int specialchar(char c)
 {
-    std::string nick(User->param_list[0]);
-    User->set_nick(nick);
-    //ajouter protection si no args
-    //send reply
-    //check forbiden char 
+    if (c == '-' ||
+        c == '[' ||
+        c == ']' ||
+        c == '\\' ||
+        c == '`' ||
+        c == '_' ||
+        c == '^' ||
+        c == '{' ||
+        c == '|' ||
+        c == '}')
+        return (1);
+    return (0);
+}
+
+int check_forbiden_char(std::string nick)
+{
+    if (nick != "")
+    {
+        int i = 0;
+        if (nick.length() != 1 && nick[i] == ':') // tbc
+            i++;
+        while (i < nick.length() - 1)
+        {
+            if (isalnum(nick[i]) == 0 || (nick.length() == 1 && nick[i] == ':'))
+                return (-1);
+            i++;
+        }
+        std::cout << "CHAR IS " << nick[i] << std::endl;
+        if (isalnum(nick[i]) == 0 && specialchar(nick[i]) == 0)
+            return (-1);
+        return (0);
+    }
+    return (0);
+}
+
+void NICK(User *User)
+{
+    if (User->param_list[0] == "")                                       // quand on passe NICK dans irssi sans param ca fait rien a part redire le nick
+        std::cout << RED "Error 431 ERR_NONICKNAMEGIVEN" E << std::endl; // ajouter reply
+    else if (check_forbiden_char(User->param_list[0]) == -1)
+        std::cout << RED "Error 432 ERR_ERRONEUSNICKNAME" E << std::endl; // ajouter reply
+    else
+        User->set_nick(User->param_list[0]);
+
+    // 437    ERR_UNAVAILRESOURCE
+    // 433    ERR_NICKNAMEINUSE : User is not a valid type
+
+    // ajouter protection si no args
+    // send reply
+    // check forbiden char
     std::cout << "VAR NICK IS : " << User->get_nick() << std::endl;
 }
