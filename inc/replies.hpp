@@ -10,8 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef Replies.hpp
-# define Replies.hpp
+#ifndef REPLIES_HPP
+# define REPLIES_HPP
+
+# include <iostream>
+# include <vector>
+# include <stdlib.h>
 
 const std::string&	getReply(unsigned short& code, std::vector<std::string>& args,
 		const std::string& target_nickname)

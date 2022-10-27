@@ -5,6 +5,7 @@ INCLUDES	= .
 SRCS		= srcs/main.cpp \
 				srcs/Server.cpp \
 				srcs/User.cpp \
+				srcs/replies/getReply.cpp \
 				srcs/commands/NICK.cpp \
 				srcs/commands/USER.cpp \
 				srcs/commands/PASS.cpp \
