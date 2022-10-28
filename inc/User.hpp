@@ -29,11 +29,9 @@ class User
         void            set_hostname(std::string hostname);
         void            set_real_name(std::string real_name);
         void            set_status(std::string status);
-        void            set_reply(std::string reply);
 
         void            to_command(std::string msg);
         void            update_activity(void);
-        void            send_reply(void);
 
         std::string     message;
         std::vector<std::string> param_list;
@@ -51,8 +49,6 @@ class User
 
         std::string     _command;
         std::map<std::string, void (*)(User *)> _cmd_list;
-        
-        std::string     _reply_buf;
 
         private: //method
         void			exec_cmd(void);

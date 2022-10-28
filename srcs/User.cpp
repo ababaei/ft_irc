@@ -55,11 +55,6 @@ void	User::set_status(std::string status)
 	this->_status = status;
 }
 
-void	User::set_reply(std::string reply)
-{
-	this->_reply_buf = reply;
-}
-
 void User::to_command(std::string msg)
 {
 	std::stringstream ss(msg);
@@ -104,21 +99,6 @@ void User::exec_cmd(void)
 		std::cout << "exe>" << this->_command << "\n";
 		this->_cmd_list[this->_command](this);
 		this->update_activity();
-	}
-}
-
-void	User::send_reply(void)
-{
-	size_t size = this->_reply_buf.length();
-	
-	if (size)
-	{
-		if (send(this->_fd, this->_reply_buf.c_str(), size, 0) == -1)
-			std::cerr << "error send\n";
-		this->_reply_buf.clear();
-		#ifdef DEBUG
-			std::cout << ">" << this->_reply_buf << "\n";
-		#endif
 	}
 }
 

@@ -44,6 +44,9 @@ class Server
 		void			poll_loop(void);
 		void			polling(void);
 		
+		void			to_send(const std::string msg, std::vector<int> sockfds);
+		void			to_send(const std::string msg, int sockfd);
+
 		void			check_activity(void);
 		/* accessors */
 		std::string		get_password(void);

@@ -67,12 +67,10 @@ void NICK(User *user)
     for (std::map<int, User *>::iterator it = users.begin(); it != users.end(); it++)
     {
         if (nickname == it->second->get_nick())
-            return (user->set_reply(ERR_NICKNAMEINUSE(user->param_list, nickname)));
+            return (user->get_server()->to_send(ERR_NICKNAMEINUSE(user->param_list, nickname), user->get_fd()));
     }
     
     user->set_nick(nickname);
-    std::cout << "TEST\n";
-    //return (user->set_reply(RPL_WELCOME(user->param_list, nickname)));
 
     // 437    ERR_UNAVAILRESOURCE ?
     // 433    ERR_NICKNAMEINUSE : user is not a valid type
