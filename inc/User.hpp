@@ -32,6 +32,7 @@ class User
 
         void            to_command(std::string msg);
         void            update_activity(void);
+
         std::string     message;
         std::vector<std::string> param_list;
 
@@ -49,7 +50,7 @@ class User
 
         std::string     _command;
         std::map<std::string, void (*)(User *)> _cmd_list;
-        
+
         private: //method
         void			exec_cmd(void);
         void                    clear_cmd(void);

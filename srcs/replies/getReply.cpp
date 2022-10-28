@@ -10,10 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/Replies.hpp"
+#include "../../inc/replies.hpp"
 
-const std::string	getReply(unsigned short& code, std::vector<std::string>& args,
-		const std::string& target_nickname)
+std::string	getReply(unsigned short code, std::vector<std::string> args,
+		std::string target_nickname)
 {
 	std::stringstream ss;
 	ss << code;
@@ -33,7 +33,7 @@ const std::string	getReply(unsigned short& code, std::vector<std::string>& args,
 
 /* Pour RPL_NAMERPLY, RPL_WHOREPLY et RPL_WHOISCHANNELS, il y a des trucs que j'ai pas encore compris.
  * Il faudra peut-être plus d'arguments que simplement les trucs indiqués <> pour ceux-là */
-const std::string	getReplyEnd(unsigned short& code, std::vector<std::string>& args)
+std::string	getReplyEnd(unsigned short code, std::vector<std::string> args)
 {
 	switch(code)
 	{
