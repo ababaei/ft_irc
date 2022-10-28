@@ -88,6 +88,11 @@ void Server::add_socket_to_list(int filed, short ev, short rev)
 	this->_pfds.push_back(tmp);
 }
 
+void Server::add_channel(std::string new_channel)
+{
+	this->_channels_list.push_back(new_channel);
+}
+
 /*	poll() function uses array and i wanted to work with container
 	so i made two function to go to one from another.
 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv*/
@@ -236,5 +241,6 @@ void Server::handle_raw(int sender_fd, int nbytes)
 
 std::string Server::get_password() { return (this->_password); }
 std::map<int, User *> Server::get_user_list() { return (this->_User_list); }
+std::vector<std::string> Server::get_channels_list() { return (this->_channels_list); }
 
 /* ************************************************************************** */

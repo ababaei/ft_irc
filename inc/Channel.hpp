@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 13:32:51 by ali               #+#    #+#             */
-/*   Updated: 2022/10/27 17:41:12 by ali              ###   ########.fr       */
+/*   Updated: 2022/10/28 09:42:41 by amontaut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ class Channel
 		std::map<std::string, bool>	flags;
 		std::vector<std::string> inviteList;
 		std::vector<std::string> banList;
-		std::map< std::map<std::string, User*> users;
+		std::map<std::string, User*> users;
 		std::map<std::string, std::map<std::string, bool> > userModes;
 		// map to check for each user if voiced or if chanOp
 		std::string	key;
@@ -56,19 +56,19 @@ class Channel
 		bool	isInviteOnly() const;
 		bool	isAnonymous() const;
 
-		banUser(const std::string& nick);
-		inviteUser(const std::string& nick);
+		void banUser(const std::string& nick);
+		void inviteUser(const std::string& nick);
 
-		kickUser(const std::string &nick);
-		addUser(User* user);
+		void kickUser(const std::string &nick);
+		void addUser(User* user);
 
-		setName(const std::string& aName);
-		setTopic(const std::string& aTopic);
-		setKey(int aKey);
-		setUserLimit(const int& aUserLimit);
-		setChanFlag(const std::string& flag, bool b);
-		setUserOp(const std::string& nick, bool b);
-		setUserVoiced(const std::string& nick, bool b);
+		void setName(const std::string& aName);
+		void setTopic(const std::string& aTopic);
+		void setKey(int aKey);
+		void setUserLimit(const int& aUserLimit);
+		void setChanFlag(const std::string& flag, bool b);
+		void setUserOp(const std::string& nick, bool b);
+		void setUserVoiced(const std::string& nick, bool b);
 };
 
 #endif

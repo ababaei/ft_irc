@@ -29,6 +29,7 @@ class User
         void            set_hostname(std::string hostname);
         void            set_real_name(std::string real_name);
         void            set_status(std::string status);
+        void            add_channel(std::string channel);
 
         void            to_command(std::string msg);
         void            update_activity(void);
@@ -42,8 +43,8 @@ class User
         std::string     _hostname;
         std::string     _real_name;
         std::string     _status; //connected ou enregistre / disconnected / en attente de connexion / inactif
-        std::map<std::string, std::string> modes; //1st string = channel, 2eme string = les modes. Exemple : toto, aiw
         Server          *_server;
+        std::vector<std::string> _chanels; 
 
         time_t _last_activity;
 
