@@ -17,10 +17,13 @@ void JOIN(User *User)
     if (std::find(channel_list.begin(), channel_list.end(), User->param_list[0]) == channel_list.end())
         User->get_server()->add_channel(User->param_list[0]);
     else
+    {
         //joindre le chan deja cree
+    }
     
-    std::vector<std::string> channel_list2 = User->get_server()->get_channels_list();
+    std::vector<std::string> lala = User->get_server()->get_channels_list();
+
     std::cout << "Now list chan is" << std::endl;
-	for (std::vector<std::string>::iterator it = channel_list2.begin(); it != channel_list2.end(); ++it)
+	for (std::vector<std::string>::iterator it = lala.begin(); it != lala.end(); ++it)
 		std::cout << " " << *it;
 }
