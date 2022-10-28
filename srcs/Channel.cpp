@@ -6,7 +6,7 @@
 /*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 16:39:02 by ali               #+#    #+#             */
-/*   Updated: 2022/10/27 17:58:17 by ali              ###   ########.fr       */
+/*   Updated: 2022/10/28 17:16:26 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,11 @@ const std::string&	Channel::getNickList() const
 	return nickList;
 }
 
+int	Channel::getUserNum() const
+{
+	return users.size();
+}
+
 bool	Channel::isInvited(const std::string& nick) const
 {
 	if (std::find(inviteList.begin(), inviteList.end(), nick) != inviteList.end())
@@ -94,6 +99,13 @@ bool	Channel::isChanOp(const std::string& nick) const
 bool	Channel::isVoiced(const std::string& nick) const
 {
 	if (userModes[nick]["voiced"] == true)
+		return true;
+	return false;
+}
+
+bool	Channel::isHere(const std::string& nick) const
+{
+	if (users.find(nick) !=  users.end())
 		return true;
 	return false;
 }

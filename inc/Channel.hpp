@@ -6,7 +6,7 @@
 /*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 13:32:51 by ali               #+#    #+#             */
-/*   Updated: 2022/10/27 17:41:12 by ali              ###   ########.fr       */
+/*   Updated: 2022/10/28 17:12:44 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,13 @@ class Channel
 		int	getUserLimit() const;
 		const std::vector<User*>	getUserList() const;
 		const std::vector<std::string> getNickList() const;
+		int	getUserNum() const;
 
 		bool	isInvited(const std::string& nick) const;
 		bool	isBanned(const std::string& nick) const;
 		bool	isChanOp(const std::string&	nick) const;
 		bool	isVoiced(const std::string& nick) const;
+		bool	isHere(const std::string& nick) const;
 
 		bool	isSecret() const;
 		bool	isModerated() const;
