@@ -6,7 +6,7 @@
 /*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 13:32:51 by ali               #+#    #+#             */
-/*   Updated: 2022/10/28 17:12:44 by ali              ###   ########.fr       */
+/*   Updated: 2022/10/28 18:47:58 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ class Channel
 
 		const std::string&	getName() const;
 		const std::string&	getTopic() const;
-		int	getKey() const;
+		const std::string&	getKey() const;
 		int	getUserLimit() const;
 		const std::vector<User*>	getUserList() const;
 		const std::vector<std::string> getNickList() const;
@@ -57,17 +57,20 @@ class Channel
 		bool	isModerated() const;
 		bool	isInviteOnly() const;
 		bool	isAnonymous() const;
+		bool	hasOneOp()	const;
 
 		banUser(const std::string& nick);
 		inviteUser(const std::string& nick);
+		unbanUser(const std::string& nick);
+		uninviteUser(const std::string& nick);
 
 		kickUser(const std::string &nick);
 		addUser(User* user);
 
 		setName(const std::string& aName);
 		setTopic(const std::string& aTopic);
-		setKey(int aKey);
-		setUserLimit(const int& aUserLimit);
+		setKey(const std::string& aKey);
+		setUserLimit(int aUserLimit);
 		setChanFlag(const std::string& flag, bool b);
 		setUserOp(const std::string& nick, bool b);
 		setUserVoiced(const std::string& nick, bool b);

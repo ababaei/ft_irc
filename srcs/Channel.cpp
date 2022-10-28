@@ -6,7 +6,7 @@
 /*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 16:39:02 by ali               #+#    #+#             */
-/*   Updated: 2022/10/28 17:16:26 by ali              ###   ########.fr       */
+/*   Updated: 2022/10/28 18:52:16 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ const std::string&	Channel::getTopic() const
 	return topic;
 }
 
-int	Channel::getKey() const
+const std::string&	Channel::getKey() const
 {
 	return key;
 }
@@ -138,6 +138,21 @@ bool	Channel::isAnonymous() const
 	return false;
 }
 
+bool	Channel::hasOneOp()	const
+{
+	int	count = 0;
+
+	for (std::map<std::string, std::map<std::string, bool>::iterator it = userModes.begin();
+			it != userModes.end(); it++)
+	{
+		if (it->second["operator"] == true)
+			count++;
+	}
+	if (count > 1)
+		return false;
+	return true;
+}
+
 void	Channel::banUser(const std::string& nick)
 {
 	banList.push_back(nick);
@@ -148,6 +163,20 @@ void	Channel::banUser(const std::string& nick)
 void	Channel::inviteUser(const std::string& nick)
 {
 	inviteList.push_back(nick);
+}
+
+void	Channel::unbanUser(const std::string& nick)
+{
+	std::vector<std::string>::iterator it = std::find(banList.begin(), banList.end(), nick);
+	if (it != end())
+		banList.erase(it);
+}
+
+void	Channel::uninviteUser(const std::string& nick)
+{
+	std::vector<std::string>::iterator it = std::find(inviteList.begin(), inviteList.end(), nick);
+	if (it != end())
+		inviteList.erase(it);
 }
 
 void	Channel::kickUser(const std::string& nick)
@@ -177,7 +206,7 @@ void	Channel::setTopic(const std::string& aTopic)
 	topic = aTopic;
 }
 
-void	Channel::setKey(int aKey)
+void	Channel::setKey(const std::string& aKey)
 {
 	key = aKey;
 }
