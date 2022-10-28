@@ -6,12 +6,12 @@
 # include "User.hpp"
 # include "Server.hpp"
 
-void PASS(User *User);
-void NICK(User *User);
-void USER(User *User);
-void MODE(User *User);
-void WHOIS(User *User);
-void PING(User *User);
+void PASS(User *user);
+void NICK(User *user);
+void USER(User *user);
+void MODE(User *user);
+void WHOIS(User *user);
+void PING(User *user);
 
 
 

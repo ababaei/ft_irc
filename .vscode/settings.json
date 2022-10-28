@@ -58,7 +58,15 @@
         {
             "cwd": "/mnt/nfs/homes/ababaei/Documents/ft_irc",
             "binaryPath": "/mnt/nfs/homes/ababaei/Documents/ft_irc/ft_irc",
-            "binaryArgs": ["6667", "toto"]
+            "binaryArgs": [
+                "6667",
+                "toto"
+            ]
+        },
+        {
+            "cwd": "/home/noxen/Documents/ft_irc",
+            "binaryPath": "/home/noxen/Documents/ft_irc/ft_irc",
+            "binaryArgs": []
         }
     ]
 }

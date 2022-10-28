@@ -17,9 +17,9 @@
 # include <vector>
 # include <sstream>
 
-const std::string getReplyEnd(unsigned short& code, std::vector<std::string>& args);
-const std::string	getReply(unsigned short& code, std::vector<std::string>& args,
-		const std::string& target_nickname);
+std::string getReplyEnd(unsigned short code, std::vector<std::string> args);
+std::string	getReply(unsigned short code, std::vector<std::string> args,
+		std::string target_nickname);
 
 //		CONNECTION REGISTRATION (rfc 2812 3.1)
 

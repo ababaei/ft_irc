@@ -69,14 +69,7 @@ void User::to_command(std::string msg)
 	this->_command = words[0];
 	this->param_list.assign(words.begin() + 1, words.end());
 	// std::cout << "size=" << this->param_list.size() << "\n";
-	std::cout << "size=" << this->param_list.size() << "\n";
-	std::cout << "words is:" << std::endl;
-	for (std::vector<std::string>::iterator it = words.begin(); it != words.end(); ++it)
-		std::cout << ' ' << *it;
-	std::cout << " //" << std::endl;
-
-	// //check when no pwd --> A mettre dans une autre fct ?
-	std::cout << "command is :" << this->_command << std::endl;
+	//check when no pwd --> A mettre dans une autre fct ?
 	if (this->_command != "CAP" && this->_command != "PASS" && this->_nick == "" && this->_status != "connected/registered")
 	{
 		std::cout << RED "FAILED TO CONNECT : no password" E << std::endl;
@@ -108,7 +101,6 @@ void User::exec_cmd(void)
 		this->update_activity();
 	}
 }
-
 
 void	User::update_activity(void)
 {

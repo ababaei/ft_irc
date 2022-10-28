@@ -2,6 +2,7 @@
 #include "../../inc/colors.hpp"
 #include "../../inc/User.hpp"
 #include "../../inc/Server.hpp"
+#include "../../inc/replies.hpp"
 #include <iostream>
 #include <map>
 #include <string>
@@ -51,23 +52,29 @@ int check_forbiden_char(std::string nick)
     return (0);
 }
 
-void NICK(User *User)
+void NICK(User *user)
 {
-    if (User->param_list[0][0] == ':') // tbc
-        User->param_list[0].erase(0, 1);
-    User->param_list[0] = User->param_list[0].substr(0, 8);
-    if (User->param_list[0] == "")                                       // quand on passe NICK dans irssi sans param ca fait rien a part redire le nick
+    if (user->param_list[0][0] == ':') // tbc
+        user->param_list[0].erase(0, 1);
+    std::string nickname = user->param_list[0].substr(0, 8);
+    // user->param_list[0] = user->param_list[0].substr(0, 8);
+    if (user->param_list.size() == 0)                                       // quand on passe NICK dans irssi sans param ca fait rien a part redire le nick
         std::cout << RED "Error 431 ERR_NONICKNAMEGIVEN" E << std::endl; // ajouter reply
-    if (check_forbiden_char(User->param_list[0]) == -1)
+    
+    if (check_forbiden_char(nickname) == -1)
         std::cout << RED "Error 432 ERR_ERRONEUSNICKNAME" E << std::endl; // ajouter reply
-    else
+    std::map<int, User *> users = user->get_server()->get_user_list();
+    for (std::map<int, User *>::iterator it = users.begin(); it != users.end(); it++)
     {
-        User->set_nick(User->param_list[0]);
+        if (nickname == it->second->get_nick())
+            return (user->get_server()->to_send(ERR_NICKNAMEINUSE(user->param_list, nickname), user->get_fd()));
     }
+    
+    user->set_nick(nickname);
 
     // 437    ERR_UNAVAILRESOURCE ?
-    // 433    ERR_NICKNAMEINUSE : User is not a valid type
+    // 433    ERR_NICKNAMEINUSE : user is not a valid type
     // 484    ERR_RESTRICTED ?? : Sent by the server to a user upon connection to indicate
     //    the restricted nature of the connection (user mode "+r").
-    std::cout << "VAR NICK IS : " << User->get_nick() << std::endl;
+    // std::cout << "VAR NICK IS : " << user->get_nick() << std::endl;
 }

@@ -12,6 +12,7 @@ SRCS		= srcs/main.cpp \
 				srcs/commands/WHOIS.cpp \
 				srcs/commands/PING.cpp \
 				srcs/replies/getReply.cpp \
+				srcs/replies/sendReply.cpp \
 
 CC			= c++
 
