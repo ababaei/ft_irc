@@ -23,9 +23,7 @@ std::string	getReply(unsigned short code, std::vector<std::string> args,
  	else if (code < 100)
  		codestr = "00" + codestr;
 
-	std::cout << "test1\n";
 	std::string end = getReplyEnd(code, args);
-	std::cout << "test2\n";
 	if (end != "")
 		return ":OurSuperServer " + codestr + " " + target_nickname + " " 
 		+ end + "\r\n";
