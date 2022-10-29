@@ -6,15 +6,12 @@
 /*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 15:06:42 by ali               #+#    #+#             */
-/*   Updated: 2022/10/29 14:34:54 by ali              ###   ########.fr       */
+/*   Updated: 2022/10/29 14:38:16 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/command.hpp"
 #include "../../inc/Server.hpp"
-
-#define CHANNEL 0
-#define USER 1
 
 void	setChanMode(User* user, Channel* channel, const std::vector<std::string>& params)
 {
