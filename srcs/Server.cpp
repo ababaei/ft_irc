@@ -137,6 +137,17 @@ void Server::check_activity(void)
 	}
 }
 
+bool	Server::isHere(const std::string& nick)
+{
+	for (std::map<int, User*>::iterator it = User_list.begin(); it != User_list.end();
+			it++)
+	{
+		if (it->second->get_nick() == nick)
+			return true;
+	}
+	return false;
+}
+
 /*  This function will check the results of poll() by doing a bitwise AND on the returned event.
 	If its the listener that has something to say, that means we have a new connection.
 	Otherwise, we have data to read with recv().

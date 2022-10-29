@@ -48,6 +48,7 @@ class Server
 		void			to_send(const std::string msg, int sockfd);
 
 		void			check_activity(void);
+		bool			isHere(const std::string& nick) //checks if a User is present in the server
 		/* accessors */
 		std::string		get_password(void);
 		std::map<int, User *>		get_user_list(void);
