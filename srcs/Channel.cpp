@@ -6,7 +6,7 @@
 /*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 16:39:02 by ali               #+#    #+#             */
-/*   Updated: 2022/10/28 18:52:16 by ali              ###   ########.fr       */
+/*   Updated: 2022/10/31 07:26:45 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,29 @@ const std::string&	Channel::getNickList() const
 int	Channel::getUserNum() const
 {
 	return users.size();
+}
+
+const std::vector<int>	Channel::getFds() const
+{
+	std::vector<int> fds;
+
+	for (std::map<std::string, User*>::iterator it = users.begin();
+			it != users.end(); it++)
+		fds.push_back(it->second->get_fd());
+	return fds;
+}
+
+const std::vector<int>	Channel::getOtherFds(const std::string& nick) const
+{
+	std::vector<int> fds;
+
+	for (std::map<std::string, User*>::iterator it = users.begin();
+			it != users.end(); it++)
+	{
+		if (nick != it->second->get_nick())
+			fds.push_back(it->second->get_fd());
+	}
+	return fds;
 }
 
 bool	Channel::isInvited(const std::string& nick) const
