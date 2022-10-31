@@ -244,6 +244,7 @@ void Server::handle_raw(int sender_fd, int nbytes)
 /*
 ** --------------------------------- ACCESSOR ---------------------------------
 */
+std::string Server::get_address(void) { return (this->_address); }
 
 std::string Server::get_password() { return (this->_password); }
 
