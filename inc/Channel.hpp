@@ -6,7 +6,7 @@
 /*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 13:32:51 by ali               #+#    #+#             */
-/*   Updated: 2022/10/28 09:42:41 by amontaut         ###   ########.fr       */
+/*   Updated: 2022/10/31 16:38:15 by amontaut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ class Channel
 
 		void setName(const std::string& aName);
 		void setTopic(const std::string& aTopic);
-		void setKey(int aKey);
+		void setKey(std::string aKey);
 		void setUserLimit(const int& aUserLimit);
 		void setChanFlag(const std::string& flag, bool b);
 		void setUserOp(const std::string& nick, bool b);

@@ -1,6 +1,8 @@
 #include "../../inc/command.hpp"
 #include "../../inc/Server.hpp"
 #include "../../inc/colors.hpp"
+#include "../../inc/Channel.hpp"
+
 #include <iostream>
  #include <algorithm>
 
@@ -71,13 +73,22 @@ void JOIN(User *user)
     
 
     std::vector<std::string> channel_list = user->get_server()->get_channels_list();
-    if (std::find(channel_list.begin(), channel_list.end(), user->param_list[i]) == channel_list.end())
+    if (std::find(channel_list.begin(), channel_list.end(), chan1) == channel_list.end())
     {
         // creation du chan
-        user->get_server()->add_channel(user->param_list[i]);
+       user->get_server()->add_channel(chan1); // ?? 
+       Channel *chan = new Channel(chan1);
+       if (pwdchan1 != "")
+         chan->setKey(pwdchan1);
+        user->add_channel(chan1);
         // add operator mode for this chan for this user
     }
-
+    else 
+    {
+        //check mdp s'il y a 
+        
+        //Joindre le chan
+    }
     // if (user->param_list[0] == "0")
     // {
     //     // Part(all_channels);
