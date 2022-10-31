@@ -56,11 +56,11 @@ void NICK(User *user)
 {
     if (user->param_list[0][0] == ':') // tbc
         user->param_list[0].erase(0, 1);
-    std::string nickname = user->param_list[0].substr(0, 8);
-    // user->param_list[0] = user->param_list[0].substr(0, 8);
-    if (user->param_list.size() == 0)                                       // quand on passe NICK dans irssi sans param ca fait rien a part redire le nick
+    std::string nickname = user->param_list[0].substr(0, 9);
+    // user->param_list[0] = user->param_list[0].substr(0, 9);
+    if (user->param_list.size() == 0)                                    // quand on passe NICK dans irssi sans param ca fait rien a part redire le nick
         std::cout << RED "Error 431 ERR_NONICKNAMEGIVEN" E << std::endl; // ajouter reply
-    
+
     if (check_forbiden_char(nickname) == -1)
         std::cout << RED "Error 432 ERR_ERRONEUSNICKNAME" E << std::endl; // ajouter reply
     std::map<int, User *> users = user->get_server()->get_user_list();
@@ -70,6 +70,8 @@ void NICK(User *user)
             return (user->get_server()->to_send(ERR_NICKNAMEINUSE(user->param_list, nickname), user->get_fd()));
     }
     
+    user->set_nick(nickname);
+
     user->set_nick(nickname);
 
     // 437    ERR_UNAVAILRESOURCE ?

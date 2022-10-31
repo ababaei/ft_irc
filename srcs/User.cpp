@@ -15,8 +15,10 @@ User::User(int fd, Server *server) : _fd(fd), _server(server)
 	this->_cmd_list["PASS"] = PASS;
 	this->_cmd_list["USER"] = USER;
 	this->_cmd_list["MODE"] = MODE;
+	this->_cmd_list["JOIN"] = JOIN;
 	this->_cmd_list["WHOIS"] = WHOIS;
 	this->_cmd_list["PING"] = PING;
+	this->_cmd_list["PRIVMSG"] = PRIVMSG;
 
 	modes["away"] = false;
 	modes["invisible"] = false;
@@ -37,6 +39,11 @@ std::string User::get_real_name() { return (this->_real_name); }
 std::string User::get_status() { return (this->_status); }
 time_t	User::get_activity(void) { return(this->_last_activity); }
 Server *User::get_server() { return (this->_server); }
+
+bool	User::get_mode(const std::string& mode)
+{
+	return modes[mode];
+}
 
 void	User::set_nick(std::string nick)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 16:39:02 by ali               #+#    #+#             */
-/*   Updated: 2022/10/31 11:08:33 by ali              ###   ########.fr       */
+/*   Updated: 2022/10/31 17:49:14 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,13 @@ bool	Channel::hasOneOp()
 			count++;
 	}
 	if (count > 1)
+		return false;
+	return true;
+}
+
+bool	Channel::canSpeak(const std::string& nick)
+{
+	if (!isHere(nick) || isBanned(nick) || (!isVoiced(nick) && isModerated()))
 		return false;
 	return true;
 }

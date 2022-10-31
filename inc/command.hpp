@@ -12,8 +12,10 @@ void PASS(User *user);
 void NICK(User *user);
 void USER(User *user);
 void MODE(User *user);
+void JOIN(User *user);
 void WHOIS(User *user);
 void PING(User *user);
+void PRIVMSG(User* user);
 
 
 
