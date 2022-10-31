@@ -244,9 +244,12 @@ void Server::handle_raw(int sender_fd, int nbytes)
 /*
 ** --------------------------------- ACCESSOR ---------------------------------
 */
+std::string Server::get_address(void) { return (this->_address); }
 
 std::string Server::get_password() { return (this->_password); }
+
 std::map<int, User *> Server::get_user_list() { return (this->_User_list); }
+
 Channel*	Server::get_channel(const std::string& name)
 {
 	std::map<std::string, Channel*>::iterator it = channels.find(name);

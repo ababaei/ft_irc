@@ -29,7 +29,7 @@ class User
         void            set_hostname(std::string hostname);
         void            set_real_name(std::string real_name);
         void            set_status(std::string status);
-		void			set_mode(const std::string& mode, bool b);
+        void    	set_mode(const std::string& mode, bool b);
 
         void            to_command(std::string msg);
         void            update_activity(void);

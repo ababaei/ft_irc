@@ -52,6 +52,7 @@ class Server
 		void			check_activity(void);
 		bool			isHere(const std::string& nick); //checks if a User is present in the server
 		/* accessors */
+		std::string		get_address(void);
 		std::string		get_password(void);
 		std::map<int, User *>		get_user_list(void);
 		Channel*	get_channel(const std::string& name);
