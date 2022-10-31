@@ -6,7 +6,7 @@
 /*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:59:45 by ali               #+#    #+#             */
-/*   Updated: 2022/10/31 18:37:09 by ali              ###   ########.fr       */
+/*   Updated: 2022/10/31 19:05:33 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 void	chanMsg(Channel* chan, User* user, std::vector<std::string>& params)
 {
 	if (chan->canSpeak(user->get_nick()) == false)
-		return user->get_server()->to_send(ERR_CANNOTSENDTOCHAN(getArgs(1, params[0]), user->get_nick()),
+		return user->get_server()->to_send(ERR_CANNOTSENDTOCHAN(getArgs(1, params[0]), user->get_nick()), 
 				user->get_fd());
 
 	user->get_server()->to_send(getMsg(user, "PRIVMSG", params), chan->getOtherFds(user->get_nick()));

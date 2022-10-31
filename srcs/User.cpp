@@ -18,6 +18,7 @@ User::User(int fd, Server *server) : _fd(fd), _server(server)
 	this->_cmd_list["JOIN"] = JOIN;
 	this->_cmd_list["WHOIS"] = WHOIS;
 	this->_cmd_list["PING"] = PING;
+	this->_cmd_list["PRIVMSG"] = PRIVMSG;
 
 	modes["away"] = false;
 	modes["invisible"] = false;

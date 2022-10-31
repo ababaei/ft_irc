@@ -6,7 +6,7 @@
 /*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 17:55:10 by ali               #+#    #+#             */
-/*   Updated: 2022/10/31 18:12:42 by ali              ###   ########.fr       */
+/*   Updated: 2022/10/31 18:47:36 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,6 @@ const std::string	getMsg(User* user, const std::string& command,
 		if (it != params.end() - 1)
 			msg += " ";
 	}
-
+	msg += "\r\n";
 	return msg;
 }
