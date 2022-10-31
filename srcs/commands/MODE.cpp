@@ -6,7 +6,7 @@
 /*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 15:06:42 by ali               #+#    #+#             */
-/*   Updated: 2022/10/31 11:33:40 by ali              ###   ########.fr       */
+/*   Updated: 2022/10/31 11:55:50 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	setChanMode(User* user, Channel* channel, const std::vector<std::string>& p
 	std::string sign = "+";
 	bool b = true;
 		
-	for (int i = 1; i < params[1].length(); i++)
+	for (unsigned int i = 1; i < params[1].length(); i++)
 	{
 		if (params[1][i] == 'o' || params[1][i] == 'v' || params[1][i] == 'I' || params[1][i] == 'b')
 		{
@@ -164,7 +164,7 @@ void	userMode(User* user, std::vector<std::string>& params)
 
 	if (user->get_server()->isHere(params[0]) == false)
 		return ;
-	for (int i = 1; i < params[1].length(); i++)
+	for (unsigned int i = 1; i < params[1].length(); i++)
 	{
 		if (params[1][i] == 'a')
 		{
