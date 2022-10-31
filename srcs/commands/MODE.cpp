@@ -6,7 +6,7 @@
 /*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 15:06:42 by ali               #+#    #+#             */
-/*   Updated: 2022/10/29 14:38:16 by ali              ###   ########.fr       */
+/*   Updated: 2022/10/31 07:32:12 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	setChanMode(User* user, Channel* channel, const std::vector<std::string>& p
 				channel->setUserOp(param[2], b);
 				if (channel->hasOneOp())
 					user->get_server()->to_send(RPL_UNIQOPIS(getArgs(2, params[0], params[2]),
-								user->get_nick()), user->get_fd());
+								user->get_nick()), channel->getFds());
 			}
 			else if (param[1][i] == 'v')
 				channel->setUserVoiced(param[2], b);
@@ -56,25 +56,25 @@ void	setChanMode(User* user, Channel* channel, const std::vector<std::string>& p
 		{
 			channel->setChanFlag("inviteOnly", b);
 			user->get_server()->to_send(RPL_CHANMODEIS(getArgs(2, param[0], sign + "i"),
-						user->get_nick()), user->get_fd());
+						user->get_nick()), channel->getFds());
 		}
 		else if (params[1][i] == 's')
 		{
 			channel->setChanFlag("secret", b);
 			user->get_server()->to_send(RPL_CHANMODEIS(getArgs(2, param[0], sign + "s"),
-						user->get_nick()), user->get_fd());
+						user->get_nick()), channel->getFds());
 		}
 		else if (params[1][i] == 'a')
 		{
 			channel->setChanFlag("anonymous", b);
 			user->get_server()->to_send(RPL_CHANMODEIS(getArgs(2, param[0], sign + "a"),
-						user->get_nick()), user->get_fd());
+						user->get_nick()), channel->getFds());
 		}
 		else if (params[1][i] == 'm')
 		{
 			channel->setChanFlag("moderated", b);
 			user->get_server()->to_send(RPL_CHANMODEIS(getArgs(2, param[0], sign + "m"),
-						user->get_nick()), user->get_fd());
+						user->get_nick()), channel->getFds());
 		}
 		else if (params[1][i] == 'l')
 		{
@@ -91,14 +91,14 @@ void	setChanMode(User* user, Channel* channel, const std::vector<std::string>& p
 				{
 					channel->setUserLimit(limit);
 					user->get_server()->to_send(RPL_CHANMODEIS(getArgs(3, param[0], "+l", param[2]),
-								user->get_nick()), user->get_fd());
+								user->get_nick()), channel->getFds());
 				}
 			}
 			else
 			{
 				channel->setUserLimit(500);
 				user->get_server()->to_send(RPL_CHANMODEIS(getArgs(2, param[0], "-l"),
-							user->get_nick()), user->get_fd());
+							user->get_nick()), channel->getFds());
 			}
 		}
 		else if (params[1][i] == 'k')
@@ -113,13 +113,13 @@ void	setChanMode(User* user, Channel* channel, const std::vector<std::string>& p
 								user->get_nick()), user->get_fd());
 				channel->setKey(param[2]);
 				user->get_server()->to_send(RPL_CHANMODEIS(getArgs(3, param[0], "+k", param[2]),
-							user->get_nick()), user->get_fd());
+							user->get_nick()), channel->getFds());
 			}
 			else
 			{
 				channel->setKey("");
 				user->get_server()->to_send(RPL_CHANMODEIS(getArgs(2, param[0], "-k"),
-							user->get_nick()), user->get_fd());
+							user->get_nick()), channel->getFds());
 			}
 		}
 		else if (params[1][i] == '+' || params[1][i] == '-')
