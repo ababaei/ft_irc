@@ -15,6 +15,7 @@ User::User(int fd, Server *server) : _fd(fd), _server(server)
 	this->_cmd_list["PASS"] = PASS;
 	this->_cmd_list["USER"] = USER;
 	this->_cmd_list["MODE"] = MODE;
+	this->_cmd_list["JOIN"] = JOIN;
 	this->_cmd_list["WHOIS"] = WHOIS;
 	this->_cmd_list["PING"] = PING;
 
@@ -63,9 +64,15 @@ void	User::set_status(std::string status)
 	this->_status = status;
 }
 
+<<<<<<< HEAD
 void	User::set_mode(const std::string& mode, bool b)
 {
 	modes[mode] = b;
+=======
+void	User::add_channel(std::string channel)
+{
+	this->_chanels.push_back(channel);
+>>>>>>> alice
 }
 
 void User::to_command(std::string msg)

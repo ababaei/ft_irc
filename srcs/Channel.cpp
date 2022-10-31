@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 16:39:02 by ali               #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/10/31 11:08:33 by ali              ###   ########.fr       */
+=======
+/*   Updated: 2022/10/31 16:39:06 by amontaut         ###   ########.fr       */
+>>>>>>> alice
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,7 +233,11 @@ void	Channel::setTopic(const std::string& aTopic)
 	topic = aTopic;
 }
 
+<<<<<<< HEAD
 void	Channel::setKey(const std::string& aKey)
+=======
+void	Channel::setKey(std::string aKey)
+>>>>>>> alice
 {
 	key = aKey;
 }
