@@ -88,18 +88,6 @@ void Server::add_socket_to_list(int filed, short ev, short rev)
 	this->_pfds.push_back(tmp);
 }
 
-void Server::add_channel(std::string new_channel)
-{
-	this->_channels_list.push_back(new_channel);
-}
-
-void Server::add_nick(std::string new_nick)
-{
-	this->_nick_list.push_back(new_nick);
-}
-
-// p
-
 /*	poll() function uses array and i wanted to work with container
 	so i made two function to go to one from another.
 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv*/

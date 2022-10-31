@@ -72,23 +72,24 @@ void JOIN(User *user)
 
     
 
-    std::vector<std::string> channel_list = user->get_server()->get_channels_list();
-    if (std::find(channel_list.begin(), channel_list.end(), chan1) == channel_list.end())
-    {
-        // creation du chan
-       user->get_server()->add_channel(chan1); // ?? 
-       Channel *chan = new Channel(chan1);
-       if (pwdchan1 != "")
-         chan->setKey(pwdchan1);
-        user->add_channel(chan1);
-        // add operator mode for this chan for this user
-    }
-    else 
-    {
-        //check mdp s'il y a 
+    // std::vector<std::string> channel_list = user->get_server()->get_channels_list();
+    // if (std::find(channel_list.begin(), channel_list.end(), chan1) == channel_list.end())
+    // {
+    //     // creation du chan
+    //    Channel *chan = new Channel(chan1);
+    //    if (pwdchan1 != "")
+    //      chan->setKey(pwdchan1);
+    //     // add operator mode for this chan for this user
+    // }
+    // else 
+    // {
+    //     //check mdp s'il y a 
         
-        //Joindre le chan
-    }
+    //     //Joindre le chan
+    // }
+
+
+
     // if (user->param_list[0] == "0")
     // {
     //     // Part(all_channels);
@@ -117,8 +118,8 @@ void JOIN(User *user)
     //     }
     // }
 
-    std::vector<std::string> channel_list2 = user->get_server()->get_channels_list();
-    std::cout << "Now list chan is" << std::endl;
-    for (std::vector<std::string>::iterator it = channel_list2.begin(); it != channel_list2.end(); ++it)
-        std::cout << " " << *it;
+    // std::vector<std::string> channel_list2 = user->get_server()->get_channels_list();
+    // std::cout << "Now list chan is" << std::endl;
+    // for (std::vector<std::string>::iterator it = channel_list2.begin(); it != channel_list2.end(); ++it)
+    //     std::cout << " " << *it;
 }

@@ -48,15 +48,10 @@ public:
 	void poll_loop(void);
 	void polling(void);
 
-		void			arr_to_list(void);
-		void			list_to_arr(void);
-		void			poll_loop(void);
-		void			polling(void);
-		
-		void			to_send(const std::string msg, std::vector<int> sockfds);
-		void			to_send(const std::string msg, int sockfd);
+	void			to_send(const std::string msg, std::vector<int> sockfds);
+	void			to_send(const std::string msg, int sockfd);
 
-		void			check_activity(void);
+	void			check_activity(void);
 		bool			isHere(const std::string& nick); //checks if a User is present in the server
 		/* accessors */
 		std::string		get_password(void);
@@ -64,14 +59,6 @@ public:
 		Channel*	get_channel(const std::string& name);
 
 private:
-	std::string _message;
-	std::string _password;
-	std::string _port;
-	std::string _address;
-	std::vector<std::string> _channels_list; //doublon avec arthur ?
-
-	private:
-
 		std::string			_message;
 		std::string			_password;
 		std::string			_port;
@@ -85,11 +72,6 @@ private:
 
 		char				_buf[510];
 		int					_listener;
-
-	std::map<int, User *> _User_list;
-	std::vector<std::string> _nick_list;
-	char _buf[510];
-	int _listener;
 };
 
 std::ostream &operator<<(std::ostream &o, Server const &i);
