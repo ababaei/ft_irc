@@ -39,6 +39,11 @@ std::string User::get_status() { return (this->_status); }
 time_t	User::get_activity(void) { return(this->_last_activity); }
 Server *User::get_server() { return (this->_server); }
 
+bool	User::get_mode(const std::string& mode)
+{
+	return modes[mode];
+}
+
 void	User::set_nick(std::string nick)
 {
 	this->_nick = nick;

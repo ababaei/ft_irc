@@ -1,29 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.hpp                                          :+:      :+:    :+:   */
+/*   getMsg.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/31 10:44:05 by ali               #+#    #+#             */
-/*   Updated: 2022/10/31 18:37:52 by ali              ###   ########.fr       */
+/*   Created: 2022/10/31 18:17:03 by ali               #+#    #+#             */
+/*   Updated: 2022/10/31 18:17:47 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_HPP
-# define UTILS_HPP
+#include "../../inc/utils.hpp"
 
-#include <stdarg.h>
-#include <iostream>
-#include <vector>
-#include <string>
-#include "User.hpp"
-
-class User;
-
-const std::vector<std::string>	getArgs(int size, ...);
-bool	isChanName(const std::string& param);
 const std::string    getMsg(User* user, const std::string& command,
-        std::vector<std::string>& params);
+        std::vector<std::string>& params)
+{
+    std::string msg = ":" + user->get_nick() + "!" + user->get_username() + "@"
+        + user->get_hostname() + " " + command + " ";
+    for (std::vector<std::string>::iterator it = params.begin(); it != params.end();
+            it++)
+	{
+        msg += *it;
+        if (it != params.end() - 1)
+            msg += " ";
+	}
 
-#endif
+    return msg;
+}
+

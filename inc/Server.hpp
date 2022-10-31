@@ -57,6 +57,7 @@ public:
 		std::string		get_password(void);
 		std::map<int, User *>		get_user_list(void);
 		Channel*	get_channel(const std::string& name);
+		User*		get_user(const std::string& nick);
 
 private:
 		std::string			_message;

@@ -15,6 +15,7 @@ void MODE(User *user);
 void JOIN(User *user);
 void WHOIS(User *user);
 void PING(User *user);
+void PRIVMSG(User* user);
 
 
 
