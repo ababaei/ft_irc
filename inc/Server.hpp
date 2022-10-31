@@ -36,8 +36,6 @@ public:
 	void set_listener_sock(void); // set le socket listener
 	void add_socket_to_list(int filed, short ev, short rev);
 	void add_channel(std::string new_channel); //doublon avec arthur ?
-	void add_nick(std::string new_nick);
-	void remove_nick(std::string old_nick);
 	void handle_pfds(void);
 	void handle_new_connection(void);
 	void close_connection(int sender_fd, int nbytes);
@@ -56,6 +54,7 @@ public:
 		/* accessors */
 		std::string		get_password(void);
 		std::map<int, User *>		get_user_list(void);
+		std::map<std::string, Channel*>		get_channel_list(void);
 		Channel*	get_channel(const std::string& name);
 
 private:
@@ -68,7 +67,7 @@ private:
 		struct pollfd		*_arr_pfds;
 
 		std::map<int, User *> _User_list;
-		std::map<std::string, Channel*>	channels;
+		std::map<std::string, Channel*>	_channels;
 
 		char				_buf[510];
 		int					_listener;

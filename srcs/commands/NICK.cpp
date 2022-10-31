@@ -72,8 +72,6 @@ void NICK(User *user)
     
     user->set_nick(nickname);
 
-    user->set_nick(nickname);
-
     // 437    ERR_UNAVAILRESOURCE ?
     // 433    ERR_NICKNAMEINUSE : user is not a valid type
     // 484    ERR_RESTRICTED ?? : Sent by the server to a user upon connection to indicate

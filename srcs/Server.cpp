@@ -247,10 +247,11 @@ void Server::handle_raw(int sender_fd, int nbytes)
 
 std::string Server::get_password() { return (this->_password); }
 std::map<int, User *> Server::get_user_list() { return (this->_User_list); }
+std::map<std::string, Channel*> Server::get_channel_list() { return (this->_channels); }
 Channel*	Server::get_channel(const std::string& name)
 {
-	std::map<std::string, Channel*>::iterator it = channels.find(name);
-	if (it != channels.end())
+	std::map<std::string, Channel*>::iterator it = _channels.find(name);
+	if (it != _channels.end())
 		return it->second;
 	return NULL;
 }
