@@ -6,7 +6,7 @@
 /*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 15:06:42 by ali               #+#    #+#             */
-/*   Updated: 2022/10/31 10:48:02 by ali              ###   ########.fr       */
+/*   Updated: 2022/10/31 11:33:40 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 void	setChanMode(User* user, Channel* channel, const std::vector<std::string>& params)
 {
-	char sign = '+';
+	std::string sign = "+";
 	bool b = true;
 		
 	for (int i = 1; i < params[1].length(); i++)
@@ -27,14 +27,14 @@ void	setChanMode(User* user, Channel* channel, const std::vector<std::string>& p
 							user->get_nick()), user->get_fd());
 			if (params[1][i] == 'I')
 			{
-				if (sign == '+')
+				if (sign == "+")
 					channel->inviteUser(params[2]);
 				else
 					channel->uninviteUser(params[2]);
 			}
 			if (params[1][i] == 'b')
 			{
-				if (sign == '+')
+				if (sign == "+")
 					channel->banUser(params[2]);
 				else
 					channel->unbanUser(params[2]);
@@ -78,7 +78,7 @@ void	setChanMode(User* user, Channel* channel, const std::vector<std::string>& p
 		}
 		else if (params[1][i] == 'l')
 		{
-			if (sign == '+')
+			if (sign == "+")
 			{
 				if (params.size() < 3)
 					return user->get_server()->to_send(ERR_NEEDMOREPARAMS(getArgs(1, "MODE"),
@@ -103,7 +103,7 @@ void	setChanMode(User* user, Channel* channel, const std::vector<std::string>& p
 		}
 		else if (params[1][i] == 'k')
 		{
-			if (sign == '+')
+			if (sign == "+")
 			{
 				if (params.size() < 3)
 					return user->get_server()->to_send(ERR_NEEDMOREPARAMS(getArgs(1, "MODE"),
@@ -124,11 +124,17 @@ void	setChanMode(User* user, Channel* channel, const std::vector<std::string>& p
 		}
 		else if (params[1][i] == '+' || params[1][i] == '-')
 		{
-			sign = params[1][i];
-			if (sign == '+')
+			char charsign = params[1][i];
+			if (charsign == '+')
+			{
+				sign = "+";
 				b = true;
+			}
 			else
+			{
+				sign = "-";
 				b = false;
+			}
 		}
 		else
 			user->get_server()->to_send(ERR_UNKNOWNMODE(getArgs(2, "" + params[1][i], params[0]),
@@ -153,7 +159,7 @@ void	chanMode(User* user, std::vector<std::string>& params)
 
 void	userMode(User* user, std::vector<std::string>& params)
 {
-	char sign = true;
+	std::string sign = "+";
 	bool b = true;
 
 	if (user->get_server()->isHere(params[0]) == false)
@@ -204,11 +210,17 @@ void	userMode(User* user, std::vector<std::string>& params)
 		}
 		else if (params[1][i] == '+' || params[1][i] == '-')
 		{
-			sign = params[1][i];
-			if (sign == '+')
+			char charsign = params[1][i];
+			if (charsign == '+')
+			{
+				sign = "+";
 				b = true;
+			}
 			else
+			{
+				sign = "-";
 				b = false;
+			}
 		}
 		else
 			user->get_server()->to_send(ERR_UMODEUNKNOWNFLAG(getArgs(0),
