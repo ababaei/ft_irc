@@ -18,13 +18,13 @@ User::User(int fd, Server *server) : _fd(fd), _server(server)
 	this->_cmd_list["WHOIS"] = WHOIS;
 	this->_cmd_list["PING"] = PING;
 
-	mode["away"] = false;
-	mode["invisible"] = false;
-	mode["wallops"] = false;
-	mode["restricted"] = false;
-	mode["operator"] = false;
-	mode["local_op"] = false;
-	mode["server_notice"] = false;
+	modes["away"] = false;
+	modes["invisible"] = false;
+	modes["wallops"] = false;
+	modes["restricted"] = false;
+	modes["operator"] = false;
+	modes["local_op"] = false;
+	modes["server_notice"] = false;
 }
 
 User::~User() {}

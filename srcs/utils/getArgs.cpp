@@ -6,13 +6,11 @@
 /*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 15:06:39 by ali               #+#    #+#             */
-/*   Updated: 2022/10/28 15:48:02 by ali              ###   ########.fr       */
+/*   Updated: 2022/10/31 10:45:45 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdarg.h>
-#include <iostream>
-#include <vector>
+#include "../../inc/utils.hpp"
 
 const std::vector<std::string>	getArgs(int size, ...)
 {

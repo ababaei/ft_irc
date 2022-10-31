@@ -1,21 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   checkParam.cpp                                     :+:      :+:    :+:   */
+/*   utils.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/31 10:45:52 by ali               #+#    #+#             */
-/*   Updated: 2022/10/31 10:46:03 by ali              ###   ########.fr       */
+/*   Created: 2022/10/31 10:44:05 by ali               #+#    #+#             */
+/*   Updated: 2022/10/31 10:45:16 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/utils.hpp"
+#ifndef UTILS_HPP
+# define UTILS_HPP
 
-bool	isChanName(const std::string& param)
-{
-	const char *str = param.c_str();
-	if (str[0] == '&' || str[0] == '#' || str[0] == '+' || str[0] == '!')
-		return true;
-	return false;
-}
+#include <stdarg.h>
+#include <iostream>
+#include <vector>
+#include <string>
+
+const std::vector<std::string>	getArgs(int size, ...);
+bool	isChanName(const std::string& param);
+
+#endif
