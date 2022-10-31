@@ -1,7 +1,7 @@
 #include "../../inc/command.hpp"
 #include "../../inc/Server.hpp"
 
-void JOIN(User *User)
+void JOIN(User *user)
 {
     std::cout << "Hello JOIN" << std::endl;
     // check debut is # ou & quand cest pas une key
@@ -20,26 +20,26 @@ void JOIN(User *User)
     //ERR_UNAVAILRESOURCE ? 
     // JOIN 0 = leave all channel grace via PART
     int j = 0;
-    while (j <= User->param_list.size())
+    while (j <= user->param_list.size())
     {
-        std::cout << "params JOINS are: " << User->param_list[j] << std::endl;
+        std::cout << "params JOINS are: " << user->param_list[j] << std::endl;
         j++;
     }
 
-    if (User->param_list[0] == "0")
+    if (user->param_list[0] == "0")
     {
         // Part(all_channels);
     }
     else
     {
         int i = 0;
-        while (i < User->param_list.size())
+        while (i < user->param_list.size())
         {
-            User->param_list[i].erase(0, 1);
-            std::vector<std::string> channel_list = User->get_server()->get_channels_list();
-            if (std::find(channel_list.begin(), channel_list.end(), User->param_list[i]) == channel_list.end())
+            user->param_list[i].erase(0, 1);
+            std::vector<std::string> channel_list = user->get_server()->get_channels_list();
+            if (std::find(channel_list.begin(), channel_list.end(), user->param_list[i]) == channel_list.end())
             {
-                User->get_server()->add_channel(User->param_list[i]);
+                user->get_server()->add_channel(user->param_list[i]);
                 // add operator mode for this chan for this user
             }
             else
@@ -52,7 +52,7 @@ void JOIN(User *User)
             i++;
         }
     }
-    std::vector<std::string> channel_list = User->get_server()->get_channels_list();
+    std::vector<std::string> channel_list = user->get_server()->get_channels_list();
 
     std::cout << "Now list chan is" << std::endl;
     for (std::vector<std::string>::iterator it = channel_list.begin(); it != channel_list.end(); ++it)
