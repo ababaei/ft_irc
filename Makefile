@@ -13,6 +13,9 @@ SRCS		= srcs/main.cpp \
 				srcs/commands/PING.cpp \
 				srcs/replies/getReply.cpp \
 				srcs/replies/sendReply.cpp \
+				srcs/utils/checkParam.cpp \
+				srcs/utils/getArgs.cpp \
+				srcs/Channel.cpp
 
 CC			= c++
 

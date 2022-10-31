@@ -15,11 +15,13 @@
 # include <ctime>
 # include <fcntl.h>
 # include "User.hpp"
+# include "Channel.hpp"
 
 # define PORT "6667"
 # define DEBUG
 
 class User;
+class Channel;
 
 class Server
 {
@@ -48,9 +50,11 @@ class Server
 		void			to_send(const std::string msg, int sockfd);
 
 		void			check_activity(void);
+		bool			isHere(const std::string& nick); //checks if a User is present in the server
 		/* accessors */
 		std::string		get_password(void);
 		std::map<int, User *>		get_user_list(void);
+		Channel*	get_channel(const std::string& name);
 
 
 	private:
@@ -64,6 +68,7 @@ class Server
 		struct pollfd		*_arr_pfds;
 
 		std::map<int, User *> _User_list;
+		std::map<std::string, Channel*>	channels;
 
 		char				_buf[510];
 		int					_listener;

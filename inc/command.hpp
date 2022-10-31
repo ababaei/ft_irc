@@ -5,6 +5,8 @@
 # include <iostream>
 # include "User.hpp"
 # include "Server.hpp"
+# include "replies.hpp"
+# include "utils.hpp"
 
 void PASS(User *user);
 void NICK(User *user);

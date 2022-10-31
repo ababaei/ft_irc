@@ -1,26 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   getArgs.cpp                                        :+:      :+:    :+:   */
+/*   utils.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/28 15:06:39 by ali               #+#    #+#             */
-/*   Updated: 2022/10/31 11:29:47 by ali              ###   ########.fr       */
+/*   Created: 2022/10/31 10:44:05 by ali               #+#    #+#             */
+/*   Updated: 2022/10/31 10:45:16 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/utils.hpp"
+#ifndef UTILS_HPP
+# define UTILS_HPP
 
-const std::vector<std::string>	getArgs(int size, ...)
-{
-	std::vector<std::string> args;
+#include <stdarg.h>
+#include <iostream>
+#include <vector>
+#include <string>
 
-	va_list	ap;
-	va_start(ap, size);
-	for (int i = 0; i < size; i++)
-		args.push_back(va_arg(ap, std::string));
-	va_end(ap);
+const std::vector<std::string>	getArgs(int size, ...);
+bool	isChanName(const std::string& param);
 
-	return args;
-}
+#endif

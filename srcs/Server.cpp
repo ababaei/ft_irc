@@ -137,6 +137,17 @@ void Server::check_activity(void)
 	}
 }
 
+bool	Server::isHere(const std::string& nick)
+{
+	for (std::map<int, User*>::iterator it = _User_list.begin(); it != _User_list.end();
+			it++)
+	{
+		if (it->second->get_nick() == nick)
+			return true;
+	}
+	return false;
+}
+
 /*  This function will check the results of poll() by doing a bitwise AND on the returned event.
 	If its the listener that has something to say, that means we have a new connection.
 	Otherwise, we have data to read with recv().
@@ -236,5 +247,12 @@ void Server::handle_raw(int sender_fd, int nbytes)
 
 std::string Server::get_password() { return (this->_password); }
 std::map<int, User *> Server::get_user_list() { return (this->_User_list); }
+Channel*	Server::get_channel(const std::string& name)
+{
+	std::map<std::string, Channel*>::iterator it = channels.find(name);
+	if (it != channels.end())
+		return it->second;
+	return NULL;
+}
 
 /* ************************************************************************** */

@@ -17,6 +17,14 @@ User::User(int fd, Server *server) : _fd(fd), _server(server)
 	this->_cmd_list["MODE"] = MODE;
 	this->_cmd_list["WHOIS"] = WHOIS;
 	this->_cmd_list["PING"] = PING;
+
+	modes["away"] = false;
+	modes["invisible"] = false;
+	modes["wallops"] = false;
+	modes["restricted"] = false;
+	modes["operator"] = false;
+	modes["local_op"] = false;
+	modes["server_notice"] = false;
 }
 
 User::~User() {}
@@ -53,6 +61,11 @@ void	User::set_real_name(std::string real_name)
 void	User::set_status(std::string status)
 {
 	this->_status = status;
+}
+
+void	User::set_mode(const std::string& mode, bool b)
+{
+	modes[mode] = b;
 }
 
 void User::to_command(std::string msg)
