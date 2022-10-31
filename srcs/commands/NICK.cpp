@@ -2,7 +2,7 @@
 #include "../../inc/colors.hpp"
 #include "../../inc/User.hpp"
 #include "../../inc/Server.hpp"
-#include "../../inc/replies.hpp"
+#include "../../inc/Replies.hpp"
 #include <iostream>
 #include <map>
 #include <string>

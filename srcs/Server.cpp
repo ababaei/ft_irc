@@ -98,11 +98,7 @@ void Server::add_nick(std::string new_nick)
 	this->_nick_list.push_back(new_nick);
 }
 
-void Server::remove_nick(std::string old_nick)
-{
-	this->_nick_list.erase(std::remove(this->_nick_list.begin(), this->_nick_list.end(), old_nick), this->_nick_list.end());
-	// this->_nick_list.erase(old_nick);
-}
+// p
 
 /*	poll() function uses array and i wanted to work with container
 	so i made two function to go to one from another.

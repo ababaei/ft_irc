@@ -1,5 +1,8 @@
 #include "../../inc/command.hpp"
 #include "../../inc/Server.hpp"
+#include "../../inc/colors.hpp"
+#include <iostream>
+ #include <algorithm>
 
 void JOIN(User *user)
 {
@@ -13,7 +16,6 @@ void JOIN(User *user)
 
     //     +pareil avec &instead of #
 
-    std::cout << "Hello JOIN" << std::endl;
 
     // check debut is # ou & quand cest pas une key
     // check needmore param s'il faut une key (ERR_NEEDMOREPARAMS)
@@ -36,9 +38,38 @@ void JOIN(User *user)
         std::cout << "params JOINS are: " << user->param_list[j] << std::endl;
         j++;
     }
+
     int i = 0;
+    std::string chan1;
+    std::string chan2;
+    std::string pwdchan1;
+    std::string pwdchan2;
+
+    //nom chan 1
+    if (user->param_list[0][0] != '#' && user->param_list[0][0] != '&')
+    {
+        std::cout << RED "Wrong syntaxe" E << std::endl;
+    }
+    std::string delimiter = ",";//suivi d'espace ou pas ?
     if (user->param_list[0][0] == '#' || user->param_list[0][0] == '&')
-        user->param_list[0].erase(0, 1);
+    {
+        chan1 = user->param_list[0].substr(0, user->param_list[0].find(delimiter)).erase(0,1);
+        chan2 = user->param_list[0].substr(user->param_list[0].find(delimiter) + 1, user->param_list[0].size()).erase(0,1);
+    }
+
+    if (user->param_list[1][0] != '#' && user->param_list[1][0] != '&')
+    {
+        pwdchan1 = user->param_list[0].substr(0, user->param_list[0].find(delimiter));
+        pwdchan2 = user->param_list[0].substr(user->param_list[0].find(delimiter) + 1, user->param_list[0].size());
+    }
+
+    std::cout << "NOM CHAN 1: " << chan1 << std::endl;
+    std::cout << "NOM CHAN 2: " << chan2 << std::endl;
+    std::cout << "NOM PWDCHAN 1: " << pwdchan1 << std::endl;
+    std::cout << "NOM PWDCHAN 2: " << pwdchan2 << std::endl;
+
+    
+
     std::vector<std::string> channel_list = user->get_server()->get_channels_list();
     if (std::find(channel_list.begin(), channel_list.end(), user->param_list[i]) == channel_list.end())
     {
@@ -75,8 +106,8 @@ void JOIN(User *user)
     //     }
     // }
 
-    std::vector<std::string> channel_list = user->get_server()->get_channels_list();
+    std::vector<std::string> channel_list2 = user->get_server()->get_channels_list();
     std::cout << "Now list chan is" << std::endl;
-    for (std::vector<std::string>::iterator it = channel_list.begin(); it != channel_list.end(); ++it)
+    for (std::vector<std::string>::iterator it = channel_list2.begin(); it != channel_list2.end(); ++it)
         std::cout << " " << *it;
 }
