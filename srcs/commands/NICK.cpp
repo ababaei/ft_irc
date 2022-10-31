@@ -54,7 +54,7 @@ void NICK(User *user)
     std::vector<std::string> nick_list = user->get_server()->get_nick_list();
     if (user->param_list[0][0] == ':') // tbc
         user->param_list[0].erase(0, 1);
-    user->param_list[0] = user->param_list[0].substr(0, 8);
+    user->param_list[0] = user->param_list[0].substr(0, 9);
     if (user->param_list[0] == "")                                       // quand on passe NICK dans irssi sans param ca fait rien a part redire le nick
         std::cout << RED "Error 431 ERR_NONICKNAMEGIVEN" E << std::endl; // ajouter reply
     if (check_forbiden_char(user->param_list[0]) == -1)
@@ -70,15 +70,9 @@ void NICK(User *user)
     else
     {
         user->set_nick(user->param_list[0]);
-        // attention faire aussi si changement de nick
         user->get_server()->add_nick(user->param_list[0]);
         user->get_server()->remove_nick(old_nick);
     }
-
-    std::cout << BLUE "LIST nicks: " << E << std::endl;
-    for (std::vector<std::string>::iterator it = nick_list.begin(); it != nick_list.end(); ++it)
-        std::cout << ' ' << *it;
-    std::cout << std::endl;
 
     // 437    ERR_UNAVAILRESOURCE ?
     // 484    ERR_RESTRICTED ?? : Sent by the server to a user upon connection to indicate
