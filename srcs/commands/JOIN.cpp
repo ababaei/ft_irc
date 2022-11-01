@@ -57,7 +57,7 @@ void JOIN(User *user)
     // OK Channel names should only include lower and uppercase letters, numbers and the following punctuation _ - = @ , . ; ERR_NOSUCHCHANNEL
     // OK Cannot join chan is banned (ERR_BANNEDFROMCHAN)
     // OK ERR_CHANNELISFULL
-    // joined too many chans : ERR_TOOMANYCHANNELS
+    // OK joined too many chans : ERR_TOOMANYCHANNELS
     // ERR_TOOMANYTARGETS : Returned to a client which is attempting to JOIN a safe
     //        channel using the shortname when there are more than one
     //        such channel. --> Necessaire ?
@@ -129,9 +129,9 @@ void JOIN(User *user)
                 std::cout << RED "Error ERR_BANNEDFROMCHAN" E << std::endl; // ajouter reply
             if (it->second->getUserList().size() >= it->second->getUserLimit())
                 std::cout << RED "Error 432 ERR_CHANNELISFULL" E << std::endl; // ajouter reply
-            // if ()
-            // ERR_TOOMANYCHANNELS
-
+            if (user->getChannelList().size() >= user->getChanelLimit())
+                std::cout << RED "Error ERR_TOOMANYCHANNELS" E << std::endl; // ajouter reply
+            
             std::cout << "Joined the chan" << std::endl;
             //             // RPL_TOPIC
             //             // RPL_NAMREPLY (353)

@@ -26,6 +26,7 @@ User::User(int fd, Server *server) : _fd(fd), _server(server)
 	modes["operator"] = false;
 	modes["local_op"] = false;
 	modes["server_notice"] = false;
+	_chanelsLimit = 10;
 }
 
 User::~User() {}
@@ -38,12 +39,12 @@ std::string User::get_real_name() { return (this->_real_name); }
 std::string User::get_status() { return (this->_status); }
 time_t User::get_activity(void) { return (this->_last_activity); }
 Server *User::get_server() { return (this->_server); }
-
-const std::vector<std::string>	User::getChannelList() const
+int User::getChanelLimit() const { return this->_chanelsLimit; }
+const std::vector<std::string> User::getChannelList() const
 {
 	std::vector<std::string> channelList;
 	for (std::vector<std::string>::const_iterator it = _chanels.begin();
-			it != _chanels.end(); it++)
+		 it != _chanels.end(); it++)
 		channelList.push_back(*it);
 	return channelList;
 }
@@ -76,6 +77,11 @@ void User::set_status(std::string status)
 void User::set_mode(const std::string &mode, bool b)
 {
 	modes[mode] = b;
+}
+
+void	User::setChanelLimit(int aChanelLimit)
+{
+	_chanelsLimit = aChanelLimit;
 }
 
 void User::add_channel(std::string new_channel)

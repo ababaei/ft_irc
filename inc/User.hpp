@@ -23,6 +23,8 @@ public:
         std::string get_status(void);
         time_t get_activity(void);
         Server *get_server(void);
+        int getChanelLimit() const;
+
         const std::vector<std::string> getChannelList() const;
 
         void set_nick(std::string nick);
@@ -31,6 +33,7 @@ public:
         void set_real_name(std::string real_name);
         void set_status(std::string status);
         void set_mode(const std::string &mode, bool b);
+        void setChanelLimit(int aUserLimit);
         void add_channel(std::string new_channel);
 
         void to_command(std::string msg);
@@ -49,6 +52,7 @@ private: // variables
         std::map<std::string, bool> modes; // ex: modes["away"] = true indique que le user est away
         Server *_server;
         std::vector<std::string> _chanels;
+        int _chanelsLimit;
 
         time_t _last_activity;
 
