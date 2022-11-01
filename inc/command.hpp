@@ -18,6 +18,4 @@ void PING(User *user);
 void PRIVMSG(User* user);
 
 
-
-
 #endif

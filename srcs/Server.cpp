@@ -7,6 +7,7 @@
 Server::Server(std::string given_port, std::string pword) : _port(given_port), _password(pword)
 {
 	this->_address = "127.0.0.1";
+	this->_server_name = "OurSuperServer";
 }
 
 Server::Server(const Server &src)
@@ -211,26 +212,12 @@ void Server::close_connection(int sender_fd, int nbytes)
 
 void Server::handle_raw(int sender_fd, int nbytes)
 {
-	/* BROADCAST FUNCTION TO BE PUT ELSEWHERE
-		std::list<pollfd>::iterator it;
-		std::list<pollfd>::iterator itend;
-
-		itend = this->pfds.end();
-		for (it = this->pfds.begin(); it != itend; it++)
-		{
-			if (it->fd != this->listener && it->fd != sender_fd)
-			{
-				if (send(it->fd, this->buf, nbytes, 0) == -1)
-					std::cerr << "send back\n";
-			}
-		}
-	*/
 	// vvvvvvvvvvvvvvvvvvvvvvv LOOP NEED TO BE CHECKED FOR SOME LOSSES CASES vvvvvvvvvvvvvvvvvvvvvvv
 	std::string tmp(this->_buf);
 	std::size_t pos;
 
 	pos = tmp.find("\r\n");
-	// std::cout << "FOUND!!__" << pos << "\n";
+	//std::cout << "FOUND!!__" << pos << "\n";
 	while (((pos = tmp.find("\r\n")) != std::string::npos))
 	{
 		this->_User_list[sender_fd]->to_command(tmp.substr(0, pos));
@@ -244,13 +231,15 @@ void Server::handle_raw(int sender_fd, int nbytes)
 /*
 ** --------------------------------- ACCESSOR ---------------------------------
 */
-std::string Server::get_address(void) { return (this->_address); }
+std::string				Server::get_address(void) { return (this->_address); }
 
-std::string Server::get_password() { return (this->_password); }
+std::string				Server::get_server_name(void) { return (this->_server_name); }
 
-std::map<int, User *> Server::get_user_list() { return (this->_User_list); }
+std::string				Server::get_password() { return (this->_password); }
 
-Channel*	Server::get_channel(const std::string& name)
+std::map<int, User *>	Server::get_user_list() { return (this->_User_list); }
+
+Channel*				Server::get_channel(const std::string& name)
 {
 	std::map<std::string, Channel*>::iterator it = channels.find(name);
 	if (it != channels.end())
@@ -258,7 +247,7 @@ Channel*	Server::get_channel(const std::string& name)
 	return NULL;
 }
 
-User*	Server::get_user(const std::string& nick)
+User*					Server::get_user(const std::string& nick)
 {
 	for (std::map<int, User*>::iterator it = _User_list.begin(); it != _User_list.end();
 			it++)

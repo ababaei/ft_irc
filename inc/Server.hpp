@@ -52,19 +52,23 @@ public:
 	void			to_send(const std::string msg, int sockfd);
 
 	void			check_activity(void);
-		bool			isHere(const std::string& nick); //checks if a User is present in the server
-		/* accessors */
-		std::string		get_address(void);
-		std::string		get_password(void);
-		std::map<int, User *>		get_user_list(void);
-		Channel*	get_channel(const std::string& name);
-		User*		get_user(const std::string& nick);
+	bool			isHere(const std::string& nick); //checks if a User is present in the server
+	
+	/* accessors */
+	std::string					get_address(void);
+	std::string					get_password(void);
+	std::string					get_server_name(void);
+	std::map<int, User *>		get_user_list(void);
+	Channel*					get_channel(const std::string& name);
+	User*						get_user(const std::string& nick);
+
 
 private:
 		std::string			_message;
 		std::string			_password;
 		std::string			_port;
 		std::string			_address;
+		std::string			_server_name;
 
 		std::list<pollfd>	_pfds;
 		struct pollfd		*_arr_pfds;
