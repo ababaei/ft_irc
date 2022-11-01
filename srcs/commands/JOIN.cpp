@@ -131,6 +131,8 @@ void JOIN(User *user)
                 std::cout << RED "Error 432 ERR_CHANNELISFULL" E << std::endl; // ajouter reply
             if (user->getChannelList().size() >= user->getChanelLimit())
                 std::cout << RED "Error ERR_TOOMANYCHANNELS" E << std::endl; // ajouter reply
+            if (it->second->isInvited(user->get_nick()) == false && it->second->isInviteOnly() == 1)
+                std::cout << RED "Error ERR_INVITEONLYCHAN" E << std::endl; // ajouter reply
             
             std::cout << "Joined the chan" << std::endl;
             //             // RPL_TOPIC
