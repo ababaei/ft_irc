@@ -6,7 +6,7 @@
 /*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 16:39:02 by ali               #+#    #+#             */
-/*   Updated: 2022/11/01 15:04:33 by amontaut         ###   ########.fr       */
+/*   Updated: 2022/11/01 15:11:14 by amontaut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ bool Channel::hasOneOp()
 {
 	int count = 0;
 
-	for (std::map<std::string, std::map<std::string, bool>>::iterator it = userModes.begin();
+	for (std::map<std::string, std::map<std::string, bool> >::iterator it = userModes.begin();
 		 it != userModes.end(); it++)
 	{
 		if (it->second["operator"] == true)
