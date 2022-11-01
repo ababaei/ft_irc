@@ -1,8 +1,11 @@
 NAME		= ft_irc
+
 OBJSDIR		= objs
 OBJSFILES = $(SRCSFILES:.cpp=.o)
-OBJS = $(addprefix objs/, $(OBJSFILES))
+OBJS = $(addprefix $(OBJSDIR)/, $(OBJSFILES))
+
 INCLUDES	= .
+
 SRCSDIR = srcs
 SRCSFILES	= 	main.cpp \
 			  	Server.cpp \
@@ -23,11 +26,10 @@ SRCSFILES	= 	main.cpp \
 				utils/getArgs.cpp \
 				utils/getMsg.cpp \
 				Channel.cpp
-SRCS = $(addprefix srcs/,$(SRCSFILES))
+SRCS = $(addprefix $(SRCSDIR)/,$(SRCSFILES))
 
 $(OBJSDIR)/%.o:		$(SRCSDIR)/%.cpp
 			$(CC) $(CFLAGS) -c $< -o $@
-
 
 CC			= c++
 
