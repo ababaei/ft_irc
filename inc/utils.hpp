@@ -6,18 +6,15 @@
 /*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 10:44:05 by ali               #+#    #+#             */
-/*   Updated: 2022/10/31 18:37:52 by ali              ###   ########.fr       */
+/*   Updated: 2022/11/01 11:06:23 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UTILS_HPP
 # define UTILS_HPP
 
-#include <stdarg.h>
-#include <iostream>
-#include <vector>
-#include <string>
-#include "User.hpp"
+# include "std.hpp"
+# include "User.hpp"
 
 class User;
 
