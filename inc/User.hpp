@@ -23,14 +23,14 @@ class User
         std::string     get_status(void);
         time_t          get_activity(void);
         Server          *get_server(void);
-		bool			get_mode(const std::string& mode);
+	bool		get_mode(const std::string& mode);
 
         void            set_nick(std::string nick);
         void            set_username(std::string username);
         void            set_hostname(std::string hostname);
         void            set_real_name(std::string real_name);
         void            set_status(std::string status);
-		void			set_mode(const std::string& mode, bool b);
+        void    	set_mode(const std::string& mode, bool b);
 
         void            to_command(std::string msg);
         void            update_activity(void);
