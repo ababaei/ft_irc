@@ -15,6 +15,8 @@ void JOIN(User *user);
 void WHOIS(User *user);
 void PING(User *user);
 void PRIVMSG(User* user);
+void KICK(User* user);
+void PART(User* user);
 
 
 #endif

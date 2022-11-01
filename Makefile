@@ -11,6 +11,8 @@ SRCS		= srcs/main.cpp \
 				srcs/commands/MODE.cpp \
 				srcs/commands/WHOIS.cpp \
 				srcs/commands/PING.cpp \
+				srcs/commands/PART.cpp \
+				srcs/commands/KICK.cpp \
 				srcs/commands/JOIN.cpp \
 				srcs/commands/PRIVMSG.cpp \
 				srcs/replies/getReply.cpp \

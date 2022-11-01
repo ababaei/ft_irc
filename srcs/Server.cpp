@@ -257,4 +257,9 @@ User*					Server::get_user(const std::string& nick)
 	}
 	return NULL;
 }
+
+void	Server::deleteChannel(const std::string& name)
+{
+	channels.erase(name);
+}
 /* ************************************************************************** */
