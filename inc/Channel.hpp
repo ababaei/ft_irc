@@ -6,7 +6,7 @@
 /*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 13:32:51 by ali               #+#    #+#             */
-/*   Updated: 2022/10/31 16:52:19 by amontaut         ###   ########.fr       */
+/*   Updated: 2022/11/01 12:01:08 by amontaut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <iostream>
 
 # include "User.hpp"
-# include <bits/stdc++.h>
+# include "bits.hpp"
 
 class User;
 
