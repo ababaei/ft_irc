@@ -1,7 +1,4 @@
 #include "../inc/Server.hpp"
-#include <cstring>
-#include <cstdlib>
-#include <cctype>
 
 #define PORT "6667"
 

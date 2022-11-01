@@ -3,9 +3,6 @@
 #include "../../inc/colors.hpp"
 #include "../../inc/Channel.hpp"
 
-#include <iostream>
- #include <algorithm>
-
 void JOIN(User *user)
 {
     // Pattern : ( <channel> *( "," <channel> ) [ <key> *( "," <key> ) ] )

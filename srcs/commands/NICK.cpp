@@ -3,9 +3,6 @@
 #include "../../inc/User.hpp"
 #include "../../inc/Server.hpp"
 #include "../../inc/replies.hpp"
-#include <iostream>
-#include <map>
-#include <string>
 
 // patern :   nickname   =  ( letter / special ) *8( letter / digit / special / "-" )
 
