@@ -104,7 +104,7 @@ void User::to_command(std::string msg)
 	{
 		words.push_back(tmp);
 	}
-	this->_command = words[0];
+	this->_command = words[0]; //SEGFAULT here when msg is "\r\n"
 	this->param_list.assign(words.begin() + 1, words.end());
 	// std::cout << "size=" << this->param_list.size() << "\n";
 	// check when no pwd --> A mettre dans une autre fct ?
@@ -125,6 +125,7 @@ void User::to_command(std::string msg)
 	std::cout << std::endl;
 
 	this->exec_cmd();
+	this->clear_cmd();
 }
 
 void User::clear_cmd(void)
