@@ -1,4 +1,6 @@
 #include "../inc/Server.hpp"
+#include <utility>      // std::pair, std::make_pair
+#include <string>       // std::string
 
 /*
 ** ------------------------------- CONSTRUCTOR/DESTRUCTOR --------------------------------
@@ -89,6 +91,10 @@ void Server::add_socket_to_list(int filed, short ev, short rev)
 	this->_pfds.push_back(tmp);
 }
 
+void Server::add_channel(std::string new_channel, Channel * chan)
+{
+	this->_channels.insert(std::pair<std::string, Channel*>(new_channel, chan));
+}
 /*	poll() function uses array and i wanted to work with container
 	so i made two function to go to one from another.
 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv*/
@@ -238,11 +244,12 @@ std::string				Server::get_server_name(void) { return (this->_server_name); }
 std::string				Server::get_password() { return (this->_password); }
 
 std::map<int, User *>	Server::get_user_list() { return (this->_User_list); }
+std::map<std::string, Channel*> Server::get_channel_list() { return (this->_channels); }
 
 Channel*				Server::get_channel(const std::string& name)
 {
-	std::map<std::string, Channel*>::iterator it = channels.find(name);
-	if (it != channels.end())
+	std::map<std::string, Channel*>::iterator it = _channels.find(name);
+	if (it != _channels.end())
 		return it->second;
 	return NULL;
 }
@@ -260,6 +267,6 @@ User*					Server::get_user(const std::string& nick)
 
 void	Server::deleteChannel(const std::string& name)
 {
-	channels.erase(name);
+	_channels.erase(name);
 }
 /* ************************************************************************** */

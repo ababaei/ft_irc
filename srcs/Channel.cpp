@@ -6,20 +6,20 @@
 /*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 16:39:02 by ali               #+#    #+#             */
-/*   Updated: 2022/10/31 17:49:14 by ali              ###   ########.fr       */
+/*   Updated: 2022/11/01 16:23:36 by amontaut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/Channel.hpp"
 
-Channel::Channel(const std::string& aName) : name(aName) 
+Channel::Channel(const std::string &aName) : name(aName)
 {
 	topic = "";
 	flags["secret"] = false;
 	flags["moderated"] = false;
 	flags["inviteOnly"] = false;
 	flags["anonymous"] = false;
-	
+
 	key = "";
 	userLimit = 500;
 }
@@ -32,65 +32,65 @@ Channel::~Channel()
 	users.clear();
 }
 
-const std::string&	Channel::getName() const
+const std::string &Channel::getName() const
 {
 	return name;
 }
 
-const std::string&	Channel::getTopic() const
+const std::string &Channel::getTopic() const
 {
 	return topic;
 }
 
-const std::string&	Channel::getKey() const
+const std::string &Channel::getKey() const
 {
 	return key;
 }
 
-int	Channel::getUserLimit() const
+int Channel::getUserLimit() const
 {
 	return userLimit;
 }
 
-const std::vector<User*>	Channel::getUserList() const
+const std::vector<User *> Channel::getUserList() const
 {
-	std::vector<User*> userList;
-	for (std::map<std::string, User*>::const_iterator it = users.begin();
-			it != users.end(); it++)
+	std::vector<User *> userList;
+	for (std::map<std::string, User *>::const_iterator it = users.begin();
+		 it != users.end(); it++)
 		userList.push_back(it->second);
 	return userList;
 }
 
-const std::vector<std::string>	Channel::getNickList() const
+const std::vector<std::string> Channel::getNickList() const
 {
 	std::vector<std::string> nickList;
-	for (std::map<std::string, User*>::const_iterator it = users.begin();
-			it != users.end(); it++)
+	for (std::map<std::string, User *>::const_iterator it = users.begin();
+		 it != users.end(); it++)
 		nickList.push_back(it->first);
 	return nickList;
 }
 
-int	Channel::getUserNum() const
+int Channel::getUserNum() const
 {
 	return users.size();
 }
 
-const std::vector<int>	Channel::getFds() const
+const std::vector<int> Channel::getFds() const
 {
 	std::vector<int> fds;
 
-	for (std::map<std::string, User*>::const_iterator it = users.begin();
-			it != users.end(); it++)
+	for (std::map<std::string, User *>::const_iterator it = users.begin();
+		 it != users.end(); it++)
 		fds.push_back(it->second->get_fd());
 	return fds;
 }
 
-const std::vector<int>	Channel::getOtherFds(const std::string& nick) const
+const std::vector<int> Channel::getOtherFds(const std::string &nick) const
 {
 	std::vector<int> fds;
 
-	for (std::map<std::string, User*>::const_iterator it = users.begin();
-			it != users.end(); it++)
+	for (std::map<std::string, User *>::const_iterator it = users.begin();
+		 it != users.end(); it++)
 	{
 		if (nick != it->second->get_nick())
 			fds.push_back(it->second->get_fd());
@@ -98,75 +98,75 @@ const std::vector<int>	Channel::getOtherFds(const std::string& nick) const
 	return fds;
 }
 
-bool	Channel::isInvited(const std::string& nick) const
+bool Channel::isInvited(const std::string &nick) const
 {
 	if (std::find(inviteList.begin(), inviteList.end(), nick) != inviteList.end())
 		return true;
 	return false;
 }
 
-bool	Channel::isBanned(const std::string& nick) const
+bool Channel::isBanned(const std::string &nick) const
 {
 	if (std::find(banList.begin(), banList.end(), nick) != banList.end())
 		return true;
 	return false;
 }
 
-bool	Channel::isChanOp(const std::string& nick)
+bool Channel::isChanOp(const std::string &nick)
 {
 	if (userModes[nick]["operator"] == true)
 		return true;
 	return false;
 }
 
-bool	Channel::isVoiced(const std::string& nick)
+bool Channel::isVoiced(const std::string &nick)
 {
 	if (userModes[nick]["voiced"] == true)
 		return true;
 	return false;
 }
 
-bool	Channel::isHere(const std::string& nick) const
+bool Channel::isHere(const std::string &nick) const
 {
-	if (users.find(nick) !=  users.end())
+	if (users.find(nick) != users.end())
 		return true;
 	return false;
 }
 
-bool	Channel::isSecret()
+bool Channel::isSecret()
 {
 	if (flags["secret"] == true)
 		return true;
 	return false;
 }
 
-bool	Channel::isModerated()
+bool Channel::isModerated()
 {
 	if (flags["moderated"] == true)
 		return true;
 	return false;
 }
 
-bool	Channel::isInviteOnly()
+bool Channel::isInviteOnly()
 {
 	if (flags["inviteOnly"] == true)
 		return true;
 	return false;
 }
 
-bool	Channel::isAnonymous()
+bool Channel::isAnonymous()
 {
 	if (flags["anonymous"] == true)
 		return true;
 	return false;
 }
 
-bool	Channel::hasOneOp()
+bool Channel::hasOneOp()
 {
-	int	count = 0;
+	int count = 0;
 
 	for (std::map<std::string, std::map<std::string, bool> >::iterator it = userModes.begin();
-			it != userModes.end(); it++)
+		 it != userModes.end(); it++)
 	{
 		if (it->second["operator"] == true)
 			count++;
@@ -190,32 +190,32 @@ void	Channel::banUser(const std::string& nick)
 	userModes.erase(nick);
 }
 
-void	Channel::inviteUser(const std::string& nick)
+void Channel::inviteUser(const std::string &nick)
 {
 	inviteList.push_back(nick);
 }
 
-void	Channel::unbanUser(const std::string& nick)
+void Channel::unbanUser(const std::string &nick)
 {
 	std::vector<std::string>::iterator it = std::find(banList.begin(), banList.end(), nick);
 	if (it != banList.end())
 		banList.erase(it);
 }
 
-void	Channel::uninviteUser(const std::string& nick)
+void Channel::uninviteUser(const std::string &nick)
 {
 	std::vector<std::string>::iterator it = std::find(inviteList.begin(), inviteList.end(), nick);
 	if (it != inviteList.end())
 		inviteList.erase(it);
 }
 
-void	Channel::kickUser(const std::string& nick)
+void Channel::kickUser(const std::string &nick)
 {
 	users.erase(nick);
 	userModes.erase(nick);
 }
 
-void	Channel::addUser(User* user)
+void Channel::addUser(User *user)
 {
 	std::string nick = user->get_nick();
 	users[nick] = user;
@@ -226,37 +226,37 @@ void	Channel::addUser(User* user)
 	userModes[nick]["voiced"] = false;
 }
 
-void	Channel::setName(const std::string& aName)
+void Channel::setName(const std::string &aName)
 {
 	name = aName;
 }
 
-void	Channel::setTopic(const std::string& aTopic)
+void Channel::setTopic(const std::string &aTopic)
 {
 	topic = aTopic;
 }
 
-void	Channel::setKey(const std::string& aKey)
+void Channel::setKey(const std::string &aKey)
 {
 	key = aKey;
 }
 
-void	Channel::setUserLimit(int aUserLimit)
+void Channel::setUserLimit(int aUserLimit)
 {
 	userLimit = aUserLimit;
 }
 
-void	Channel::setChanFlag(const std::string& flag, bool b)
+void Channel::setChanFlag(const std::string &flag, bool b)
 {
 	flags[flag] = b;
 }
 
-void	Channel::setUserOp(const std::string& nick, bool b)
+void Channel::setUserOp(const std::string &nick, bool b)
 {
 	userModes[nick]["operator"] = b;
 }
 
-void	Channel::setUserVoiced(const std::string& nick, bool b)
+void Channel::setUserVoiced(const std::string &nick, bool b)
 {
 	userModes[nick]["voiced"] = b;
 }

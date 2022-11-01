@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   getArgs.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 15:06:39 by ali               #+#    #+#             */
-/*   Updated: 2022/10/31 11:29:47 by ali              ###   ########.fr       */
+/*   Updated: 2022/11/01 12:02:22 by amontaut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ const std::vector<std::string>	getArgs(int size, ...)
 
 	va_list	ap;
 	va_start(ap, size);
-	for (int i = 0; i < size; i++)
-		args.push_back(va_arg(ap, std::string));
+	// for (int i = 0; i < size; i++)
+	// 	args.push_back(va_arg(ap, std::string));
 	va_end(ap);
 
 	return args;
