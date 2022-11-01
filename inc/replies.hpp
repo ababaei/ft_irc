@@ -6,16 +6,14 @@
 /*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 17:32:17 by ali               #+#    #+#             */
-/*   Updated: 2022/10/27 14:32:03 by ali              ###   ########.fr       */
+/*   Updated: 2022/11/01 11:05:30 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef REPLIES_HPP
 # define REPLIES_HPP
 
-# include <iostream>
-# include <vector>
-# include <sstream>
+# include "std.hpp"
 
 std::string getReplyEnd(unsigned short code, std::vector<std::string> args);
 std::string	getReply(unsigned short code, std::vector<std::string> args,

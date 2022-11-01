@@ -6,19 +6,15 @@
 /*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 13:32:51 by ali               #+#    #+#             */
-/*   Updated: 2022/10/31 17:45:25 by ali              ###   ########.fr       */
+/*   Updated: 2022/11/01 11:06:49 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CHANNEL_HPP
 # define CHANNEL_HPP
 
-# include <map>
-# include <vector>
-# include <iostream>
-
+# include "std.hpp"
 # include "User.hpp"
-# include <bits/stdc++.h>
 
 class User;
 

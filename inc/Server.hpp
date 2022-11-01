@@ -1,19 +1,7 @@
 #ifndef SERVER_HPP
 #define SERVER_HPP
 
-# include <sys/types.h>
-# include <sys/socket.h>
-# include <netdb.h>
-# include <poll.h>
-# include <iostream>
-# include <string>
-# include <cstring>
-# include <list>
-# include <new>
-# include <map>
-# include <unistd.h>
-# include <ctime>
-# include <fcntl.h>
+# include "std.hpp"
 # include "User.hpp"
 # include "Channel.hpp"
 

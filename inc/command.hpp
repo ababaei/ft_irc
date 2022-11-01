@@ -1,8 +1,7 @@
 #ifndef COMMAND_HPP
 # define COMMAND_HPP
 
-# include <string>
-# include <iostream>
+# include "std.hpp"
 # include "User.hpp"
 # include "Server.hpp"
 # include "replies.hpp"
