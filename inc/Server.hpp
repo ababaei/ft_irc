@@ -1,24 +1,24 @@
 #ifndef SERVER_HPP
 #define SERVER_HPP
 
-# include <sys/types.h>
-# include <sys/socket.h>
-# include <netdb.h>
-# include <poll.h>
-# include <iostream>
-# include <string>
-# include <cstring>
-# include <list>
-# include <new>
-# include <map>
-# include <unistd.h>
-# include <ctime>
-# include <fcntl.h>
-# include "User.hpp"
-# include "Channel.hpp"
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netdb.h>
+#include <poll.h>
+#include <iostream>
+#include <string>
+#include <cstring>
+#include <list>
+#include <new>
+#include <map>
+#include <unistd.h>
+#include <ctime>
+#include <fcntl.h>
+#include "User.hpp"
+#include "Channel.hpp"
 
-# define PORT "6667"
-# define DEBUG
+#define PORT "6667"
+#define DEBUG
 
 class User;
 class Channel;
@@ -35,7 +35,7 @@ public:
 
 	void set_listener_sock(void); // set le socket listener
 	void add_socket_to_list(int filed, short ev, short rev);
-	void add_channel(std::string new_channel); //doublon avec arthur ?
+	void add_channel(std::string new_channel, Channel *chan); // doublon avec arthur ?
 	void handle_pfds(void);
 	void handle_new_connection(void);
 	void close_connection(int sender_fd, int nbytes);
@@ -46,31 +46,31 @@ public:
 	void poll_loop(void);
 	void polling(void);
 
-	void			to_send(const std::string msg, std::vector<int> sockfds);
-	void			to_send(const std::string msg, int sockfd);
+	void to_send(const std::string msg, std::vector<int> sockfds);
+	void to_send(const std::string msg, int sockfd);
 
-	void			check_activity(void);
-		bool			isHere(const std::string& nick); //checks if a User is present in the server
-		/* accessors */
-		std::string		get_password(void);
-		std::map<int, User *>		get_user_list(void);
-		std::map<std::string, Channel*>		get_channel_list(void);
-		Channel*	get_channel(const std::string& name);
+	void check_activity(void);
+	bool isHere(const std::string &nick); // checks if a User is present in the server
+	/* accessors */
+	std::string get_password(void);
+	std::map<int, User *> get_user_list(void);
+	std::map<std::string, Channel *> get_channel_list(void);
+	Channel *get_channel(const std::string &name);
 
 private:
-		std::string			_message;
-		std::string			_password;
-		std::string			_port;
-		std::string			_address;
+	std::string _message;
+	std::string _password;
+	std::string _port;
+	std::string _address;
 
-		std::list<pollfd>	_pfds;
-		struct pollfd		*_arr_pfds;
+	std::list<pollfd> _pfds;
+	struct pollfd *_arr_pfds;
 
-		std::map<int, User *> _User_list;
-		std::map<std::string, Channel*>	_channels;
+	std::map<int, User *> _User_list;
+	std::map<std::string, Channel *> _channels;
 
-		char				_buf[510];
-		int					_listener;
+	char _buf[510];
+	int _listener;
 };
 
 std::ostream &operator<<(std::ostream &o, Server const &i);

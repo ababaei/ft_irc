@@ -36,35 +36,35 @@ std::string User::get_username() { return (this->_username); }
 std::string User::get_hostname() { return (this->_hostname); }
 std::string User::get_real_name() { return (this->_real_name); }
 std::string User::get_status() { return (this->_status); }
-time_t	User::get_activity(void) { return(this->_last_activity); }
+time_t User::get_activity(void) { return (this->_last_activity); }
 Server *User::get_server() { return (this->_server); }
 
-void	User::set_nick(std::string nick)
+void User::set_nick(std::string nick)
 {
 	this->_nick = nick;
 }
 
-void	User::set_username(std::string username)
+void User::set_username(std::string username)
 {
 	this->_username = username;
 }
 
-void	User::set_hostname(std::string hostname)
+void User::set_hostname(std::string hostname)
 {
 	this->_hostname = hostname;
 }
 
-void	User::set_real_name(std::string real_name)
+void User::set_real_name(std::string real_name)
 {
 	this->_real_name = real_name;
 }
 
-void	User::set_status(std::string status)
+void User::set_status(std::string status)
 {
 	this->_status = status;
 }
 
-void	User::set_mode(const std::string& mode, bool b)
+void User::set_mode(const std::string &mode, bool b)
 {
 	modes[mode] = b;
 }
@@ -83,12 +83,23 @@ void User::to_command(std::string msg)
 	this->_command = words[0];
 	this->param_list.assign(words.begin() + 1, words.end());
 	// std::cout << "size=" << this->param_list.size() << "\n";
-	//check when no pwd --> A mettre dans une autre fct ?
+	// check when no pwd --> A mettre dans une autre fct ?
 	if (this->_command != "CAP" && this->_command != "PASS" && this->_nick == "" && this->_status != "connected/registered")
 	{
 		std::cout << RED "FAILED TO CONNECT : no password" E << std::endl;
-		exit(0); //Quitter de maniere plus propre
+		exit(0); // Quitter de maniere plus propre
 	}
+
+	std::cout << "WORDS are:" << std::endl;
+	for (std::vector<std::string>::iterator it = words.begin(); it != words.end(); ++it)
+		std::cout << ' ' << *it;
+	std::cout << std::endl;
+
+		std::cout << "PARAM LIST 1 are:" << std::endl;
+	for (std::vector<std::string>::iterator it = this->param_list.begin(); it != this->param_list.end(); ++it)
+		std::cout << ' ' << *it;
+	std::cout << std::endl;
+
 	this->exec_cmd();
 }
 
@@ -106,7 +117,7 @@ void User::exec_cmd(void)
 	if (this->_cmd_list.find(this->_command) == this->_cmd_list.end())
 	{
 		std::cout << "> error: Command doesn't exist\n";
-		return ;
+		return;
 	}
 	else
 	{
@@ -116,7 +127,7 @@ void User::exec_cmd(void)
 	}
 }
 
-void	User::update_activity(void)
+void User::update_activity(void)
 {
 	this->_last_activity = time(NULL);
 }

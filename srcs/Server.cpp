@@ -1,4 +1,6 @@
 #include "../inc/Server.hpp"
+#include <utility>      // std::pair, std::make_pair
+#include <string>       // std::string
 
 /*
 ** ------------------------------- CONSTRUCTOR/DESTRUCTOR --------------------------------
@@ -88,6 +90,10 @@ void Server::add_socket_to_list(int filed, short ev, short rev)
 	this->_pfds.push_back(tmp);
 }
 
+void Server::add_channel(std::string new_channel, Channel * chan)
+{
+	this->_channels.insert(std::pair<std::string, Channel*>(new_channel, chan));
+}
 /*	poll() function uses array and i wanted to work with container
 	so i made two function to go to one from another.
 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv*/
