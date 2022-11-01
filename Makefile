@@ -1,26 +1,33 @@
 NAME		= ft_irc
-SRCSDIR		= .
 OBJSDIR		= objs
+OBJSFILES = $(SRCSFILES:.cpp=.o)
+OBJS = $(addprefix objs/, $(OBJSFILES))
 INCLUDES	= .
-SRCS		= srcs/main.cpp \
-				srcs/Server.cpp \
-				srcs/User.cpp \
-				srcs/commands/NICK.cpp \
-				srcs/commands/USER.cpp \
-				srcs/commands/PASS.cpp \
-				srcs/commands/MODE.cpp \
-				srcs/commands/WHOIS.cpp \
-				srcs/commands/PING.cpp \
-				srcs/commands/PART.cpp \
-				srcs/commands/KICK.cpp \
-				srcs/commands/JOIN.cpp \
-				srcs/commands/PRIVMSG.cpp \
-				srcs/replies/getReply.cpp \
-				srcs/replies/sendReply.cpp \
-				srcs/utils/checkParam.cpp \
-				srcs/utils/getArgs.cpp \
-				srcs/utils/getMsg.cpp \
-				srcs/Channel.cpp
+SRCSDIR = srcs
+SRCSFILES	= 	main.cpp \
+			  	Server.cpp \
+			  	User.cpp \
+				commands/NICK.cpp \
+				commands/USER.cpp \
+				commands/PASS.cpp \
+				commands/MODE.cpp \
+				commands/WHOIS.cpp \
+				commands/PING.cpp \
+				commands/PART.cpp \
+				commands/KICK.cpp \
+				commands/JOIN.cpp \
+				commands/PRIVMSG.cpp \
+				replies/getReply.cpp \
+				replies/sendReply.cpp \
+				utils/checkParam.cpp \
+				utils/getArgs.cpp \
+				utils/getMsg.cpp \
+				Channel.cpp
+SRCS = $(addprefix srcs/,$(SRCSFILES))
+
+$(OBJSDIR)/%.o:		$(SRCSDIR)/%.cpp
+			$(CC) $(CFLAGS) -c $< -o $@
+
 
 CC			= c++
 
@@ -28,14 +35,16 @@ CFLAGS		= #-Wall -Wextra -Werror -std=c++98
 
 all: $(NAME)
 
-$(NAME): $(SRCSDIR)/$(SRCS)
-	@echo "Assembling $@"
-	@$(CC) $(CFLAGS) -o $@ $^
+
+$(NAME):	$(OBJS)
+			@echo "Assembling $@"
+			$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
 
 client:
 	$(CC) $(CFLAGS) -o client srcs/client.cpp
 
 clean:
+	rm -rf $(OBJS)
 
 fclean: clean
 	rm -rf $(NAME)
