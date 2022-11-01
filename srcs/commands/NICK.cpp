@@ -1,8 +1,8 @@
-#include "../../inc/command.hpp"
-#include "../../inc/colors.hpp"
-#include "../../inc/User.hpp"
-#include "../../inc/Server.hpp"
-#include "../../inc/replies.hpp"
+#include "command.hpp"
+#include "colors.hpp"
+#include "User.hpp"
+#include "Server.hpp"
+#include "replies.hpp"
 
 // patern :   nickname   =  ( letter / special ) *8( letter / digit / special / "-" )
 

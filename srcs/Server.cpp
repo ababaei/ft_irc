@@ -1,6 +1,4 @@
-#include "../inc/Server.hpp"
-#include <utility>      // std::pair, std::make_pair
-#include <string>       // std::string
+#include "Server.hpp"
 
 /*
 ** ------------------------------- CONSTRUCTOR/DESTRUCTOR --------------------------------

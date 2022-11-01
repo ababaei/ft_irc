@@ -1,6 +1,6 @@
-#include "../../inc/command.hpp"
-#include "../../inc/replies.hpp"
-#include "../../inc/colors.hpp"
+#include "command.hpp"
+#include "replies.hpp"
+#include "colors.hpp"
 
 // Quels protections necessaires vu que USER est utilise que 1 fois a la connexion ?
 void USER(User *user)
