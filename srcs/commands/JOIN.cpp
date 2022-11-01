@@ -113,6 +113,7 @@ void JOIN(User *user)
         chan->setName(chan1);
         chan->addUser(user);
         user->get_server()->add_channel(chan1, chan);
+        user->add_channel(chan1);
         if (pwdchan1 != "")
             chan->setKey(pwdchan1);
     }
@@ -129,7 +130,7 @@ void JOIN(User *user)
             if (it->second->getUserList().size() >= it->second->getUserLimit())
                 std::cout << RED "Error 432 ERR_CHANNELISFULL" E << std::endl; // ajouter reply
             // if ()
-// ERR_TOOMANYCHANNELS
+            // ERR_TOOMANYCHANNELS
 
             std::cout << "Joined the chan" << std::endl;
             //             // RPL_TOPIC
@@ -147,6 +148,7 @@ void JOIN(User *user)
             chan->setName(chan1);
             chan->addUser(user);
             user->get_server()->add_channel(chan1, chan);
+            user->add_channel(chan1);
             if (pwdchan1 != "")
                 chan->setKey(pwdchan1);
         }

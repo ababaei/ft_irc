@@ -39,6 +39,15 @@ std::string User::get_status() { return (this->_status); }
 time_t User::get_activity(void) { return (this->_last_activity); }
 Server *User::get_server() { return (this->_server); }
 
+const std::vector<std::string>	User::getChannelList() const
+{
+	std::vector<std::string> channelList;
+	for (std::vector<std::string>::const_iterator it = _chanels.begin();
+			it != _chanels.end(); it++)
+		channelList.push_back(*it);
+	return channelList;
+}
+
 void User::set_nick(std::string nick)
 {
 	this->_nick = nick;
@@ -69,6 +78,11 @@ void User::set_mode(const std::string &mode, bool b)
 	modes[mode] = b;
 }
 
+void User::add_channel(std::string new_channel)
+{
+	this->_chanels.push_back(new_channel);
+}
+
 void User::to_command(std::string msg)
 {
 	std::stringstream ss(msg);
@@ -95,7 +109,7 @@ void User::to_command(std::string msg)
 		std::cout << ' ' << *it;
 	std::cout << std::endl;
 
-		std::cout << "PARAM LIST 1 are:" << std::endl;
+	std::cout << "PARAM LIST 1 are:" << std::endl;
 	for (std::vector<std::string>::iterator it = this->param_list.begin(); it != this->param_list.end(); ++it)
 		std::cout << ' ' << *it;
 	std::cout << std::endl;
