@@ -226,7 +226,10 @@ void Server::handle_raw(int sender_fd, int nbytes)
 =======
 	pos = tmp.find("\r\n");
 	//std::cout << "FOUND!!__" << pos << "\n";
+<<<<<<< HEAD
 >>>>>>> 1444807 (WIP: fixing segfault on pos=0 \r\n)
+=======
+>>>>>>> 144480789c1aad04b60f2f998b4319307a147133
 	while ((pos = tmp.find("\r\n")) != std::string::npos && pos != 0)
 	{
 		std::cout << "cmd:" << tmp.substr(0, pos) << "\n";
@@ -235,11 +238,15 @@ void Server::handle_raw(int sender_fd, int nbytes)
 		this->_User_list[sender_fd]->message.clear();
 	}
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 	this->_User_list[sender_fd]->message.append(tmp);
 =======
 	this->_User_list[sender_fd]->message.append(this->_buf);
 >>>>>>> 1444807 (WIP: fixing segfault on pos=0 \r\n)
+=======
+	this->_User_list[sender_fd]->message.append(this->_buf);
+>>>>>>> 144480789c1aad04b60f2f998b4319307a147133
 	memset(this->_buf, 0, 510);
 }
 
