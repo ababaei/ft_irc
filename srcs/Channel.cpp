@@ -19,7 +19,9 @@ Channel::Channel(const std::string &aName) : name(aName)
 	flags["moderated"] = false;
 	flags["inviteOnly"] = false;
 	flags["anonymous"] = false;
-
+	flags["private"] = false;
+	flags["topic"] = false;
+	
 	key = "";
 	userLimit = 500;
 }
