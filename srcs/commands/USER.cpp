@@ -20,7 +20,7 @@ void USER(User *user)
 
     // set realname, utile ? --> dans une fct separee ?
     std::string realname;
-    for (int i = 3; i < user->param_list.size(); i++)
+    for (unsigned int i = 3; i < user->param_list.size(); i++)
         realname = realname + user->param_list[i] + ' ';
     user->set_real_name(realname);
     std::cout << BBLUE "Your realname is: " << user->get_real_name() << E << std::endl;

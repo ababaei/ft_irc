@@ -9,7 +9,7 @@ int main(int ac, char **av)
 		std::cerr << "Not enough argument: <port> <password>\n";
 		return (1);
 	}
-	for (int i = 0; i < strlen(av[1]); i++)
+	for (unsigned int i = 0; i < strlen(av[1]); i++)
 	{
 		if (isdigit(av[1][i]) == 0)
 		{
