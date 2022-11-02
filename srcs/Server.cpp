@@ -10,10 +10,6 @@ Server::Server(std::string given_port, std::string pword) : _port(given_port), _
 	this->_server_name = "OurSuperServer";
 }
 
-Server::Server(const Server &src)
-{
-}
-
 Server::~Server() {}
 
 /*
@@ -178,7 +174,7 @@ void Server::handle_pfds()
 				}
 				else
 				{
-					this->handle_raw(sender_fd, nbytes);
+					this->handle_raw(sender_fd);
 				}
 				// std::cout << this->message << "\n";
 				std::cout << "------------------------------\n";
@@ -211,7 +207,7 @@ void Server::close_connection(int sender_fd, int nbytes)
 	close(sender_fd);
 }
 
-void Server::handle_raw(int sender_fd, int nbytes)
+void Server::handle_raw(int sender_fd)
 {
 	// vvvvvvvvvvvvvvvvvvvvvvv LOOP NEED TO BE CHECKED FOR SOME LOSSES CASES vvvvvvvvvvvvvvvvvvvvvvv
     // std::string tmp(this->_buf);

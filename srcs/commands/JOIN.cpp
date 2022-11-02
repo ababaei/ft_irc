@@ -34,7 +34,7 @@ int check_forbiden_char_join(std::string channel)
 {
     if (channel != "")
     {
-        int i = 0;
+        unsigned int i = 0;
         while (i < channel.length())
         {
             if (isalnum(channel[i]) == 0 && specialchar_join(channel[i]) == 0)
@@ -66,9 +66,9 @@ void join_chanel(std::map<std::string, Channel *>::iterator it, User *user)
     // check mdp s'il y a
     if (it->second->isBanned(user->get_nick()) == 1)
         std::cout << RED "Error ERR_BANNEDFROMCHAN" E << std::endl; // ajouter reply
-    if (it->second->getUserList().size() >= it->second->getUserLimit())
+    if (it->second->getUserList().size() >= static_cast<unsigned int>(it->second->getUserLimit()))
         std::cout << RED "Error 432 ERR_CHANNELISFULL" E << std::endl; // ajouter reply
-    if (user->getChannelList().size() >= user->getChanelLimit())
+    if (user->getChannelList().size() >= static_cast<unsigned int>(user->getChanelLimit()))
         std::cout << RED "Error ERR_TOOMANYCHANNELS" E << std::endl; // ajouter reply
     if (it->second->isInvited(user->get_nick()) == false && it->second->isInviteOnly() == 1)
         std::cout << RED "Error ERR_INVITEONLYCHAN" E << std::endl; // ajouter reply

@@ -4,7 +4,7 @@
 #include "../../inc/utils.hpp"
 
 void send_infos(User *user, std::string nick, std::string username, std::string realname, std::string host,
-time_t idle, std::vector<std::string> params)
+time_t idle)
 {
     user->get_server()->to_send(RPL_WHOISUSER(getArgs(4, nick, username, host, realname), nick), user->get_fd());
     if (user->get_status() == "inactive")
@@ -35,6 +35,6 @@ void    WHOIS(User *user)
             params[0]), user->get_fd()));
 
         return(send_infos(user, user_info->get_nick(), user_info->get_username(), user_info->get_real_name(), user_info->get_hostname(), 
-            user_info->get_activity(), params));
+            user_info->get_activity()));
     }
 }

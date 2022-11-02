@@ -16,7 +16,6 @@ class Server
 
 public:
 	Server(std::string arg_port, std::string pword);
-	Server(Server const &src);
 	~Server(void);
 
 	Server &operator=(Server const &rhs);
@@ -31,7 +30,7 @@ public:
 	void handle_pfds(void);
 	void handle_new_connection(void);
 	void close_connection(int sender_fd, int nbytes);
-	void handle_raw(int sender_fd, int nbytes);
+	void handle_raw(int sender_fd);
 
 	void arr_to_list(void);
 	void list_to_arr(void);
@@ -55,8 +54,8 @@ public:
 
 private:
 	std::string _message;
-	std::string _password;
 	std::string _port;
+	std::string _password;
 	std::string _address;
 	std::string _server_name;
 

@@ -28,7 +28,7 @@ int check_forbiden_char_nick(std::string nick)
 {
     if (nick != "")
     {
-        int i = 0;
+        unsigned int i = 0;
         if (nick.length() != 1 && nick[i] == ':') // tbc
         {
             i++;
@@ -37,7 +37,7 @@ int check_forbiden_char_nick(std::string nick)
             return (-1);
         while (i < nick.length() - 1)
         {
-            if (isalpha(nick[i]) == 0 && specialchar_nick(nick[i]) == 0 || (nick.length() == 1 && nick[i] == ':'))
+            if ((isalpha(nick[i]) == 0 && specialchar_nick(nick[i]) == 0) || (nick.length() == 1 && nick[i] == ':'))
                 return (-1);
             i++;
         }
