@@ -135,10 +135,7 @@ void Server::check_activity(void)
 	for (it = this->_User_list.begin(); it != itend; it++)
 	{
 		if (difftime(time(NULL), it->second->get_activity()) > 180)
-		{
-			// std::cout << "INACTIVE!\n";
 			it->second->set_status("inactive");
-		}
 	}
 }
 
