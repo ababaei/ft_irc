@@ -15,6 +15,7 @@ SRCS		= srcs/main.cpp \
 				srcs/commands/KICK.cpp \
 				srcs/commands/JOIN.cpp \
 				srcs/commands/PRIVMSG.cpp \
+				srcs/commands/TOPIC.cpp \
 				srcs/replies/getReply.cpp \
 				srcs/replies/sendReply.cpp \
 				srcs/utils/checkParam.cpp \
