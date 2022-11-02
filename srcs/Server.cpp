@@ -220,8 +220,12 @@ void Server::handle_raw(int sender_fd, int nbytes)
 	std::string tmp(this->_User_list[sender_fd]->message);
 	std::size_t pos;
 
-	pos = tmp.find("\r\n");
-	//std::cout << "FOUND!!__" << pos << "\n";
+	if (tmp.find("\r\n") == 0)
+		tmp = tmp.substr(pos + 2);
+	
+	if (tmp.find("\r\n") == std::string::npos)
+		tmp.append(this->_buf);
+
 	while ((pos = tmp.find("\r\n")) != std::string::npos && pos != 0)
 	{
 		std::cout << "cmd:" << tmp.substr(0, pos) << "\n";
@@ -229,7 +233,8 @@ void Server::handle_raw(int sender_fd, int nbytes)
 		tmp = tmp.substr(pos + 2);
 		this->_User_list[sender_fd]->message.clear();
 	}
-	this->_User_list[sender_fd]->message.append(this->_buf);
+
+	this->_User_list[sender_fd]->message.append(tmp);
 	memset(this->_buf, 0, 510);
 }
 
