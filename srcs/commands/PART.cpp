@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PART.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:22:03 by ali               #+#    #+#             */
-/*   Updated: 2022/11/01 15:09:43 by ali              ###   ########.fr       */
+/*   Updated: 2022/11/02 12:18:05 by amontaut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ void	PART(User* user)
 					user->get_nick()), user->get_fd());
 	Channel* chan = user->get_server()->get_channel(params[0]);
 	if (chan == NULL)
-		return user->get_server()->to_send(ERR_NOSUCHCHANNEL(getArgs(1, params[0]),
+		return user->get_server()->to_send(ERR_NOSUCHCHANNEL(getArgs(1, params[0].c_str()),
 					user->get_nick()), user->get_fd());
 	if (chan->isHere(user->get_nick()) == false)
-		return user->get_server()->to_send(ERR_NOTONCHANNEL(getArgs(1, params[0]),
+		return user->get_server()->to_send(ERR_NOTONCHANNEL(getArgs(1, params[0].c_str()),
 				user->get_nick()), user->get_fd());
 
 	
