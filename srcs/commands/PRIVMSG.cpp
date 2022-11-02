@@ -6,12 +6,12 @@
 /*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:59:45 by ali               #+#    #+#             */
-/*   Updated: 2022/11/01 17:37:07 by ali              ###   ########.fr       */
+/*   Updated: 2022/10/31 19:05:33 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "command.hpp"
-#include "Server.hpp"
+#include "../../inc/command.hpp"
+#include "../../inc/Server.hpp"
 
 void	chanMsg(Channel* chan, User* user, std::vector<std::string>& params)
 {

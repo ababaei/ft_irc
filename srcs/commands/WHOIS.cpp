@@ -1,7 +1,7 @@
-#include "command.hpp"
-#include "Server.hpp"
-#include "replies.hpp"
-#include "utils.hpp"
+#include "../../inc/command.hpp"
+#include "../../inc/Server.hpp"
+#include "../../inc/replies.hpp"
+#include "../../inc/utils.hpp"
 
 void send_infos(User *user, std::string nick, std::string username, std::string realname, std::string host,
 time_t idle, std::vector<std::string> params)

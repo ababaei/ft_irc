@@ -1,6 +1,6 @@
-#include "command.hpp"
-#include "User.hpp"
-#include "Server.hpp"
+#include "../../inc/command.hpp"
+#include "../../inc/User.hpp"
+#include "../../inc/Server.hpp"
 
 void    PING(User *user)
 {

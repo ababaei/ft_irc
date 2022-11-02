@@ -1,7 +1,7 @@
-#include "command.hpp"
-#include "Server.hpp"
-#include "colors.hpp"
-#include "Channel.hpp"
+#include "../../inc/command.hpp"
+#include "../../inc/Server.hpp"
+#include "../../inc/colors.hpp"
+#include "../../inc/Channel.hpp"
 
 #include <iostream>
 #include <algorithm>

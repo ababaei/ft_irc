@@ -4,6 +4,8 @@ OBJSDIR		= objs
 OBJSFILES = $(SRCSFILES:.cpp=.o)
 OBJS = $(addprefix $(OBJSDIR)/, $(OBJSFILES))
 
+INCLUDES	= .
+
 SRCSDIR = srcs
 SRCSFILES	= 	main.cpp \
 			  	Server.cpp \
@@ -26,33 +28,25 @@ SRCSFILES	= 	main.cpp \
 				Channel.cpp
 SRCS = $(addprefix $(SRCSDIR)/,$(SRCSFILES))
 
-INCS = inc
-
-DEPENDS = $(OBJS:.o=.d)
-
-
-all: $(NAME)
-
 $(OBJSDIR)/%.o:		$(SRCSDIR)/%.cpp
-					$(CC) $(CCFLAGS)  -c $< -o $@ -I ./$(INCS)
+			$(CC) $(CFLAGS) -c $< -o $@
 
 CC			= c++
 
-CFLAGS	= #-Wall -Wextra -Werror -std=c++98
+CFLAGS		= #-Wall -Wextra -Werror -std=c++98
 
+all: $(NAME)
 
--include	$(DEPENDS)
 
 $(NAME):	$(OBJS)
 			@echo "Assembling $@"
-			$(CC) $(CFLAGS) -o $(NAME) $(OBJS) -I ./$(INCS)
+			$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
 
 client:
 	$(CC) $(CFLAGS) -o client srcs/client.cpp
 
 clean:
 	rm -rf $(OBJS)
-	rm -rf $(DEPENDS)
 
 fclean: clean
 	rm -rf $(NAME)

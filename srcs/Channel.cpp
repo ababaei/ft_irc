@@ -6,11 +6,11 @@
 /*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 16:39:02 by ali               #+#    #+#             */
-/*   Updated: 2022/11/01 17:33:46 by ali              ###   ########.fr       */
+/*   Updated: 2022/11/01 16:23:36 by amontaut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Channel.hpp"
+#include "../inc/Channel.hpp"
 
 Channel::Channel(const std::string &aName) : name(aName)
 {

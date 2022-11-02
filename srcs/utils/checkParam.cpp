@@ -6,11 +6,11 @@
 /*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 10:45:52 by ali               #+#    #+#             */
-/*   Updated: 2022/11/01 17:39:16 by ali              ###   ########.fr       */
+/*   Updated: 2022/10/31 10:46:03 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "utils.hpp"
+#include "../../inc/utils.hpp"
 
 bool	isChanName(const std::string& param)
 {
