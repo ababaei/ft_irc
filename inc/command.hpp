@@ -19,6 +19,4 @@ void KICK(User* user);
 void PART(User* user);
 
 
-
-
 #endif
