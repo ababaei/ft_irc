@@ -6,7 +6,7 @@
 /*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 15:06:42 by ali               #+#    #+#             */
-/*   Updated: 2022/10/31 11:55:50 by ali              ###   ########.fr       */
+/*   Updated: 2022/11/02 16:44:29 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,18 @@ void	setChanMode(User* user, Channel* channel, const std::vector<std::string>& p
 		{
 			channel->setChanFlag("moderated", b);
 			user->get_server()->to_send(RPL_CHANNELMODEIS(getArgs(2, params[0], sign + "m"),
+						user->get_nick()), channel->getFds());
+		}
+		else if (params[1][i] == 'p')
+		{
+			channel->setChanFlag("private", b);
+			user->get_server()->to_send(RPL_CHANNELMODEIS(getArgs(2, params[0], sign + "p"),
+						user->get_nick()), channel->getFds());
+		}
+		else if (params[1][i] == 't')
+		{
+			channel->setChanFlag("topic", b);
+			user->get_server()->to_send(RPL_CHANNELMODEIS(getArgs(2, params[0], sign + "t"),
 						user->get_nick()), channel->getFds());
 		}
 		else if (params[1][i] == 'l')

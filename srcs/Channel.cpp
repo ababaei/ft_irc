@@ -6,7 +6,7 @@
 /*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 16:39:02 by ali               #+#    #+#             */
-/*   Updated: 2022/10/31 17:49:14 by ali              ###   ########.fr       */
+/*   Updated: 2022/11/02 16:45:11 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ Channel::Channel(const std::string& aName) : name(aName)
 	flags["moderated"] = false;
 	flags["inviteOnly"] = false;
 	flags["anonymous"] = false;
+	flags["private"] = false;
+	flags["topic"] = false;
 	
 	key = "";
 	userLimit = 500;
