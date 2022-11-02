@@ -18,8 +18,8 @@ const std::vector<std::string>	getArgs(int size, ...)
 
 	va_list	ap;
 	va_start(ap, size);
-	// for (int i = 0; i < size; i++)
-	// 	args.push_back(va_arg(ap, std::string));
+	for (int i = 0; i < size; i++)
+		args.push_back(va_arg(ap, std::string));
 	va_end(ap);
 
 	return args;
