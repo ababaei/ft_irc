@@ -6,7 +6,7 @@
 /*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 18:17:03 by ali               #+#    #+#             */
-/*   Updated: 2022/11/02 12:21:41 by amontaut         ###   ########.fr       */
+/*   Updated: 2022/11/03 13:38:41 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,10 @@ const std::string    getMsg(User* user, const std::string& command,
 	msg += "\r\n";
 
     return msg;
+}
+
+const std::string	getMsg(User* user, const std::string& command, const std::string& param)
+{
+    return ":" + user->get_nick() + "!" + user->get_username() + "@"
+        + user->get_hostname() + " " + command + " " + param + "\r\n";
 }

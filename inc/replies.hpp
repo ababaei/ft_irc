@@ -6,7 +6,7 @@
 /*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 17:32:17 by ali               #+#    #+#             */
-/*   Updated: 2022/11/01 11:05:30 by ali              ###   ########.fr       */
+/*   Updated: 2022/11/03 13:31:45 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ std::string	getReply(unsigned short code, std::vector<std::string> args,
 # define ERR_TOOMANYTARGETS(args, target_nickname) getReply(407, args, target_nickname)
 # define RPL_TOPIC(args, target_nickname) getReply(332, args, target_nickname)
 # define ERR_BANNEDFROMCHAN(args, target_nickname) getReply(474, args, target_nickname)
-# define ERR_BADCAHNNELKEY(args, target_nickname) getReply(475, args, target_nickname)
+# define ERR_BADCHANNELKEY(args, target_nickname) getReply(475, args, target_nickname)
 # define ERR_BADCHANMASK(args, target_nickname) getReply(476, args, target_nickname)
 # define ERR_TOOMANYCHANNELS(args, target_nickname) getReply(405, args, target_nickname)
 

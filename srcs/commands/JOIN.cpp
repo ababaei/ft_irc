@@ -45,37 +45,58 @@ int check_forbiden_char_join(std::string channel)
     return (0);
 }
 
-void create_chanel(User *user, std::string chanel, std::string pwdchan)
+void create_channel(User *user, std::string channel, std::string pwdchan)
 {
     std::cout << "Creating the chan" << std::endl;
-    if (chanel.size() > 164)
-        std::cout << RED "403 ERR_NOSUCHCHANNEL" E << std::endl; // ajouter reply
-    if (check_forbiden_char_join(chanel) == -1)
-        std::cout << RED "Error 432 ERR_ERRONEUSNICKNAME" E << std::endl; // ajouter reply
-    Channel *chan = new Channel(chanel);
-    chan->setName(chanel);
+    if (channel.size() > 164)
+		return user->get_server()->to_send(ERR_NOSUCHCHANNEL(getArgs(1, channel), user->get_nick()),
+				user->get_fd());
+    if (check_forbiden_char_join(channel) == -1)
+		return user->get_server()->to_send(ERR_BADCHANMASK(getArgs(1, channel), user->get_nick()),
+				user->get_fd());
+
+    Channel *chan = new Channel(channel);
+    chan->setName(channel);
     chan->addUser(user);
-    user->get_server()->add_channel(chanel, chan);
-    user->add_channel(chanel);
+    user->get_server()->add_channel(channel, chan);
+    user->add_channel(channel);
+
+	user->get_server()->to_send(getMsg(user, "JOIN", channel), user->get_fd());
+
     if (pwdchan != "")
         chan->setKey(pwdchan);
 }
 
 void join_channel(Channel* chan, User *user)
 {
+	std::string channel = chan->getName();
     // check mdp s'il y a
     if (chan->isBanned(user->get_nick()) == 1)
-        std::cout << RED "Error ERR_BANNEDFROMCHAN" E << std::endl; // ajouter reply
+		return user->get_server()->to_send(ERR_BANNEDFROMCHAN(getArgs(1, channel), user->get_nick()),
+				user->get_fd());
     if (chan->getUserNum() >= chan->getUserLimit())
-        std::cout << RED "Error 432 ERR_CHANNELISFULL" E << std::endl; // ajouter reply
+		return user->get_server()->to_send(ERR_CHANNELISFULL(getArgs(1, channel), user->get_nick()),
+				user->get_fd());
     if (user->getChannelList().size() >= static_cast<unsigned int>(user->getChanelLimit()))
-        std::cout << RED "Error ERR_TOOMANYCHANNELS" E << std::endl; // ajouter reply
+		return user->get_server()->to_send(ERR_TOOMANYCHANNELS(getArgs(1, channel), user->get_nick()),
+				user->get_fd());
     if (chan->isInvited(user->get_nick()) == false && chan->isInviteOnly() == 1)
-        std::cout << RED "Error ERR_INVITEONLYCHAN" E << std::endl; // ajouter reply
+		return user->get_server()->to_send(ERR_INVITEONLYCHAN(getArgs(1, channel), user->get_nick()),
+				user->get_fd());
+
 
     std::cout << "Joined the chan" << std::endl;
+	user->get_server()->to_send(getMsg(user, "JOIN", channel),
+			   	chan->getFds());
 	chan->addUser(user);
 	user->add_channel(chan->getName());
+	if (chan->getTopic()  != "")
+		user->get_server()->to_send(RPL_TOPIC(getArgs(2, channel, chan->getTopic()),
+					user->get_nick()), user->get_fd());
+	else
+		user->get_server()->to_send(RPL_NOTOPIC(getArgs(1, channel),
+					user->get_nick()), user->get_fd());
+
 
     //             // RPL_TOPIC // ajouter reply
     // OR RPL_NOTOPIC (331) if no topic is et //ajouter reply
@@ -125,17 +146,29 @@ void JOIN(User *user)
 
 	Channel* chan = user->get_server()->get_channel(chan1);
 	if (chan == NULL)
-        create_chanel(user, chan1, pwdchan1);
+        create_channel(user, chan1, pwdchan1);
 	else
-		join_channel(chan, user);
+	{
+		if (pwdchan1 == chan->getKey())
+			join_channel(chan, user);
+		else
+			user->get_server()->to_send(ERR_BADCHANNELKEY(getArgs(1, chan1), user->get_nick()),
+					user->get_fd());
+	}
 
 	if (chan2 != "")
 	{
 		Channel* chan_2 = user->get_server()->get_channel(chan2);
 		if (chan == NULL)
-			create_chanel(user, chan2, pwdchan2);
+			create_channel(user, chan2, pwdchan2);
 		else
+		{
+		if (pwdchan1 == chan_2->getKey())
 			join_channel(chan_2, user);
+		else
+			user->get_server()->to_send(ERR_BADCHANNELKEY(getArgs(1, chan2), user->get_nick()),
+					user->get_fd());
+		}
 	}
     std::cout << "NOM CHAN 1: " << chan1 << std::endl;
     std::cout << "NOM CHAN 2: " << chan2 << std::endl;
