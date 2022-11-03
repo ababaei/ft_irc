@@ -13,6 +13,7 @@ void USER(User *user);
 void MODE(User *user);
 void JOIN(User *user);
 void WHOIS(User *user);
+void TOPIC(User *user);
 void PING(User *user);
 void PRIVMSG(User* user);
 void KICK(User* user);

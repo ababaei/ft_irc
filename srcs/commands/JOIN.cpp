@@ -75,6 +75,7 @@ void join_chanel(std::map<std::string, Channel *>::iterator it, User *user)
 
     std::cout << "Joined the chan" << std::endl;
     //             // RPL_TOPIC // ajouter reply
+    // OR RPL_NOTOPIC (331) if no topic is et //ajouter reply
     //             // RPL_NAMREPLY (353) // ajouter reply
     //             // RPL_ENDOFNAMES (366). // ajouter reply
 }
