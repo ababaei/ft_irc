@@ -4,7 +4,7 @@
 void	chanMsg(Channel* chan, User* user, std::vector<std::string>& params)
 {
 	if (chan->canSpeak(user->get_nick()) == false)
-		return user->get_server()->to_send(ERR_CANNOTSENDTOCHAN(getArgs(1, params[0]), user->get_nick()), 
+		return user->get_server()->to_send(ERR_CANNOTSENDTOCHAN(getArgs(params[0]), user->get_nick()), 
 				user->get_fd());
 
 	user->get_server()->to_send(getMsg(user, "PRIVMSG", params), chan->getOtherFds(user->get_nick()));
@@ -20,13 +20,13 @@ void	PRIVMSG(User* user)
 	std::vector<std::string> params = user->param_list;
 
 	if (params.size() < 2)
-		return user->get_server()->to_send(ERR_NOTEXTTOSEND(getArgs(0), user->get_nick()),
+		return user->get_server()->to_send(ERR_NOTEXTTOSEND(getArgs(), user->get_nick()),
 				user->get_fd());
 	if (isChanName(params[0]))
 	{
 		Channel* channel = user->get_server()->get_channel(params[0]);
 		if (channel == NULL)
-			return user->get_server()->to_send(ERR_NORECIPIENT(getArgs(1, std::string("PRIVMSG")),
+			return user->get_server()->to_send(ERR_NORECIPIENT(getArgs("PRIVMSG"),
 						user->get_nick()), user->get_fd());
 		else
 			chanMsg(channel, user, params);
@@ -35,7 +35,7 @@ void	PRIVMSG(User* user)
 	{
 		User* recipient = user->get_server()->get_user(params[0]);
 		if (recipient == NULL)
-			return user->get_server()->to_send(ERR_NOSUCHNICK(getArgs(1, params[0]),
+			return user->get_server()->to_send(ERR_NOSUCHNICK(getArgs(params[0]),
 						user->get_nick()), user->get_fd());
 		else
 			userMsg(recipient, user, params);

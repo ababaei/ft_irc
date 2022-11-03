@@ -37,7 +37,7 @@ all: $(NAME)
 $(OBJSDIR)/%.o:		$(SRCSDIR)/%.cpp
 					$(CC) $(CFLAGS)  -c $< -o $@ -I ./$(INCS)
 
-CC			= c++
+CC			= clang++
 
 CFLAGS	= -Wall -Wextra -Werror -std=c++98
 

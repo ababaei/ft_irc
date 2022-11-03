@@ -49,10 +49,10 @@ void create_channel(User *user, std::string channel, std::string pwdchan)
 {
     std::cout << "Creating the chan" << std::endl;
     if (channel.size() > 164)
-		return user->get_server()->to_send(ERR_NOSUCHCHANNEL(getArgs(1, channel), user->get_nick()),
+		return user->get_server()->to_send(ERR_NOSUCHCHANNEL(getArgs(channel), user->get_nick()),
 				user->get_fd());
     if (check_forbiden_char_join(channel) == -1)
-		return user->get_server()->to_send(ERR_BADCHANMASK(getArgs(1, channel), user->get_nick()),
+		return user->get_server()->to_send(ERR_BADCHANMASK(getArgs(channel), user->get_nick()),
 				user->get_fd());
 
     Channel *chan = new Channel(channel);
@@ -72,16 +72,16 @@ void join_channel(Channel* chan, User *user)
 	std::string channel = chan->getName();
     // check mdp s'il y a
     if (chan->isBanned(user->get_nick()) == 1)
-		return user->get_server()->to_send(ERR_BANNEDFROMCHAN(getArgs(1, channel), user->get_nick()),
+		return user->get_server()->to_send(ERR_BANNEDFROMCHAN(getArgs(channel), user->get_nick()),
 				user->get_fd());
     if (chan->getUserNum() >= chan->getUserLimit())
-		return user->get_server()->to_send(ERR_CHANNELISFULL(getArgs(1, channel), user->get_nick()),
+		return user->get_server()->to_send(ERR_CHANNELISFULL(getArgs(channel), user->get_nick()),
 				user->get_fd());
     if (user->getChannelList().size() >= static_cast<unsigned int>(user->getChanelLimit()))
-		return user->get_server()->to_send(ERR_TOOMANYCHANNELS(getArgs(1, channel), user->get_nick()),
+		return user->get_server()->to_send(ERR_TOOMANYCHANNELS(getArgs(channel), user->get_nick()),
 				user->get_fd());
     if (chan->isInvited(user->get_nick()) == false && chan->isInviteOnly() == 1)
-		return user->get_server()->to_send(ERR_INVITEONLYCHAN(getArgs(1, channel), user->get_nick()),
+		return user->get_server()->to_send(ERR_INVITEONLYCHAN(getArgs(channel), user->get_nick()),
 				user->get_fd());
 
 
@@ -91,10 +91,10 @@ void join_channel(Channel* chan, User *user)
 	chan->addUser(user);
 	user->add_channel(chan->getName());
 	if (chan->getTopic()  != "")
-		user->get_server()->to_send(RPL_TOPIC(getArgs(2, channel, chan->getTopic()),
+		user->get_server()->to_send(RPL_TOPIC(getArgs(channel, chan->getTopic()),
 					user->get_nick()), user->get_fd());
 	else
-		user->get_server()->to_send(RPL_NOTOPIC(getArgs(1, channel),
+		user->get_server()->to_send(RPL_NOTOPIC(getArgs(channel),
 					user->get_nick()), user->get_fd());
 
 
@@ -152,7 +152,7 @@ void JOIN(User *user)
 		if (pwdchan1 == chan->getKey())
 			join_channel(chan, user);
 		else
-			user->get_server()->to_send(ERR_BADCHANNELKEY(getArgs(1, chan1), user->get_nick()),
+			user->get_server()->to_send(ERR_BADCHANNELKEY(getArgs(chan1), user->get_nick()),
 					user->get_fd());
 	}
 
@@ -166,7 +166,7 @@ void JOIN(User *user)
 		if (pwdchan1 == chan_2->getKey())
 			join_channel(chan_2, user);
 		else
-			user->get_server()->to_send(ERR_BADCHANNELKEY(getArgs(1, chan2), user->get_nick()),
+			user->get_server()->to_send(ERR_BADCHANNELKEY(getArgs(chan2), user->get_nick()),
 					user->get_fd());
 		}
 	}

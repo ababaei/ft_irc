@@ -6,7 +6,7 @@
 /*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:22:03 by ali               #+#    #+#             */
-/*   Updated: 2022/11/02 12:18:05 by amontaut         ###   ########.fr       */
+/*   Updated: 2022/11/03 15:57:35 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ void	PART(User* user)
 	std::vector<std::string> params = user->param_list;
 
 	if (params.size() == 0)
-		return user->get_server()->to_send(ERR_NEEDMOREPARAMS(getArgs(1, "PART"),
+		return user->get_server()->to_send(ERR_NEEDMOREPARAMS(getArgs("PART"),
 					user->get_nick()), user->get_fd());
 	Channel* chan = user->get_server()->get_channel(params[0]);
 	if (chan == NULL)
-		return user->get_server()->to_send(ERR_NOSUCHCHANNEL(getArgs(1, params[0].c_str()),
+		return user->get_server()->to_send(ERR_NOSUCHCHANNEL(getArgs(params[0]),
 					user->get_nick()), user->get_fd());
 	if (chan->isHere(user->get_nick()) == false)
-		return user->get_server()->to_send(ERR_NOTONCHANNEL(getArgs(1, params[0].c_str()),
+		return user->get_server()->to_send(ERR_NOTONCHANNEL(getArgs(params[0]),
 				user->get_nick()), user->get_fd());
 
 	

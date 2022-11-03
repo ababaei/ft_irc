@@ -6,7 +6,7 @@
 /*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:42:08 by ali               #+#    #+#             */
-/*   Updated: 2022/11/03 11:08:23 by amontaut         ###   ########.fr       */
+/*   Updated: 2022/11/03 15:50:07 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,24 +17,24 @@ void	KICK(User* user)
 	std::vector<std::string> params = user->param_list;
 
 	if (params.size() < 2)
-		return user->get_server()->to_send(ERR_NEEDMOREPARAMS(getArgs(1, "KICK"),
+		return user->get_server()->to_send(ERR_NEEDMOREPARAMS(getArgs("KICK"),
 					user->get_nick()), user->get_fd());
 
 	Channel* chan = user->get_server()->get_channel(params[0]);
 	if (chan == NULL)
-		return user->get_server()->to_send(ERR_NOSUCHCHANNEL(getArgs(1, params[0]),
+		return user->get_server()->to_send(ERR_NOSUCHCHANNEL(getArgs(params[0]),
 					user->get_nick()), user->get_fd());
 
 	if (chan->isHere(user->get_nick()) == false)
-		return user->get_server()->to_send(ERR_NOTONCHANNEL(getArgs(1, params[0]),
+		return user->get_server()->to_send(ERR_NOTONCHANNEL(getArgs(params[0]),
 				user->get_nick()), user->get_fd());
 
 	if (chan->isChanOp(user->get_nick()) == false)
-		return user->get_server()->to_send(ERR_CHANOPRIVSNEEDED(getArgs(1, params[0]),
+		return user->get_server()->to_send(ERR_CHANOPRIVSNEEDED(getArgs(params[0]),
 					user->get_nick()), user->get_fd());
 
 	if (chan->isHere(params[1]) == false)
-		return user->get_server()->to_send(ERR_USERNOTINCHANNEL(getArgs(2, params[1], params[0]),
+		return user->get_server()->to_send(ERR_USERNOTINCHANNEL(getArgs(params[1], params[0]),
 					user->get_nick()), user->get_fd());
 
 	user->get_server()->to_send(getMsg(user, "KICK", params), chan->getFds());
