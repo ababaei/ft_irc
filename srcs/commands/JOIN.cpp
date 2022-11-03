@@ -34,7 +34,7 @@ int check_forbiden_char_join(std::string channel)
 {
     if (channel != "")
     {
-        unsigned int i = 0;
+        unsigned int i = 1;
         while (i < channel.length())
         {
             if (isalnum(channel[i]) == 0 && specialchar_join(channel[i]) == 0)
@@ -61,19 +61,22 @@ void create_chanel(User *user, std::string chanel, std::string pwdchan)
         chan->setKey(pwdchan);
 }
 
-void join_chanel(std::map<std::string, Channel *>::iterator it, User *user)
+void join_channel(Channel* chan, User *user)
 {
     // check mdp s'il y a
-    if (it->second->isBanned(user->get_nick()) == 1)
+    if (chan->isBanned(user->get_nick()) == 1)
         std::cout << RED "Error ERR_BANNEDFROMCHAN" E << std::endl; // ajouter reply
-    if (it->second->getUserList().size() >= static_cast<unsigned int>(it->second->getUserLimit()))
+    if (chan->getUserNum() >= chan->getUserLimit())
         std::cout << RED "Error 432 ERR_CHANNELISFULL" E << std::endl; // ajouter reply
     if (user->getChannelList().size() >= static_cast<unsigned int>(user->getChanelLimit()))
         std::cout << RED "Error ERR_TOOMANYCHANNELS" E << std::endl; // ajouter reply
-    if (it->second->isInvited(user->get_nick()) == false && it->second->isInviteOnly() == 1)
+    if (chan->isInvited(user->get_nick()) == false && chan->isInviteOnly() == 1)
         std::cout << RED "Error ERR_INVITEONLYCHAN" E << std::endl; // ajouter reply
 
     std::cout << "Joined the chan" << std::endl;
+	chan->addUser(user);
+	user->add_channel(chan->getName());
+
     //             // RPL_TOPIC // ajouter reply
     // OR RPL_NOTOPIC (331) if no topic is et //ajouter reply
     //             // RPL_NAMREPLY (353) // ajouter reply
@@ -120,27 +123,20 @@ void JOIN(User *user)
             pwdchan2 = user->param_list[1].substr(user->param_list[1].find(delimiter) + 1, user->param_list[1].size());
     }
 
-    std::map<std::string, Channel *> chans = user->get_server()->get_channel_list();
-    if (chans.empty() == 1)
-    {
+	Channel* chan = user->get_server()->get_channel(chan1);
+	if (chan == NULL)
         create_chanel(user, chan1, pwdchan1);
-    }
+	else
+		join_channel(chan, user);
 
-    for (std::map<std::string, Channel *>::iterator it = chans.begin(); it != chans.end(); it++)
-    {
-        if (chan1 == it->second->getName())
-            join_chanel(it, user);
-        else
-            create_chanel(user, chan1, pwdchan1);
-
-        if (chan2 != "")
-        {
-            if (chan2 == it->second->getName())
-                join_chanel(it, user);
-            else
-                create_chanel(user, chan2, pwdchan2);
-        }
-    }
+	if (chan2 != "")
+	{
+		Channel* chan_2 = user->get_server()->get_channel(chan2);
+		if (chan == NULL)
+			create_chanel(user, chan2, pwdchan2);
+		else
+			join_channel(chan_2, user);
+	}
     std::cout << "NOM CHAN 1: " << chan1 << std::endl;
     std::cout << "NOM CHAN 2: " << chan2 << std::endl;
     std::cout << "NOM PWDCHAN 1: " << pwdchan1 << std::endl;
