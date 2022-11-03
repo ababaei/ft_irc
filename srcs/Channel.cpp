@@ -6,7 +6,7 @@
 /*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 16:39:02 by ali               #+#    #+#             */
-/*   Updated: 2022/11/02 17:00:42 by ali              ###   ########.fr       */
+/*   Updated: 2022/11/03 11:26:42 by amontaut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,13 @@ bool Channel::isInviteOnly()
 bool Channel::isAnonymous()
 {
 	if (flags["anonymous"] == true)
+		return true;
+	return false;
+}
+
+bool Channel::isTopicOperatorOnly()
+{
+	if (flags["topic"] == true)
 		return true;
 	return false;
 }

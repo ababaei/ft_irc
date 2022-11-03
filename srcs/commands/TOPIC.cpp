@@ -6,7 +6,7 @@
 /*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:42:08 by ali               #+#    #+#             */
-/*   Updated: 2022/11/03 11:06:31 by amontaut         ###   ########.fr       */
+/*   Updated: 2022/11/03 11:27:10 by amontaut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,12 @@ void TOPIC(User *user)
 	}
 
 	// SI chan en mode +t , alors only ops can change subject.
-	// I guess qu'on sait si le chan est en mode + t avec la fct isModerated ?? TBC with Arthur
-	if (user->get_server()->get_channel(chanel)->isModerated() == 1 && user->get_server()->get_channel(chanel)->isChanOp(user->get_nick()) == 1) // on check si qqn est ops avec sur username ou nickname ?
+	if (user->get_server()->get_channel(chanel)->isTopicOperatorOnly() == 1 && user->get_server()->get_channel(chanel)->isChanOp(user->get_nick()) == 1) // on check si qqn est ops avec sur username ou nickname ?
 	{
 		user->get_server()->get_channel(chanel)->setTopic(newtopic);
 		std::cout << YELLOW "New topic is:" << user->get_server()->get_channel(chanel)->getTopic() << E << std::endl;
 	}
-	else if (user->get_server()->get_channel(chanel)->isModerated() == 0)
+	else if (user->get_server()->get_channel(chanel)->isTopicOperatorOnly() == 0)
 	{
 		user->get_server()->get_channel(chanel)->setTopic(newtopic);
 		std::cout << YELLOW "New topic is:" << user->get_server()->get_channel(chanel)->getTopic() << E << std::endl;
