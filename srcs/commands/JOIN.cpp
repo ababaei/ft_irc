@@ -109,9 +109,9 @@ void JOIN(User *user)
     std::string delimiter = ","; // suivi d'espace ou pas ?
     if (user->param_list[0][0] == '#' || user->param_list[0][0] == '&')
     {
-        chan1 = user->param_list[0].substr(0, user->param_list[0].find(delimiter)).erase(0, 1);
+        chan1 = user->param_list[0].substr(0, user->param_list[0].find(delimiter));
         if (chan1.size() + 1 != user->param_list[0].size())
-            chan2 = user->param_list[0].substr(user->param_list[0].find(delimiter) + 1, user->param_list[0].size()).erase(0, 1);
+            chan2 = user->param_list[0].substr(user->param_list[0].find(delimiter) + 1, user->param_list[0].size());
     }
     if (user->param_list.size() != 1 && user->param_list[1][0] != '#' && user->param_list[1][0] != '&' && isalnum(user->param_list[1][0]) != 0)
     {

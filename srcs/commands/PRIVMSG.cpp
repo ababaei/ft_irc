@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   PRIVMSG.cpp                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/31 16:59:45 by ali               #+#    #+#             */
-/*   Updated: 2022/11/03 11:09:12 by amontaut         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../../inc/command.hpp"
 #include "../../inc/Server.hpp"
 
@@ -38,7 +26,7 @@ void	PRIVMSG(User* user)
 	{
 		Channel* channel = user->get_server()->get_channel(params[0]);
 		if (channel == NULL)
-			return user->get_server()->to_send(ERR_NORECIPIENT(getArgs(1, "PRIVMSG"),
+			return user->get_server()->to_send(ERR_NORECIPIENT(getArgs(1, std::string("PRIVMSG")),
 						user->get_nick()), user->get_fd());
 		else
 			chanMsg(channel, user, params);

@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   MODE.cpp                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/28 15:06:42 by ali               #+#    #+#             */
-/*   Updated: 2022/11/03 11:05:45 by amontaut         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../../inc/command.hpp"
 #include "../../inc/Server.hpp"
 
@@ -23,7 +11,7 @@ void	setChanMode(User* user, Channel* channel, const std::vector<std::string>& p
 		if (params[1][i] == 'o' || params[1][i] == 'v' || params[1][i] == 'I' || params[1][i] == 'b')
 		{
 			if (params.size() < 3)
-				return user->get_server()->to_send(ERR_NEEDMOREPARAMS(getArgs(1, "MODE"),
+				return user->get_server()->to_send(ERR_NEEDMOREPARAMS(getArgs(1, std::string("MODE")),
 							user->get_nick()), user->get_fd());
 			if (params[1][i] == 'I')
 			{
@@ -93,7 +81,7 @@ void	setChanMode(User* user, Channel* channel, const std::vector<std::string>& p
 			if (sign == "+")
 			{
 				if (params.size() < 3)
-					return user->get_server()->to_send(ERR_NEEDMOREPARAMS(getArgs(1, "MODE"),
+					return user->get_server()->to_send(ERR_NEEDMOREPARAMS(getArgs(1, std::string("MODE")),
 								user->get_nick()), user->get_fd());
 				std::stringstream ss;
 				int limit;
@@ -118,7 +106,7 @@ void	setChanMode(User* user, Channel* channel, const std::vector<std::string>& p
 			if (sign == "+")
 			{
 				if (params.size() < 3)
-					return user->get_server()->to_send(ERR_NEEDMOREPARAMS(getArgs(1, "MODE"),
+					return user->get_server()->to_send(ERR_NEEDMOREPARAMS(getArgs(1, std::string("MODE")),
 								user->get_nick()), user->get_fd());
 				if (channel->getKey() != "")
 					return user->get_server()->to_send(ERR_KEYSET(getArgs(1, params[0]),
@@ -244,7 +232,7 @@ void    MODE(User *user)
 {
 	std::vector<std::string> params = user->param_list;
 	if (params.size() < 2)
-		return user->get_server()->to_send(ERR_NEEDMOREPARAMS(getArgs(1, "MODE"), user->get_nick()),
+		return user->get_server()->to_send(ERR_NEEDMOREPARAMS(getArgs(1, std::string("MODE")), user->get_nick()),
 				user->get_fd());
 	if (isChanName(params[0]))
 		chanMode(user, params);
