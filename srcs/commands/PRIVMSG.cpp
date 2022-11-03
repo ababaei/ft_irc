@@ -6,7 +6,7 @@
 /*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:59:45 by ali               #+#    #+#             */
-/*   Updated: 2022/10/31 19:05:33 by ali              ###   ########.fr       */
+/*   Updated: 2022/11/03 11:59:54 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	PRIVMSG(User* user)
 	{
 		Channel* channel = user->get_server()->get_channel(params[0]);
 		if (channel == NULL)
-			return user->get_server()->to_send(ERR_NORECIPIENT(getArgs(1, "PRIVMSG"),
+			return user->get_server()->to_send(ERR_NORECIPIENT(getArgs(1, std::string("PRIVMSG")),
 						user->get_nick()), user->get_fd());
 		else
 			chanMsg(channel, user, params);
