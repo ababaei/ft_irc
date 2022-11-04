@@ -43,64 +43,13 @@ void LIST(User *user)
             token = s.substr(0, pos);
             if (channelList.count(token) == 1)
             {
-                std::cout << GREEN << "name is: " << token << E << std::endl;
-                std::cout << GREEN << "name is(with user): " << user->get_server()->get_channel(token)->getName() << E << std::endl;
-                std::cout << GREEN << "topic is(with user): " << user->get_server()->get_channel(token)->getTopic() << E << std::endl;
-                std::cout << GREEN << token << E << std::endl;
+                std::cout << GREEN << user->get_server()->get_channel(token)->getName() << ' ' << user->get_server()->get_channel(token)->getTopic() << E << std::endl;
             }
             s.erase(0, pos + delimiter.length());
         }
         if (channelList.count(s) == 1)
         {
-            std::cout << YELLOW << "name is: " << s << E << std::endl;
-            std::cout << YELLOW << "name is(with user): " << user->get_server()->get_channel(s)->getName() << E << std::endl;
-            std::cout << YELLOW << "topic is(with user): " << user->get_server()->get_channel(s)->getTopic() << E << std::endl;
-            std::cout << YELLOW << s << E << std::endl;
+                std::cout << GREEN << user->get_server()->get_channel(s)->getName() << ' ' << user->get_server()->get_channel(s)->getTopic() << E << std::endl;
         }
-
-        // std::string delimiter = ","; // suivi d'espace ou pas ?
-        // int i = 0;
-        // for (std::map<std::string, Channel *>::iterator it = channelList.begin(); it != channelList.end(); ++it)
-        // {
-        //     std::string param = user->param_list[0];
-        //     std::string delimiter = ",";
-
-        //     size_t pos = 0;
-        //     std::string token;
-        //     while ((pos = param.find(delimiter)) != std::string::npos)
-        //     {
-        //         token = param.substr(0, pos);
-        //         if (token == it->first)
-        //         {
-        //             std::cout << GREEN "the name is 1: " << it->second->getName() << " the topic is: " << it->second->getTopic() << E << std::endl;
-        //             std::cout << GREEN << token << E << std::endl;
-        //         }
-        //         param.erase(0, pos + delimiter.length());
-        //     }
-        //     if (param == it->second->getName())
-        //     {
-        //         // std::cout << CYAN "the name is 2: " << it->second->getName() << " the topic is: " << it->second->getTopic() << E << std::endl;
-        //         std::cout << CYAN "the name is 2: " << param << " the topic is: " << user->get_server()->get_channel(param)->getTopic() << E << std::endl;
-        //         std::cout << CYAN << param << E << std::endl;
-        //     }
-        // }
-        // std::string param = user->param_list[0].substr(0, user->param_list[0].find(delimiter));
-        // std::cout << GREEN << it->first << "   " << it->second->getTopic() << E << std::endl;
-        // if (param == it->second->getName())
-        //     std::cout << GREEN "the name is: " << it->second->getName() << " the topic is: " << it->second->getTopic() << E << std::endl;
     }
-
-    std::cout << RED "List params" << std::endl;
-    for (std::vector<std::string>::iterator it = user->param_list.begin(); it != user->param_list.end(); it++)
-        std::cout << ' ' << E << *it;
-    std::cout << std::endl;
-
-    // std::cout << "List channels" << std::endl;
-    // std::map<std::string, Channel *> channels = user->get_server()->get_channel_list();
-    // for (std::map<std::string, Channel *>::iterator it = channels.begin(); it != channels.end(); ++it)
-    //     std::cout << it->first << "   " << it->second->getTopic() << std::endl;
-
-    // std::cout << "List topics" << std::endl;
-    // for (std::map<std::string, Channel *>::iterator it = channels.begin(); it != channels.end(); ++it)
-    //     const std::string sujet = user->get_server()->get_channel(it->second)->getTopic();
 }
