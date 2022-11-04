@@ -19,6 +19,7 @@ SRCSFILES	= 	main.cpp \
 				commands/JOIN.cpp \
 				commands/PRIVMSG.cpp \
 				commands/TOPIC.cpp \
+				commands/LIST.cpp \
 				replies/getReply.cpp \
 				replies/sendReply.cpp \
 				utils/checkParam.cpp \

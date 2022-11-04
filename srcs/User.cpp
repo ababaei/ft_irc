@@ -18,6 +18,7 @@ User::User(int fd, Server *server) : _fd(fd), _server(server)
 	this->_cmd_list["KICK"] = KICK;
 	this->_cmd_list["PART"] = PART;
 	this->_cmd_list["TOPIC"] = TOPIC;
+	this->_cmd_list["LIST"] = LIST;
 
 	modes["away"] = false;
 	modes["invisible"] = false;

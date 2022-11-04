@@ -6,7 +6,7 @@
 /*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:42:08 by ali               #+#    #+#             */
-/*   Updated: 2022/11/03 11:27:10 by amontaut         ###   ########.fr       */
+/*   Updated: 2022/11/04 11:18:21 by amontaut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void TOPIC(User *user)
 	// /TOPIC lala = #toto :lala
 	// /TOPIC #toto lala = #toto :lala
 
-	std::string chanel = user->param_list[0].erase(0, 1);
+	std::string chanel = user->param_list[0];
 	std::string newtopic = user->param_list[1].erase(0, 1);
 	if (newtopic.length() > 80)
 	{

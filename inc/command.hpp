@@ -18,6 +18,7 @@ void PING(User *user);
 void PRIVMSG(User* user);
 void KICK(User* user);
 void PART(User* user);
+void LIST(User *user);
 
 
 #endif

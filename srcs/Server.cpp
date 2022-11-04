@@ -1,4 +1,8 @@
+#if __APPLE__
+#include "../inc/Server.hpp"
+#else
 #include "Server.hpp"
+#endif
 
 /*
 ** ------------------------------- CONSTRUCTOR/DESTRUCTOR --------------------------------
