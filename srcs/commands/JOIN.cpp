@@ -65,7 +65,7 @@ void create_channel(User *user, std::string channel, std::string pwdchan)
 
     if (pwdchan != "")
     {
-        std::cout << "SETTTT" << std::endl;
+        std::cout << "PASSE 4" << std::endl;
         chan->setKey(pwdchan);
     }
 }
@@ -131,55 +131,89 @@ void JOIN(User *user)
 
     // if (user->param_list[0][0] != '#' && user->param_list[0][0] != '&')
     // {
-    //     std::cout << RED "Wrong syntaxe" E << std::endl;
+    // std::cout << RED "Wrong syntaxe" E << std::endl;
     // }
+
     std::string delimiter = ","; // suivi d'espace ou pas ?
-    std::string s = user->param_list[0];
-    std::vector<std::string> listNewChan;
-    size_t pos = 0;
-    std::string token;
-    while ((pos = s.find(delimiter)) != std::string::npos)
+    std::vector<std::string> listNewChans;
+    if (user->param_list[0][0] == '#' || user->param_list[0][0] == '&')
     {
-        token = s.substr(0, pos);
-        listNewChan.push_back(token);
-        std::cout << token << std::endl;
-        s.erase(0, pos + delimiter.length());
+        size_t pos = 0;
+        std::string token;
+        while ((pos = user->param_list[0].find(delimiter)) != std::string::npos)
+        {
+            token = user->param_list[0].substr(0, pos);
+            // std::cout << token << std::endl;
+            listNewChans.push_back(token);
+            user->param_list[0].erase(0, pos + delimiter.length());
+        }
+        // std::cout << user->param_list[0] << std::endl;
+        listNewChans.push_back(user->param_list[0]);
     }
-    std::cout << s << std::endl;
-    listNewChan.push_back(s);
 
-    std::string pwd = user->param_list[1];
     std::vector<std::string> listNewPwd;
-    pos = 0;
-    std::string tokenpwd;
-    while ((pos = pwd.find(delimiter)) != std::string::npos)
+    if (user->param_list.size() != 1 && user->param_list[1][0] != '#' && user->param_list[1][0] != '&' && isalnum(user->param_list[1][0]) != 0)
     {
-        tokenpwd = pwd.substr(0, pos);
-        listNewPwd.push_back(tokenpwd);
-        std::cout << tokenpwd << std::endl;
-        pwd.erase(0, pos + delimiter.length());
+        if (user->param_list[1][0] != '#' || user->param_list[1][0] != '&' || user->param_list[1][0] != '+')
+        {
+            size_t pos = 0;
+            std::string token;
+            while ((pos = user->param_list[1].find(delimiter)) != std::string::npos)
+            {
+                token = user->param_list[1].substr(0, pos);
+                // std::cout << token << std::endl;
+                listNewPwd.push_back(token);
+                user->param_list[1].erase(0, pos + delimiter.length());
+            }
+            // std::cout << user->param_list[1] << std::endl;
+            listNewPwd.push_back(user->param_list[1]);
+        }
     }
-    std::cout << pwd << std::endl;
-    listNewPwd.push_back(pwd);
 
+    std::cout << YELLOW "chans are:" E << std::endl;
+    for (std::vector<std::string>::iterator it = listNewChans.begin(); it != listNewChans.end(); ++it)
+        std::cout << ' ' << *it;
+    std::cout << std::endl;
 
+    std::cout << YELLOW "pwd are:" E << std::endl;
+    for (std::vector<std::string>::iterator it = listNewPwd.begin(); it != listNewPwd.end(); ++it)
+        std::cout << ' ' << *it;
+    std::cout << std::endl;
+
+    // creations :
     unsigned int i = 0;
-    while (i < listNewChan.size())
+    while (i < listNewChans.size())
     {
-        Channel *chan = user->get_server()->get_channel(listNewChan[i]);
-        if (chan == NULL)
-            create_channel(user, listNewChan[i], listNewPwd[i]);
+        Channel *chan = user->get_server()->get_channel(listNewChans[i]);
+        std::cout << "PASSE 1" << std::endl;
+        if (listNewPwd.size() > 0)
+        {
+            if (listNewPwd[i].size() > 0)
+                std::cout << "PASSE 5" << std::endl;
+            pwdchan1 = listNewPwd[i];
+        }
         else
         {
-            if (listNewPwd[i] == chan->getKey())
+            std::cout << "PASSE 6" << std::endl;
+            pwdchan1 = "";
+        }
+        std::cout << "PASSE 2" << std::endl;
+        if (chan == NULL)
+        {
+            std::cout << "PASSE 3" << std::endl;
+            create_channel(user, listNewChans[i], pwdchan1);
+        }
+        else
+        {
+            std::cout << "PASSE 4" << std::endl;
+            if (pwdchan1 == chan->getKey())
                 join_channel(chan, user);
             else
-                user->get_server()->to_send(ERR_BADCHANNELKEY(getArgs(listNewChan[i]), user->get_nick()),
+                user->get_server()->to_send(ERR_BADCHANNELKEY(getArgs(listNewChans[i]), user->get_nick()),
                                             user->get_fd());
         }
         i++;
     }
-
     // if (chan2 != "")
     // {
     //     Channel *chan_2 = user->get_server()->get_channel(chan2);
@@ -194,13 +228,18 @@ void JOIN(User *user)
     //                                         user->get_fd());
     //     }
     // }
+    ///////// fin creations
 
+    std::cout << "NOM CHAN 1: " << chan1 << std::endl;
+    std::cout << "NOM CHAN 2: " << chan2 << std::endl;
+    std::cout << "NOM PWDCHAN 1: " << pwdchan1 << std::endl;
+    std::cout << "NOM PWDCHAN 2: " << pwdchan2 << std::endl;
+
+    std::cout << "all chan and pwd" << std::endl;
     std::map<std::string, Channel *> channelList = user->get_server()->get_channel_list();
-    std::cout << "list channels and their pwd" << std::endl;
     for (std::map<std::string, Channel *>::iterator it = channelList.begin(); it != channelList.end(); ++it)
     {
         std::cout << it->first << "   ";
-        if (it->second->getKey() != "")
-         std::cout << it->second->getKey() << std::endl;
+        std::cout << it->second->getKey() << std::endl;
     }
 }
