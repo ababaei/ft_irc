@@ -49,11 +49,11 @@ void create_channel(User *user, std::string channel, std::string pwdchan)
 {
     std::cout << "Creating the chan" << std::endl;
     if (channel.size() > 164)
-		return user->get_server()->to_send(ERR_NOSUCHCHANNEL(getArgs(channel), user->get_nick()),
-				user->get_fd());
+        return user->get_server()->to_send(ERR_NOSUCHCHANNEL(getArgs(channel), user->get_nick()),
+                                           user->get_fd());
     if (check_forbiden_char_join(channel) == -1)
-		return user->get_server()->to_send(ERR_BADCHANMASK(getArgs(channel), user->get_nick()),
-				user->get_fd());
+        return user->get_server()->to_send(ERR_BADCHANMASK(getArgs(channel), user->get_nick()),
+                                           user->get_fd());
 
     Channel *chan = new Channel(channel);
     chan->setName(channel);
@@ -61,42 +61,45 @@ void create_channel(User *user, std::string channel, std::string pwdchan)
     user->get_server()->add_channel(channel, chan);
     user->add_channel(channel);
 
-	user->get_server()->to_send(getMsg(user, "JOIN", channel), user->get_fd());
+    user->get_server()->to_send(getMsg(user, "JOIN", channel), user->get_fd());
 
     if (pwdchan != "")
+    {
+        std::cout << "SETTTT" << std::endl;
         chan->setKey(pwdchan);
+    }
 }
 
-void join_channel(Channel* chan, User *user)
+void join_channel(Channel *chan, User *user)
 {
-	std::string channel = chan->getName();
+    std::string channel = chan->getName();
     // check mdp s'il y a
     if (chan->isBanned(user->get_nick()) == 1)
-		return user->get_server()->to_send(ERR_BANNEDFROMCHAN(getArgs(channel), user->get_nick()),
-				user->get_fd());
+        return user->get_server()->to_send(ERR_BANNEDFROMCHAN(getArgs(channel), user->get_nick()),
+                                           user->get_fd());
     if (chan->getUserNum() >= chan->getUserLimit())
-		return user->get_server()->to_send(ERR_CHANNELISFULL(getArgs(channel), user->get_nick()),
-				user->get_fd());
+        return user->get_server()->to_send(ERR_CHANNELISFULL(getArgs(channel), user->get_nick()),
+                                           user->get_fd());
     if (user->getChannelList().size() >= static_cast<unsigned int>(user->getChanelLimit()))
-		return user->get_server()->to_send(ERR_TOOMANYCHANNELS(getArgs(channel), user->get_nick()),
-				user->get_fd());
+        return user->get_server()->to_send(ERR_TOOMANYCHANNELS(getArgs(channel), user->get_nick()),
+                                           user->get_fd());
     if (chan->isInvited(user->get_nick()) == false && chan->isInviteOnly() == 1)
-		return user->get_server()->to_send(ERR_INVITEONLYCHAN(getArgs(channel), user->get_nick()),
-				user->get_fd());
-
+        return user->get_server()->to_send(ERR_INVITEONLYCHAN(getArgs(channel), user->get_nick()),
+                                           user->get_fd());
 
     std::cout << "Joined the chan" << std::endl;
-	user->get_server()->to_send(getMsg(user, "JOIN", channel),
-			   	chan->getFds());
-	chan->addUser(user);
-	user->add_channel(chan->getName());
-	if (chan->getTopic()  != "")
-		user->get_server()->to_send(RPL_TOPIC(getArgs(channel, chan->getTopic()),
-					user->get_nick()), user->get_fd());
-	else
-		user->get_server()->to_send(RPL_NOTOPIC(getArgs(channel),
-					user->get_nick()), user->get_fd());
-
+    user->get_server()->to_send(getMsg(user, "JOIN", channel),
+                                chan->getFds());
+    chan->addUser(user);
+    user->add_channel(chan->getName());
+    if (chan->getTopic() != "")
+        user->get_server()->to_send(RPL_TOPIC(getArgs(channel, chan->getTopic()),
+                                              user->get_nick()),
+                                    user->get_fd());
+    else
+        user->get_server()->to_send(RPL_NOTOPIC(getArgs(channel),
+                                                user->get_nick()),
+                                    user->get_fd());
 
     //             // RPL_TOPIC // ajouter reply
     // OR RPL_NOTOPIC (331) if no topic is et //ajouter reply
@@ -126,52 +129,78 @@ void JOIN(User *user)
     std::string pwdchan1;
     std::string pwdchan2;
 
-    if (user->param_list[0][0] != '#' && user->param_list[0][0] != '&')
-    {
-        std::cout << RED "Wrong syntaxe" E << std::endl;
-    }
+    // if (user->param_list[0][0] != '#' && user->param_list[0][0] != '&')
+    // {
+    //     std::cout << RED "Wrong syntaxe" E << std::endl;
+    // }
     std::string delimiter = ","; // suivi d'espace ou pas ?
-    if (user->param_list[0][0] == '#' || user->param_list[0][0] == '&')
+    std::string s = user->param_list[0];
+    std::vector<std::string> listNewChan;
+    size_t pos = 0;
+    std::string token;
+    while ((pos = s.find(delimiter)) != std::string::npos)
     {
-        chan1 = user->param_list[0].substr(0, user->param_list[0].find(delimiter));
-        if (chan1.size() + 1 != user->param_list[0].size())
-            chan2 = user->param_list[0].substr(user->param_list[0].find(delimiter) + 1, user->param_list[0].size());
+        token = s.substr(0, pos);
+        listNewChan.push_back(token);
+        std::cout << token << std::endl;
+        s.erase(0, pos + delimiter.length());
     }
-    if (user->param_list.size() != 1 && user->param_list[1][0] != '#' && user->param_list[1][0] != '&' && isalnum(user->param_list[1][0]) != 0)
+    std::cout << s << std::endl;
+    listNewChan.push_back(s);
+
+    std::string pwd = user->param_list[1];
+    std::vector<std::string> listNewPwd;
+    pos = 0;
+    std::string tokenpwd;
+    while ((pos = pwd.find(delimiter)) != std::string::npos)
     {
-        pwdchan1 = user->param_list[1].substr(0, user->param_list[1].find(delimiter));
-        if (pwdchan1.size() != user->param_list[1].size())
-            pwdchan2 = user->param_list[1].substr(user->param_list[1].find(delimiter) + 1, user->param_list[1].size());
+        tokenpwd = pwd.substr(0, pos);
+        listNewPwd.push_back(tokenpwd);
+        std::cout << tokenpwd << std::endl;
+        pwd.erase(0, pos + delimiter.length());
+    }
+    std::cout << pwd << std::endl;
+    listNewPwd.push_back(pwd);
+
+
+    unsigned int i = 0;
+    while (i < listNewChan.size())
+    {
+        Channel *chan = user->get_server()->get_channel(listNewChan[i]);
+        if (chan == NULL)
+            create_channel(user, listNewChan[i], listNewPwd[i]);
+        else
+        {
+            if (listNewPwd[i] == chan->getKey())
+                join_channel(chan, user);
+            else
+                user->get_server()->to_send(ERR_BADCHANNELKEY(getArgs(listNewChan[i]), user->get_nick()),
+                                            user->get_fd());
+        }
+        i++;
     }
 
-	Channel* chan = user->get_server()->get_channel(chan1);
-	if (chan == NULL)
-        create_channel(user, chan1, pwdchan1);
-	else
-	{
-		if (pwdchan1 == chan->getKey())
-			join_channel(chan, user);
-		else
-			user->get_server()->to_send(ERR_BADCHANNELKEY(getArgs(chan1), user->get_nick()),
-					user->get_fd());
-	}
+    // if (chan2 != "")
+    // {
+    //     Channel *chan_2 = user->get_server()->get_channel(chan2);
+    //     if (chan == NULL)
+    //         create_channel(user, chan2, pwdchan2);
+    //     else
+    //     {
+    //         if (pwdchan1 == chan_2->getKey())
+    //             join_channel(chan_2, user);
+    //         else
+    //             user->get_server()->to_send(ERR_BADCHANNELKEY(getArgs(chan2), user->get_nick()),
+    //                                         user->get_fd());
+    //     }
+    // }
 
-	if (chan2 != "")
-	{
-		Channel* chan_2 = user->get_server()->get_channel(chan2);
-		if (chan == NULL)
-			create_channel(user, chan2, pwdchan2);
-		else
-		{
-		if (pwdchan1 == chan_2->getKey())
-			join_channel(chan_2, user);
-		else
-			user->get_server()->to_send(ERR_BADCHANNELKEY(getArgs(chan2), user->get_nick()),
-					user->get_fd());
-		}
-	}
-    std::cout << "NOM CHAN 1: " << chan1 << std::endl;
-    std::cout << "NOM CHAN 2: " << chan2 << std::endl;
-    std::cout << "NOM PWDCHAN 1: " << pwdchan1 << std::endl;
-    std::cout << "NOM PWDCHAN 2: " << pwdchan2 << std::endl;
+    std::map<std::string, Channel *> channelList = user->get_server()->get_channel_list();
+    std::cout << "list channels and their pwd" << std::endl;
+    for (std::map<std::string, Channel *>::iterator it = channelList.begin(); it != channelList.end(); ++it)
+    {
+        std::cout << it->first << "   ";
+        if (it->second->getKey() != "")
+         std::cout << it->second->getKey() << std::endl;
+    }
 }
