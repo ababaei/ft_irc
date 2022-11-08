@@ -60,7 +60,7 @@ void create_channel(User *user, std::string channel, std::string pwdchan)
     chan->addUser(user);
     user->get_server()->add_channel(channel, chan);
     user->add_channel(channel);
-
+    user->set_mode("operator", 1);
     user->get_server()->to_send(getMsg(user, "JOIN", channel), user->get_fd());
 
     if (pwdchan != "")
