@@ -6,12 +6,12 @@
 /*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:42:08 by ali               #+#    #+#             */
-/*   Updated: 2022/11/04 11:18:21 by amontaut         ###   ########.fr       */
+/*   Updated: 2022/11/08 18:17:12 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/command.hpp"
-#include "../../inc/colors.hpp"
+#include "command.hpp"
+#include "colors.hpp"
 
 void TOPIC(User *user)
 {
@@ -35,56 +35,44 @@ void TOPIC(User *user)
 	// /TOPIC lala = #toto :lala
 	// /TOPIC #toto lala = #toto :lala
 
-	std::string chanel = user->param_list[0];
+	if (user->param_list.size() < 2)
+		return user->get_server()->to_send(ERR_NEEDMOREPARAMS(getArgs("TOPIC"), user->get_nick()),
+				user->get_fd());
+	std::string channel = user->param_list[0];
 	std::string newtopic = user->param_list[1].erase(0, 1);
 	if (newtopic.length() > 80)
 	{
 		std::cout << RED "Topic's name is too long" E << std::endl; // Pas dans rfc mais sur https://www.techbull.com/techbull/guide/internet/irccommande.html 
-		return;
+		return user->get_server()->to_send(ERR_NEEDMOREPARAMS(getArgs("TOPIC"), user->get_nick()),
+				user->get_fd());
 	}
 
-	if (user->get_server()->get_channel_list().count(chanel) != 1) // utile ?
+	Channel* chan = user->get_server()->get_channel(channel);
+	if (chan == NULL)
 	{
 		std::cout << RED "Chanel doesnt exist" E << std::endl; // utile ?
-		return;
+		return user->get_server()->to_send(ERR_NEEDMOREPARAMS(getArgs("TOPIC"), user->get_nick()),
+				user->get_fd());
 	}
 
-	std::vector<User *> userList = user->get_server()->get_channel(chanel)->getUserList();
-	unsigned int i = 0;
-	while (i < userList.size())
+	if (chan->isHere(user->get_nick()) == false)
 	{
-		while (user->get_username() != userList[i]->get_username())
-			i++;
-		if (user->get_username() == userList[i]->get_username())
-			break;
-		if (i == userList.size())
-			std::cout << "ERR_NOTONCHANNEL = You're not in the chan" << std::endl;
+		std::cout << "ERR_NOTONCHANNEL = You're not in the chan" << std::endl;
+		return user->get_server()->to_send(ERR_NOTONCHANNEL(getArgs(channel), user->get_nick()),
+				user->get_fd());
 	}
 
 	// SI chan en mode +t , alors only ops can change subject.
-	if (user->get_server()->get_channel(chanel)->isTopicOperatorOnly() == 1 && user->get_server()->get_channel(chanel)->isChanOp(user->get_nick()) == 1) // on check si qqn est ops avec sur username ou nickname ?
+	if ((chan->isTopicOperatorOnly() && chan->isChanOp(user->get_nick()) == 1)
+			|| chan->isTopicOperatorOnly() == false)
 	{
-		user->get_server()->get_channel(chanel)->setTopic(newtopic);
-		std::cout << YELLOW "New topic is:" << user->get_server()->get_channel(chanel)->getTopic() << E << std::endl;
-	}
-	else if (user->get_server()->get_channel(chanel)->isTopicOperatorOnly() == 0)
-	{
-		user->get_server()->get_channel(chanel)->setTopic(newtopic);
-		std::cout << YELLOW "New topic is:" << user->get_server()->get_channel(chanel)->getTopic() << E << std::endl;
+		chan->setTopic(newtopic);
+		user->get_server()->to_send(RPL_TOPIC(getArgs(channel, newtopic), user->get_nick()), chan->getFds());
+		std::cout << YELLOW "New topic is:" << chan->getTopic() << E << std::endl;
 	}
 	else
+	{
+		user->get_server()->to_send(ERR_CHANOPRIVSNEEDED(getArgs(channel), user->get_nick()), user->get_fd());
 		std::cout << "ERR_CHANOPRIVSNEEDED you dont have the rights" << std::endl;
-
-	if (user->get_server()->get_channel(chanel)->getTopic() == "")
-	{
-		std::cout << RED "No topic" E << std::endl;
 	}
-	else if (user->param_list.size() < 2)
-	{
-		std::cout << YELLOW "Topic is:" << user->get_server()->get_channel(chanel)->getTopic() << E << std::endl;
-	}
-
-	// for (std::vector<std::string>::iterator it = user->param_list.begin(); it != user->param_list.end(); it++)
-	// 	std::cout << ' ' << *it;
-	// std::cout << std::endl;
 }
