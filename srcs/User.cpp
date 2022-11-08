@@ -20,6 +20,7 @@ User::User(int fd, Server *server) : _fd(fd), _server(server)
 	this->_cmd_list["TOPIC"] = TOPIC;
 	this->_cmd_list["LIST"] = LIST;
 	this->_cmd_list["NAMES"] = NAMES;
+	this->_cmd_list["INVITE"] = INVITE;
 
 	modes["away"] = false;
 	modes["invisible"] = false;

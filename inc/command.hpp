@@ -20,6 +20,7 @@ void KICK(User* user);
 void PART(User* user);
 void LIST(User *user);
 void NAMES(User *user);
+void INVITE(User *user);
 
 
 #endif
