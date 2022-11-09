@@ -109,7 +109,7 @@ void Server::poll_loop()
 
 void Server::list_to_arr()
 {
-	this->_arr_pfds = (pollfd *)malloc(sizeof(this->_arr_pfds) * sizeof(this->_pfds.size()));
+	this->_arr_pfds = (pollfd *)malloc(sizeof(struct pollfd) * sizeof(this->_pfds.size()));
 	std::copy(this->_pfds.begin(), this->_pfds.end(), this->_arr_pfds);
 }
 
@@ -129,13 +129,19 @@ void Server::polling()
 void Server::check_activity(void)
 {
 	std::map<int, User *>::iterator it;
-	std::map<int, User *>::iterator itend;
 
-	itend = this->_User_list.end();
-	for (it = this->_User_list.begin(); it != itend; it++)
+	for (it = this->_User_list.begin(); it != _User_list.end(); it++)
 	{
 		if (difftime(time(NULL), it->second->get_activity()) > 180)
 			it->second->set_status("inactive");
+	}
+	for (it = this->_User_list.begin(); it != _User_list.end(); it++)
+	{
+		if (it->second->get_status() == "out")
+		{
+			deleteUser(it->second->get_nick());
+			break ;
+		}
 	}
 }
 
@@ -270,5 +276,29 @@ User*					Server::get_user(const std::string& nick)
 void	Server::deleteChannel(const std::string& name)
 {
 	_channels.erase(name);
+}
+
+void	Server::deleteUser(const std::string& nick)
+{
+	int fd;
+
+	for (std::map<int, User*>::iterator it = _User_list.begin(); it != _User_list.end();
+			it++)
+	{
+		if (it->second->get_nick() == nick)
+		{
+			fd = it->second->get_fd();
+			close_connection(fd, 1);
+			_User_list.erase(it);
+			for (std::list<pollfd>::iterator it = _pfds.begin(); it != _pfds.end(); it++)
+			{
+				if (it->fd == fd)
+				{
+					_pfds.erase(it);
+					return ;
+				}
+			}
+		}
+	}
 }
 /* ************************************************************************** */

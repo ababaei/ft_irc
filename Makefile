@@ -22,6 +22,7 @@ SRCSFILES	= 	main.cpp \
 				commands/LIST.cpp \
 				commands/NAMES.cpp \
 				commands/INVITE.cpp \
+				commands/QUIT.cpp \
 				replies/getReply.cpp \
 				replies/sendReply.cpp \
 				utils/checkParam.cpp \
@@ -42,7 +43,7 @@ $(OBJSDIR)/%.o:		$(SRCSDIR)/%.cpp
 
 CC			= clang++
 
-CFLAGS	= -Wall -Wextra -Werror -std=c++98
+CFLAGS	= -Wall -Wextra -Werror -std=c++98 -g
 
 
 -include	$(DEPENDS)

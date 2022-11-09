@@ -25,7 +25,8 @@ public:
 	void add_channel(std::string new_channel); // doublon avec arthur ?
 	void add_nick(std::string new_nick);
 	void remove_nick(std::string old_nick);
-	void deleteChannel(const std::string &name);
+	void deleteUser(const std::string& nick);
+	void deleteChannel(const std::string& name);
 	void add_channel(std::string new_channel, Channel *chan); // doublon avec arthur ?
 	void handle_pfds(void);
 	void handle_new_connection(void);

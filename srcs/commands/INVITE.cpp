@@ -30,12 +30,19 @@ void INVITE(User *user)
 				user->get_fd());
     }
 
-    // chan en 1er
-	Channel* chan;
-    if (isChanName(user->param_list[1]))
+	Channel* chan = NULL;
+	User* invited = NULL;
+
+    if (isChanName(user->param_list[0]))
+	{
 		chan = user->get_server()->get_channel(user->param_list[0]);
-	else
-		return ;
+		invited = user->get_server()->get_user(user->param_list[1]);
+	}
+	else if (isChanName(user->param_list[1]))
+	{
+		chan = user->get_server()->get_channel(user->param_list[1]);
+		invited = user->get_server()->get_user(user->param_list[0]);
+	}
 
 	if (chan == NULL)
 	{
@@ -43,7 +50,6 @@ void INVITE(User *user)
 		return user->get_server()->to_send(ERR_NOSUCHCHANNEL(getArgs(chan->getName()), user->get_nick()),
 				user->get_fd());
 	}
-	User* invited = user->get_server()->get_user(user->param_list[0]);
 	if (invited == NULL)
 	{
 		std::cout << RED "ERR_NOSUCHNICK" E << std::endl; // rajouter reply
