@@ -34,6 +34,7 @@ public:
         void set_real_name(std::string real_name);
         void set_status(std::string status);
         void set_mode(const std::string &mode, bool b);
+        void set_away(const std::string awayMsg);
         void setChanelLimit(int aUserLimit);
         void add_channel(std::string new_channel);
 

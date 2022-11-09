@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   getReply.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 18:53:39 by ali               #+#    #+#             */
-/*   Updated: 2022/10/27 16:01:25 by ali              ###   ########.fr       */
+/*   Updated: 2022/11/09 16:49:47 by amontaut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,10 @@ std::string	getReplyEnd(unsigned short code, std::vector<std::string> args)
 			return args[0] + " :Unknown command";
 		case 4:
 			return args[0] + " " + args[1] + " " + args[2] + " " + args[3];
+		case 305:
+			return ":You are no longer marked as being away";
+		case 306:
+			return ":You have been marked as being away";
 	}
 	return "";
 }

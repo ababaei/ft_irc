@@ -23,6 +23,7 @@ SRCSFILES	= 	main.cpp \
 				commands/NAMES.cpp \
 				commands/INVITE.cpp \
 				commands/QUIT.cpp \
+				commands/AWAY.cpp \
 				replies/getReply.cpp \
 				replies/sendReply.cpp \
 				utils/checkParam.cpp \
