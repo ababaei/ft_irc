@@ -214,74 +214,26 @@ void Server::close_connection(int sender_fd, int nbytes)
 
 void Server::handle_raw(int sender_fd)
 {
-	// vvvvvvvvvvvvvvvvvvvvvvv LOOP NEED TO BE CHECKED FOR SOME LOSSES CASES vvvvvvvvvvvvvvvvvvvvvvv
-    // std::string tmp(this->_buf);
-    // std::size_t pos;
-
-    // pos = tmp.find("\r\n");
-    // //std::cout << "FOUND!!__" << pos << "\n";
-    // while (((pos = tmp.find("\r\n")) != std::string::npos))
-    // {
-    //     this->_User_list[sender_fd]->to_command(tmp.substr(0, pos));
-    //     tmp = tmp.substr(pos + 2);
-    //     _message.clear();
-    // }
-    // _message.append(this->_buf);
-    // memset(this->_buf, 0, 510);
-	// vvvvvvvvvvvvvvvvvvvvvvv LOOP NEED TO BE CHECKED FOR SOME LOSSES CASES vvvvvvvvvvvvvvvvvvvvvvv
-	//this->_User_list[sender_fd]->message.append(this->_buf);
-	// std::string tmp(this->_User_list[sender_fd]->message);
-	// std::size_t pos = 0;
-// 
-	// if (tmp.find("\r\n") == 0)
-		// tmp = tmp.substr(pos + 2);
-	// 
-	// if (tmp.find("\r\n") == std::string::npos)
-		// tmp.append(this->_buf);
-// 
-	// while ((pos = tmp.find("\r\n")) != std::string::npos && pos != 0)
-	// {
-		// std::cout << "cmd:" << tmp.substr(0, pos) << "\n";
-		// this->_User_list[sender_fd]->to_command(tmp.substr(0, pos));
-		// tmp = tmp.substr(pos + 2);
-		// this->_User_list[sender_fd]->message.clear();
-	// }
-	// if (pos == 0)
-		// tmp.clear();
-	// this->_User_list[sender_fd]->message = tmp;
-	// memset(this->_buf, 0, 510);
-	// std::cout << "_______entering handleraw______" << "\n";
-	// std::cout << "buf= " << this->_buf << "\n";
-	// std::cout << "msg= " + this->_User_list[sender_fd]->message << "\n";
-
-
-	std::cout << "_______entering handleraw______" << std::endl;
+//	std::cout << "_______entering handleraw______" << std::endl;
 	std::string tmp; 
+
 	tmp.append(this->_User_list[sender_fd]->message);
 	tmp.append(this->_buf);
-	// std::cout << "tmp= " + tmp << "\n";
+
 	std::size_t pos = tmp.find("\r\n");
-
-	// if (pos == 0)
-	// 	tmp = tmp.substr(pos + 2);
-	
-	// if (pos == std::string::npos)
-	// 	tmp.append(this->_buf);
-
-	std::cout << "pos: " << pos << std::endl;
+//	std::cout << "pos: " << pos << std::endl;
 	while ((pos = tmp.find("\r\n")) != std::string::npos)
 	{
-		std::cout << "cmd:" << tmp.substr(0, pos) << "\n";
 		if (pos != 0)
 			this->_User_list[sender_fd]->to_command(tmp.substr(0, pos));
-		std::cout << "pos: " << pos << "\n";
-		std::cout << "tmp: " << tmp << "\n";
-		std::cout << "tmp[pos + 2]: " << tmp.substr(pos + 2) << "\n";
+		// std::cout << "pos: " << pos << "\n";
+		// std::cout << "tmp: " << tmp << "\n";
+		// std::cout << "tmp[pos + 2]: " << tmp.substr(pos + 2) << "\n";
 		tmp = tmp.substr(pos + 2);
 	}
 	this->_User_list[sender_fd]->message = tmp;
 	memset(this->_buf, 0, 510);
-	std::cout << "_______exiting handleraw______" << std::endl;
+	// std::cout << "_______exiting handleraw______" << std::endl;
 }
 
 /*

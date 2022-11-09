@@ -18,7 +18,7 @@ void    WHOIS(User *user)
 {
     std::vector<std::string> params = user->param_list;
     
-    std::cout << "size: " << params.size() + " " + params[0] << "\n";
+    std::cout << "size: " << params.size() << " " << params[0] << "\n";
     if (params.size() == 0)
         return (user->get_server()->to_send(ERR_NONICKNAMEGIVEN(getArgs(),user->get_nick()),
         user->get_fd()));
