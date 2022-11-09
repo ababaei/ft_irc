@@ -67,21 +67,35 @@ void create_channel(User *user, std::string channel, std::string pwdchan)
         chan->setKey(pwdchan);
 }
 
-void join_channel(Channel* chan, User *user)
+void join_channel(Channel *chan, User *user)
 {
-    // check mdp s'il y a
+    std::string channel = chan->getName();
     if (chan->isBanned(user->get_nick()) == 1)
-        std::cout << RED "Error ERR_BANNEDFROMCHAN" E << std::endl; // ajouter reply
+        return user->get_server()->to_send(ERR_BANNEDFROMCHAN(getArgs(channel), user->get_nick()),
+                                           user->get_fd());
     if (chan->getUserNum() >= chan->getUserLimit())
-        std::cout << RED "Error 432 ERR_CHANNELISFULL" E << std::endl; // ajouter reply
+        return user->get_server()->to_send(ERR_CHANNELISFULL(getArgs(channel), user->get_nick()),
+                                           user->get_fd());
     if (user->getChannelList().size() >= static_cast<unsigned int>(user->getChanelLimit()))
-        std::cout << RED "Error ERR_TOOMANYCHANNELS" E << std::endl; // ajouter reply
+        return user->get_server()->to_send(ERR_TOOMANYCHANNELS(getArgs(channel), user->get_nick()),
+                                           user->get_fd());
     if (chan->isInvited(user->get_nick()) == false && chan->isInviteOnly() == 1)
-        std::cout << RED "Error ERR_INVITEONLYCHAN" E << std::endl; // ajouter reply
+        return user->get_server()->to_send(ERR_INVITEONLYCHAN(getArgs(channel), user->get_nick()),
+                                           user->get_fd());
 
     std::cout << "Joined the chan" << std::endl;
-	chan->addUser(user);
-	user->add_channel(chan->getName());
+    user->get_server()->to_send(getMsg(user, "JOIN", channel),
+                                chan->getFds());
+    chan->addUser(user);
+    user->add_channel(chan->getName());
+    if (chan->getTopic() != "")
+        user->get_server()->to_send(RPL_TOPIC(getArgs(channel, chan->getTopic()),
+                                              user->get_nick()),
+                                    user->get_fd());
+    else
+        user->get_server()->to_send(RPL_NOTOPIC(getArgs(channel),
+                                                user->get_nick()),
+                                    user->get_fd());
 
     //             // RPL_TOPIC // ajouter reply
     // OR RPL_NOTOPIC (331) if no topic is et //ajouter reply
