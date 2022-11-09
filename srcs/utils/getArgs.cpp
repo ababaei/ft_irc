@@ -6,11 +6,7 @@
 /*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 15:06:39 by ali               #+#    #+#             */
-<<<<<<< HEAD
 /*   Updated: 2022/11/03 16:37:43 by ali              ###   ########.fr       */
-=======
-/*   Updated: 2022/11/02 17:07:44 by ali              ###   ########.fr       */
->>>>>>> refs/remotes/origin/arvin
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +22,6 @@ const std::vector<std::string>	getArgs(const std::string& arg0,
 {
 	std::vector<std::string> args;
 
-<<<<<<< HEAD
 	if (arg0 != "")
 		args.push_back(arg0);
 	if (arg1 != "")
@@ -41,13 +36,6 @@ const std::vector<std::string>	getArgs(const std::string& arg0,
 		args.push_back(arg5);
 	if (arg6 != "")
 		args.push_back(arg6);
-=======
-	va_list	ap;
-	va_start(ap, size);
-	for (int i = 0; i < size; i++)
-		args.push_back(va_arg(ap, std::string));
-	va_end(ap);
->>>>>>> refs/remotes/origin/arvin
 
 	return args;
 }
