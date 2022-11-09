@@ -21,6 +21,7 @@ User::User(int fd, Server *server) : _fd(fd), _server(server)
 	this->_cmd_list["LIST"] = LIST;
 	this->_cmd_list["NAMES"] = NAMES;
 	this->_cmd_list["INVITE"] = INVITE;
+	this->_cmd_list["AWAY"] = AWAY;
 
 	modes["away"] = false;
 	modes["invisible"] = false;
@@ -85,6 +86,11 @@ void User::set_status(std::string status)
 void User::set_mode(const std::string &mode, bool b)
 {
 	modes[mode] = b;
+}
+
+void User::set_away(const std::string awayMsg)
+{
+	this->awayMsg = awayMsg;
 }
 
 void	User::setChanelLimit(int aChanelLimit)

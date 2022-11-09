@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replies.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 17:32:17 by ali               #+#    #+#             */
-/*   Updated: 2022/11/03 13:31:45 by ali              ###   ########.fr       */
+/*   Updated: 2022/11/09 16:53:08 by amontaut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,5 +122,11 @@ std::string	getReply(unsigned short code, std::vector<std::string> args,
 
 # define ERR_UNKNOWNCOMMAND(args, target_nickname) getReply(421, args, target_nickname)
 # define RPL_MYINFO(args, target_nickname) getReply(4, args, target_nickname)
+
+//		 Optional features (rfc 2812 4)
+# define RPL_UNAWAY(args, target_nickname) getReply(305, args, target_nickname)
+# define RPL_NOWAWAY(args, target_nickname) getReply(306, args, target_nickname)
+
+
 
 #endif

@@ -21,6 +21,7 @@ void PART(User* user);
 void LIST(User *user);
 void NAMES(User *user);
 void INVITE(User *user);
+void AWAY(User *user);
 
 
 #endif
