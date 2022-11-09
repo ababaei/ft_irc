@@ -61,10 +61,17 @@ void create_channel(User *user, std::string channel, std::string pwdchan)
     user->get_server()->add_channel(channel, chan);
     user->add_channel(channel);
     user->set_mode("operator", 1);
-    user->get_server()->to_send(getMsg(user, "JOIN", channel), user->get_fd());
+    YELLOW;
+    user->get_server()->to_send(getMsg(user, "JOIN", channel), user->get_fd()); // ?? Est ce une reply
 
     if (pwdchan != "")
         chan->setKey(pwdchan);
+    // return user->get_server()->to_send(RPL_NAMEREPLY(getArgs(channel),
+    //                                                  user->get_nick()),
+    //                                    user->get_fd());
+    // return user->get_server()->to_send(RPL_ENDOFNAMES(getArgs(channel),
+    //                                                   user->get_nick()),
+    //                                    user->get_fd());
 }
 
 void join_channel(Channel *chan, User *user)
@@ -97,6 +104,12 @@ void join_channel(Channel *chan, User *user)
                                                 user->get_nick()),
                                     user->get_fd());
 
+    // return user->get_server()->to_send(RPL_NAMEREPLY(getArgs(channel),
+    //                                                  user->get_nick()),
+    //                                    user->get_fd());
+    // return user->get_server()->to_send(RPL_ENDOFNAMES(getArgs(channel),
+    //                                                   user->get_nick()),
+    //                                    user->get_fd());
     //             // RPL_NAMREPLY (353) // ajouter reply
     //             // RPL_ENDOFNAMES (366). // ajouter reply
 }

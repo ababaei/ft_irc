@@ -66,12 +66,5 @@ void NICK(User *user)
         if (nickname == it->second->get_nick())
             return (user->get_server()->to_send(ERR_NICKNAMEINUSE(user->param_list, nickname), user->get_fd()));
     }
-    
     user->set_nick(nickname);
-
-    // 437    ERR_UNAVAILRESOURCE ?
-    // 433    ERR_NICKNAMEINUSE : user is not a valid type
-    // 484    ERR_RESTRICTED ?? : Sent by the server to a user upon connection to indicate
-    //    the restricted nature of the connection (user mode "+r").
-    // std::cout << "VAR NICK IS : " << user->get_nick() << std::endl;
 }
