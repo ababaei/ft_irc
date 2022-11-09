@@ -15,6 +15,7 @@ void AWAY(User *user)
     if (user->param_list[0].size() > 1)
     {
         user->set_mode("away", true);
+         user->set_status("away");
         user->set_away(user->param_list[0].erase(0, 1));
         user->get_server()->to_send(RPL_NOWAWAY(getArgs(""),
                                                 user->get_nick()),
@@ -24,6 +25,7 @@ void AWAY(User *user)
     else
     {
         user->set_mode("away", false);
+         user->set_status("");
         user->set_away("");
         user->get_server()->to_send(RPL_UNAWAY(getArgs(""),
                                                user->get_nick()),

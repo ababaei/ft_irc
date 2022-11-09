@@ -75,7 +75,7 @@ void INVITE(User *user)
 					user->get_nick()), user->get_fd());
 	}
 	if (invited->get_status() == "away")
-		return user->get_server()->to_send(RPL_AWAY(getArgs(user->get_nick(), "is away from keyboard."), user->get_nick()), user->get_fd());
+		return user->get_server()->to_send(RPL_AWAY(getArgs(user->get_nick(), user->getAway()), user->get_nick()), user->get_fd());
 	std::cout << GREEN "RPL_INVITING is invited" E << std::endl; // rajouter reply.
 
 	std::vector<int> fds;

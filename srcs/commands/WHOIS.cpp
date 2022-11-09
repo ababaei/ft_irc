@@ -10,7 +10,7 @@ time_t idle)
     if (user->get_status() == "inactive")
         user->get_server()->to_send(RPL_WHOISIDLE(getArgs(nick, convert(idle)), nick), user->get_fd());
     else if (user->get_status() == "away")
-        user->get_server()->to_send(RPL_AWAY(getArgs(nick, "is away from keyboard."), nick), user->get_fd());
+        user->get_server()->to_send(RPL_AWAY(getArgs(nick, user->getAway()), nick), user->get_fd());
     user->get_server()->to_send(RPL_ENDOFWHOIS(getArgs(nick), nick), user->get_fd());
 }
 
