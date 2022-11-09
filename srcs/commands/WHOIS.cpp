@@ -7,7 +7,6 @@ void send_infos(User *user, std::string nick, std::string username, std::string 
 time_t idle)
 {
     user->get_server()->to_send(RPL_WHOISUSER(getArgs(nick, username, host, realname), nick), user->get_fd());
-    
     if (user->get_status() == "inactive")
         user->get_server()->to_send(RPL_WHOISIDLE(getArgs(nick, convert(idle)), nick), user->get_fd());
     else if (user->get_status() == "away")

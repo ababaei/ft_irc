@@ -119,6 +119,16 @@ void User::to_command(std::string msg)
 		exit(0); // Quitter de maniere plus propre
 	}
 
+	// std::cout << "WORDS are:" << std::endl;
+	// for (std::vector<std::string>::iterator it = words.begin(); it != words.end(); ++it)
+	// 	std::cout << ' ' << *it;
+	// std::cout << std::endl;
+
+	// std::cout << "PARAM LIST 1 are:" << std::endl;
+	// for (std::vector<std::string>::iterator it = this->param_list.begin(); it != this->param_list.end(); ++it)
+	// 	std::cout << ' ' << *it;
+	// std::cout << std::endl;
+
 	this->exec_cmd();
 	this->clear_cmd();
 }

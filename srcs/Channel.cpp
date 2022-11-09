@@ -9,7 +9,6 @@ Channel::Channel(const std::string &aName) : name(aName)
 	flags["anonymous"] = false;
 	flags["private"] = false;
 	flags["topic"] = false;
-
 	key = "";
 	userLimit = 500;
 }
@@ -257,4 +256,3 @@ void Channel::setUserVoiced(const std::string &nick, bool b)
 {
 	userModes[nick]["voiced"] = b;
 }
-
