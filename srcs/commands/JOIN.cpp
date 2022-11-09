@@ -97,8 +97,6 @@ void join_channel(Channel *chan, User *user)
                                                 user->get_nick()),
                                     user->get_fd());
 
-    //             // RPL_TOPIC // ajouter reply
-    // OR RPL_NOTOPIC (331) if no topic is et //ajouter reply
     //             // RPL_NAMREPLY (353) // ajouter reply
     //             // RPL_ENDOFNAMES (366). // ajouter reply
 }
