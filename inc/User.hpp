@@ -25,6 +25,7 @@ public:
         Server *get_server(void);
         bool get_mode(const std::string &mode);
         int getChanelLimit() const;
+		const std::string&	getAway() const;
         const std::vector<std::string> getChannelList() const;
 
         void set_nick(std::string nick);
@@ -58,6 +59,8 @@ private: // variables
 
         std::string _command;
         std::map<std::string, void (*)(User *)> _cmd_list;
+
+		std::string	awayMsg; // message quand le user est away
 
 private: // method
         void exec_cmd(void);

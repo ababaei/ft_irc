@@ -151,3 +151,8 @@ void User::update_activity(void)
 {
 	this->_last_activity = time(NULL);
 }
+
+const std::string&	User::getAway() const
+{
+	return awayMsg;
+}
