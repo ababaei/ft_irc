@@ -262,7 +262,3 @@ void Channel::setUserVoiced(const std::string &nick, bool b)
 {
 	userModes[nick]["voiced"] = b;
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> 3123a40 (resolve conflict)

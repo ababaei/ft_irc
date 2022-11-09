@@ -251,4 +251,3 @@ void    MODE(User *user)
 	else
 		userMode(user, params);
 }
-

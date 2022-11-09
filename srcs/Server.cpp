@@ -166,7 +166,6 @@ void Server::handle_pfds()
 			{
 				int nbytes = recv(it->fd, this->_buf, sizeof(this->_buf), 0);
 				int sender_fd = it->fd;
-				std::cout << "< received " << nbytes << " bytes (" << this->_buf << ")\n";
 				if (nbytes <= 0)
 				{
 					this->close_connection(sender_fd, nbytes);
@@ -174,6 +173,8 @@ void Server::handle_pfds()
 				}
 				else
 				{
+					this->_buf[nbytes] = '\0';
+					std::cout << "< received " << nbytes << " bytes (" << this->_buf << ")\n";
 					this->handle_raw(sender_fd);
 				}
 				// std::cout << this->message << "\n";
@@ -245,26 +246,38 @@ void Server::handle_raw(int sender_fd)
 		// tmp.clear();
 	// this->_User_list[sender_fd]->message = tmp;
 	// memset(this->_buf, 0, 510);
-	std::string tmp = this->_User_list[sender_fd]->message;
-	std::size_t pos = 0;
+	// std::cout << "_______entering handleraw______" << "\n";
+	// std::cout << "buf= " << this->_buf << "\n";
+	// std::cout << "msg= " + this->_User_list[sender_fd]->message << "\n";
 
-	if (tmp.find("\r\n") == 0)
-		tmp = tmp.substr(pos + 2);
+
+	std::cout << "_______entering handleraw______" << std::endl;
+	std::string tmp; 
+	tmp.append(this->_User_list[sender_fd]->message);
+	tmp.append(this->_buf);
+	// std::cout << "tmp= " + tmp << "\n";
+	std::size_t pos = tmp.find("\r\n");
+
+	// if (pos == 0)
+	// 	tmp = tmp.substr(pos + 2);
 	
-	if (tmp.find("\r\n") == std::string::npos)
-		tmp.append(this->_buf);
+	// if (pos == std::string::npos)
+	// 	tmp.append(this->_buf);
 
-	while ((pos = tmp.find("\r\n")) != std::string::npos && pos != 0)
+	std::cout << "pos: " << pos << std::endl;
+	while ((pos = tmp.find("\r\n")) != std::string::npos)
 	{
 		std::cout << "cmd:" << tmp.substr(0, pos) << "\n";
-		this->_User_list[sender_fd]->to_command(tmp.substr(0, pos));
+		if (pos != 0)
+			this->_User_list[sender_fd]->to_command(tmp.substr(0, pos));
+		std::cout << "pos: " << pos << "\n";
+		std::cout << "tmp: " << tmp << "\n";
+		std::cout << "tmp[pos + 2]: " << tmp.substr(pos + 2) << "\n";
 		tmp = tmp.substr(pos + 2);
-		this->_User_list[sender_fd]->message.clear();
 	}
-	if (pos == 0)
-		tmp.clear();
 	this->_User_list[sender_fd]->message = tmp;
 	memset(this->_buf, 0, 510);
+	std::cout << "_______exiting handleraw______" << std::endl;
 }
 
 /*
