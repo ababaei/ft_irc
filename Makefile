@@ -29,6 +29,7 @@ SRCSFILES	= 	main.cpp \
 				utils/checkParam.cpp \
 				utils/getArgs.cpp \
 				utils/getMsg.cpp \
+				utils/splitStr.cpp \
 				Channel.cpp
 SRCS = $(addprefix $(SRCSDIR)/,$(SRCSFILES))
 
