@@ -6,39 +6,73 @@
 /*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:42:08 by ali               #+#    #+#             */
-/*   Updated: 2022/11/03 15:50:07 by ali              ###   ########.fr       */
+/*   Updated: 2022/11/10 17:51:32 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/command.hpp"
 
+void	kickUser(Channel* chan, User* user, std::string& nick, std::string& kickMsg)
+{
+	if (chan->isHere(user->get_nick()) == false)
+		return user->get_server()->to_send(ERR_NOTONCHANNEL(getArgs(chan->getName()),
+				user->get_nick()), user->get_fd());
+
+	if (chan->isChanOp(user->get_nick()) == false)
+		return user->get_server()->to_send(ERR_CHANOPRIVSNEEDED(getArgs(chan->getName()),
+					user->get_nick()), user->get_fd());
+
+	if (chan->isHere(nick) == false)
+		return user->get_server()->to_send(ERR_USERNOTINCHANNEL(getArgs(nick, chan->getName()),
+					user->get_nick()), user->get_fd());
+
+	std::vector<std::string> msgParams;
+	if (kickMsg != "")
+		msgParams = getArgs(chan->getName(), nick, kickMsg);
+	else
+		msgParams = getArgs(chan->getName(), nick);
+	user->get_server()->to_send(getMsg(user, "KICK", msgParams), chan->getFds());
+	chan->kickUser(nick);
+	if (chan->getUserNum() == 0)
+		user->get_server()->deleteChannel(chan->getName());
+}
+
 void	KICK(User* user)
 {
 	std::vector<std::string> params = user->param_list;
+	std::string	kickMsg = "";
 
 	if (params.size() < 2)
 		return user->get_server()->to_send(ERR_NEEDMOREPARAMS(getArgs("KICK"),
 					user->get_nick()), user->get_fd());
+	if (params.size() > 2)
+	{
+		std::vector<std::string> msg(params.begin() + 2, params.end());
+		kickMsg = getStr(msg);
+	}
 
-	Channel* chan = user->get_server()->get_channel(params[0]);
-	if (chan == NULL)
-		return user->get_server()->to_send(ERR_NOSUCHCHANNEL(getArgs(params[0]),
+	std::vector<std::string> chanNames = splitStr(params[0], ",");
+	std::vector<std::string> userNicks = splitStr(params[1], ",");
+
+	if (chanNames.size() != 1 && chanNames.size() != userNicks.size())
+		return user->get_server()->to_send(ERR_NEEDMOREPARAMS(getArgs("KICK"),
 					user->get_nick()), user->get_fd());
 
-	if (chan->isHere(user->get_nick()) == false)
-		return user->get_server()->to_send(ERR_NOTONCHANNEL(getArgs(params[0]),
-				user->get_nick()), user->get_fd());
-
-	if (chan->isChanOp(user->get_nick()) == false)
-		return user->get_server()->to_send(ERR_CHANOPRIVSNEEDED(getArgs(params[0]),
+	Channel* chan;
+	for (unsigned int i = 0; i < chanNames.size(); i++)
+	{
+		chan = user->get_server()->get_channel(chan->getName());
+		if (chan == NULL)
+			user->get_server()->to_send(ERR_NOSUCHCHANNEL(getArgs(chan->getName()),
 					user->get_nick()), user->get_fd());
-
-	if (chan->isHere(params[1]) == false)
-		return user->get_server()->to_send(ERR_USERNOTINCHANNEL(getArgs(params[1], params[0]),
-					user->get_nick()), user->get_fd());
-
-	user->get_server()->to_send(getMsg(user, "KICK", params), chan->getFds());
-	chan->kickUser(params[1]);
-	if (chan->getUserNum() == 0)
-		user->get_server()->deleteChannel(chan->getName());
+		if (chanNames.size() == 1)
+		{
+			for (std::vector<std::string>::iterator it = userNicks.begin(); it != userNicks.end();
+					it++)
+				kickUser(chan, user, *it, kickMsg);
+		}
+		else
+			kickUser(chan, user, userNicks[i], kickMsg);
+	}
 }
+

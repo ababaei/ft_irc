@@ -6,7 +6,7 @@
 /*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 10:44:05 by ali               #+#    #+#             */
-/*   Updated: 2022/11/10 17:02:02 by ali              ###   ########.fr       */
+/*   Updated: 2022/11/10 17:48:46 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ const std::string getMsg(User *user, const std::string &command,
 const std::string getMsg(User *user, const std::string &command,
 		const std::string& params);
 const std::vector<std::string>	splitStr(std::string& str, const std::string& delimiter);
+const std::string	getStr(std::vector<std::string>& v);
 
 template<class T>
 const std::string	convert(const T& elem)
