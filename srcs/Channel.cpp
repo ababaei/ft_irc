@@ -150,6 +150,13 @@ bool Channel::isAnonymous()
 	return false;
 }
 
+bool Channel::isPrivate()
+{
+	if (flags["private"] == true)
+		return true;
+	return false;
+}
+
 bool Channel::isTopicOperatorOnly()
 {
 	if (flags["topic"] == true)

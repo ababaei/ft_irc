@@ -66,9 +66,31 @@ void create_channel(User *user, std::string channel, std::string pwdchan)
 
     if (pwdchan != "")
         chan->setKey(pwdchan);
-    // return user->get_server()->to_send(RPL_NAMEREPLY(getArgs(channel),
-    //                                                  user->get_nick()),
-    //                                    user->get_fd());
+
+    std::string reply_channel;
+    std::string reply_nick;
+
+    if (chan->isSecret() == true)
+        reply_channel = "@" + channel;
+    else if (chan->isPrivate() == true)
+        reply_channel = "*" + channel;
+    else
+        reply_channel = "=" + channel;
+
+    std::vector<std::string> nick_list = chan->getNickList();
+    for (std::vector<std::string>::iterator it = nick_list.begin(); it != nick_list.end(); ++it)
+    {
+        std::string tmp;
+        if (chan->isChanOp(*it))
+            tmp = "@" + *it;
+        else
+            tmp = "+" + *it;
+        reply_nick += tmp;
+        std::cout << ' ' << *it;
+    }
+    return user->get_server()->to_send(RPL_NAMEREPLY(getArgs(reply_channel,reply_nick),
+                                                     user->get_nick()),
+                                       user->get_fd());
     // return user->get_server()->to_send(RPL_ENDOFNAMES(getArgs(channel),
     //                                                   user->get_nick()),
     //                                    user->get_fd());
