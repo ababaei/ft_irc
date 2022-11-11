@@ -20,7 +20,13 @@ void USER(User *user)
         return (user->get_server()->to_send(ERR_NEEDMOREPARAMS(
             getArgs("USER"), user->get_nick()), user->get_fd()
         ));
-    if (user->get_server()->isHere(user->get_nick()))
+    if (user->get_status() == "registered")
+    {
+        return (user->get_server()->to_send(ERR_ALREADYREGISTRED(
+            getArgs(), user->get_nick()), user->get_fd()
+        ));
+    }
+    else
     {
         user->set_username(user->param_list[1]);
         std::cout << BBLUE "Your User is: " << user->get_username() << E << std::endl;
@@ -40,11 +46,11 @@ void USER(User *user)
             user->set_real_name(realname);
         std::cout << BBLUE "Your realname is: " << user->get_real_name() << E << std::endl;
         // ---------------------
-        return (user->get_server()->to_send(RPL_WELCOME(
-            getArgs(user->get_nick(), user->get_username(), user->get_hostname()), user->get_nick()), user->get_fd()));
+        if (user->get_nick().size() != 0)
+        {
+            user->set_status("registered");
+            return (user->get_server()->to_send(RPL_WELCOME(
+                getArgs(user->get_nick(), user->get_username(), user->get_hostname()), user->get_nick()), user->get_fd()));
+        }
     }
-    else
-        return (user->get_server()->to_send(ERR_ALREADYREGISTRED(
-            getArgs(), user->get_nick()), user->get_fd()
-        ));
 }
