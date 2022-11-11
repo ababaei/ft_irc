@@ -20,7 +20,6 @@ Server::~Server() {}
 ** --------------------------------- METHODS ----------------------------------
 */
 
-/*vvvvvvvvvvvvvvvvvvvv Socket listener creation and adding socket to the server's list vvvvvvvvvvvvvvv*/
 void Server::set_listener_sock(void)
 {
 	int listener;
@@ -93,9 +92,7 @@ void Server::add_channel(std::string new_channel, Channel * chan)
 {
 	this->_channels.insert(std::pair<std::string, Channel*>(new_channel, chan));
 }
-/*	poll() function uses array and i wanted to work with container
-	so i made two function to go to one from another.
-vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv*/
+
 void Server::poll_loop()
 {
 	while (1)
@@ -156,10 +153,6 @@ bool	Server::isHere(const std::string& nick)
 	return false;
 }
 
-/*  This function will check the results of poll() by doing a bitwise AND on the returned event.
-	If its the listener that has something to say, that means we have a new connection.
-	Otherwise, we have data to read with recv().
-vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv*/
 void Server::handle_pfds()
 {
 	std::list<pollfd>::iterator it;
@@ -220,7 +213,6 @@ void Server::close_connection(int sender_fd, int nbytes)
 
 void Server::handle_raw(int sender_fd)
 {
-//	std::cout << "_______entering handleraw______" << std::endl;
 	std::string tmp; 
 
 	tmp.append(this->_User_list[sender_fd]->message);
@@ -238,8 +230,7 @@ void Server::handle_raw(int sender_fd)
 		tmp = tmp.substr(pos + 2);
 	}
 	this->_User_list[sender_fd]->message = tmp;
-	memset(this->_buf, 0, 510);
-	// std::cout << "_______exiting handleraw______" << std::endl;
+	memset(this->_buf, 0, 512);
 }
 
 /*
@@ -252,6 +243,7 @@ std::string				Server::get_server_name(void) { return (this->_server_name); }
 std::string				Server::get_password() { return (this->_password); }
 
 std::map<int, User *>	Server::get_user_list() { return (this->_User_list); }
+
 std::map<std::string, Channel*> Server::get_channel_list() { return (this->_channels); }
 
 Channel*				Server::get_channel(const std::string& name)

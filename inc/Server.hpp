@@ -66,7 +66,7 @@ private:
 	std::map<int, User *> _User_list;
 	std::map<std::string, Channel *> _channels;
 
-	char _buf[510];
+	char _buf[512];
 	int _listener;
 };
 
