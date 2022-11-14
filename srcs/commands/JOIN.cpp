@@ -141,7 +141,7 @@ void join_channel(Channel *chan, User *user)
         std::string tmp;
         if (chan->isChanOp(*it))
             tmp = "@" + *it;
-        else
+        else if (chan->canSpeak(*it))
             tmp = "+" + *it;
         reply_nick += tmp;
         std::cout << ' ' << *it;
