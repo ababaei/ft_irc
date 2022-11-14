@@ -16,20 +16,32 @@
 
 //    Wildcards are allowed in the <target> parameter. --> NO car 1 server
 
-std::string itoa(int a)
+std::string itoa(int i)
 {
     std::string str = "";
-    if (a == 0)
+    if (i == 0)
         return ("0");
-    while (a)
+    while (i)
     {
-        int x = a % 10;
-        a /= 10;
-        char i = '0';
-        i = i + x;
-        str = i + str;
+        int x = i % 10;
+        i /= 10;
+        char c = '0';
+        c = c + x;
+        str = c + str;
     }
     return str;
+}
+
+std::string count_users(std::vector<std::string> listNick, User *user)
+{
+    int count = 0;
+    for (std::vector<std::string>::iterator it = listNick.begin(); it != listNick.end(); ++it)
+    {
+        if (user->get_server()->get_user(*it)->get_mode("invisible") == false)
+            count++;
+        // std::cout << ' ' << *it;
+    }
+    return (itoa(count));
 }
 
 void LIST(User *user)
@@ -43,34 +55,18 @@ void LIST(User *user)
     if (user->param_list.size() == 0)
     {
         // std::cout << YELLOW "All channels and their topic" E << std::endl;
-        for (std::map<std::string, Channel *>::iterator itm = channelList.begin(); itm != channelList.end(); ++itm)
+        for (std::map<std::string, Channel *>::iterator it = channelList.begin(); it != channelList.end(); ++it)
         {
-            int count = 0;
-            std::vector<std::string> listNick = itm->second->getNickList();
-            for (std::vector<std::string>::iterator it = listNick.begin(); it != listNick.end(); ++it)
-            {
-                if (user->get_server()->get_user(*it)->get_mode("invisible") == false)
-                    count++;
-                // std::cout << ' ' << *it;
-            }
-            // std::string finalcount;
-            // std::string finaltopic;
-            // if (count == 0)
-            //     finalcount = "0";
-            // else
-            //     finalcount = itoa(count);
-            // if (itm->second->getTopic() == "")
-            //     finaltopic = itm->second->getTopic();
-            user->get_server()->to_send(RPL_LIST(getArgs(itm->first, itoa(count), itm->second->getTopic()), user->get_nick()),
+            std::vector<std::string> listNick = it->second->getNickList();
+            user->get_server()->to_send(RPL_LIST(getArgs(it->first, count_users(listNick, user), it->second->getTopic()), user->get_nick()),
                                         user->get_fd());
-            // std::cout << YELLOW << itm->first << " " << finalcount << " " << itm->second->getTopic() << E << std::endl;
+            // std::cout << YELLOW << it->first << " " << finalcount << " " << it->second->getTopic() << E << std::endl;
         }
     }
     else
     {
         std::string s = user->param_list[0];
         std::string delimiter = ",";
-
         size_t pos = 0;
         std::string token;
         while ((pos = s.find(delimiter)) != std::string::npos)
@@ -78,23 +74,8 @@ void LIST(User *user)
             token = s.substr(0, pos);
             if (channelList.count(token) == 1)
             {
-                int count = 0;
                 std::vector<std::string> listNick = user->get_server()->get_channel(token)->getNickList();
-                for (std::vector<std::string>::iterator it = listNick.begin(); it != listNick.end(); ++it)
-                {
-                    if (user->get_server()->get_user(*it)->get_mode("invisible") == false)
-                        count++;
-                    // std::cout << ' ' << *it;
-                }
-                // std::string finalcount;
-                // std::string finaltopic;
-                // if (count == 0)
-                //     finalcount = "0";
-                // else
-                //     finalcount = itoa(count);
-                // if (user->get_server()->get_channel(token)->getTopic() == "")
-                //     finaltopic = user->get_server()->get_channel(token)->getTopic();
-                user->get_server()->to_send(RPL_LIST(getArgs(user->get_server()->get_channel(token)->getName(), itoa(count), user->get_server()->get_channel(token)->getTopic()), user->get_nick()),
+                user->get_server()->to_send(RPL_LIST(getArgs(user->get_server()->get_channel(token)->getName(), count_users(listNick, user), user->get_server()->get_channel(token)->getTopic()), user->get_nick()),
                                             user->get_fd());
                 // std::cout << GREEN << user->get_server()->get_channel(token)->getName() << " " << itoa(count) << " " << user->get_server()->get_channel(token)->getTopic() << E << std::endl;
             }
@@ -102,23 +83,8 @@ void LIST(User *user)
         }
         if (channelList.count(s) == 1)
         {
-            int count = 0;
             std::vector<std::string> listNick = user->get_server()->get_channel(s)->getNickList();
-            for (std::vector<std::string>::iterator it = listNick.begin(); it != listNick.end(); ++it)
-            {
-                if (user->get_server()->get_user(*it)->get_mode("invisible") == false)
-                    count++;
-                // std::cout << ' ' << *it;
-            }
-            // std::string finalcount;
-            // std::string finaltopic;
-            // if (count == 0)
-            //     finalcount = "0";
-            // else
-            //     finalcount = itoa(count);
-            // if (user->get_server()->get_channel(s)->getTopic() == "")
-            //     finaltopic = user->get_server()->get_channel(s)->getTopic();
-            user->get_server()->to_send(RPL_LIST(getArgs(user->get_server()->get_channel(s)->getName(), itoa(count), user->get_server()->get_channel(s)->getTopic()), user->get_nick()),
+            user->get_server()->to_send(RPL_LIST(getArgs(user->get_server()->get_channel(s)->getName(), count_users(listNick, user), user->get_server()->get_channel(s)->getTopic()), user->get_nick()),
                                         user->get_fd());
             // std::cout << CYAN << user->get_server()->get_channel(s)->getName() << " " << itoa(count) << " " << user->get_server()->get_channel(s)->getTopic() << E << std::endl;
         }
