@@ -32,14 +32,17 @@ void INVITE(User *user)
 
 	Channel* chan = NULL;
 	User* invited = NULL;
+	std::string chanName = "";
 
     if (isChanName(user->param_list[0]))
 	{
+		chanName = user->param_list[0];
 		chan = user->get_server()->get_channel(user->param_list[0]);
 		invited = user->get_server()->get_user(user->param_list[1]);
 	}
 	else if (isChanName(user->param_list[1]))
 	{
+		chanName = user->param_list[1];
 		chan = user->get_server()->get_channel(user->param_list[1]);
 		invited = user->get_server()->get_user(user->param_list[0]);
 	}
@@ -47,7 +50,7 @@ void INVITE(User *user)
 	if (chan == NULL)
 	{
 		std::cout << RED "Channel does not exist" E << std::endl; // rajouter reply
-		return user->get_server()->to_send(ERR_NOSUCHCHANNEL(getArgs(chan->getName()), user->get_nick()),
+		return user->get_server()->to_send(ERR_NOSUCHCHANNEL(getArgs(chanName), user->get_nick()),
 				user->get_fd());
 	}
 	if (invited == NULL)

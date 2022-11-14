@@ -6,7 +6,7 @@
 /*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:22:03 by ali               #+#    #+#             */
-/*   Updated: 2022/11/14 15:05:07 by ali              ###   ########.fr       */
+/*   Updated: 2022/11/14 16:46:58 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	PART(User* user)
 	{
 		chan = user->get_server()->get_channel(*it);
 		if (chan == NULL)
-			user->get_server()->to_send(ERR_NOSUCHCHANNEL(getArgs(chan->getName()),
+			user->get_server()->to_send(ERR_NOSUCHCHANNEL(getArgs(*it),
 					user->get_nick()), user->get_fd());
 		else
 			partChan(partMsg, user, chan);
