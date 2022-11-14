@@ -70,18 +70,15 @@ void LIST(User *user)
         {
             Channel *chan = user->get_server()->get_channel(*it);
             if (chan == NULL)
-                break;
+            {
+                user->get_server()->to_send(ERR_NOSUCHCHANNEL(getArgs(*it), user->get_nick()),
+                                            user->get_fd());
+                continue;
+            }
             std::vector<std::string> listNick = user->get_server()->get_channel(*it)->getNickList();
             user->get_server()->to_send(RPL_LIST(getArgs(user->get_server()->get_channel(*it)->getName(), count_users(listNick, user), user->get_server()->get_channel(*it)->getTopic()), user->get_nick()),
                                         user->get_fd());
         }
-        std::string s = user->param_list[0];
-        Channel *chan = user->get_server()->get_channel(s);
-        if (chan == NULL)
-            return;
-        std::vector<std::string> listNick = user->get_server()->get_channel(s)->getNickList();
-        user->get_server()->to_send(RPL_LIST(getArgs(user->get_server()->get_channel(s)->getName(), count_users(listNick, user), user->get_server()->get_channel(s)->getTopic()), user->get_nick()),
-                                    user->get_fd());
     }
     return user->get_server()->to_send(RPL_LISTEND(getArgs(), user->get_nick()),
                                        user->get_fd());
