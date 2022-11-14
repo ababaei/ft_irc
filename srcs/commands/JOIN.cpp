@@ -83,7 +83,7 @@ void create_channel(User *user, std::string channel, std::string pwdchan)
         std::string tmp;
         if (chan->isChanOp(*it))
             tmp = "@" + *it;
-        else
+        else if (chan->canSpeak(*it))
             tmp = "+" + *it;
         reply_nick += tmp;
         std::cout << ' ' << *it;
