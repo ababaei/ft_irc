@@ -6,7 +6,7 @@
 /*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 13:32:51 by ali               #+#    #+#             */
-/*   Updated: 2022/11/03 11:26:01 by amontaut         ###   ########.fr       */
+/*   Updated: 2022/11/10 13:57:43 by amontaut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ class Channel
 		bool	isModerated();
 		bool	isInviteOnly();
 		bool	isAnonymous();
+		bool	isPrivate();
 		bool	isTopicOperatorOnly();
 		bool	hasOneOp();
 		bool	canSpeak(const std::string& nick);

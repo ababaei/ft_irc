@@ -123,7 +123,8 @@ void User::to_command(std::string msg)
 	if (this->_command != "CAP" && this->_command != "PASS" && this->_nick == "" && this->_status != "connected/registered")
 	{
 		std::cout << RED "FAILED TO CONNECT : no password" E << std::endl;
-		exit(0); // Quitter de maniere plus propre
+		// exit(0); // Quitter de maniere plus propre
+	    this->get_server()->close_connection (this->get_fd(), 0);
 	}
 
 	// std::cout << "WORDS are:" << std::endl;
