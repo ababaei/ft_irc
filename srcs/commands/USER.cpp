@@ -6,8 +6,8 @@
 void USER(User *user)
 {
     std::cout << "Hello USER" << std::endl;
-    std::string msg = ":127.0.0.1 001 " + user->get_nick() + "!ababaei@127.0.0.1\r\n";
-    send(user->get_fd(), msg.c_str(), msg.length(), 0);
+//    std::string msg = ":127.0.0.1 001 " + user->get_nick() + "!ababaei@127.0.0.1\r\n";
+ //   send(user->get_fd(), msg.c_str(), msg.length(), 0);
     std::string username(user->param_list[1]);
     user->set_username(user->param_list[1]);
     std::cout << BBLUE "Your uSER is: " << user->get_username() << E << std::endl;

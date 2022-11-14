@@ -9,5 +9,7 @@ const std::vector<std::string> splitStr(std::string& str, const std::string& del
 		strs.push_back(str.substr(0, pos));
 		str.erase(0, pos + delimiter.length());
 	}
+	if (str.find(delimiter) == std::string::npos)
+		strs.push_back(str);
 	return strs;
 }
