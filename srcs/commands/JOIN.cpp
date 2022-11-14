@@ -19,13 +19,13 @@
 int specialchar_join(char c)
 {
     // _ - = @ , . ;
-    if (c == '_' ||
-        c == '-' ||
-        c == '=' ||
-        c == '@' ||
+
+    //(' '), a control G (^G or ASCII 7), ',' , ':'
+
+    if (c == ' ' ||
+        c == 7 ||
         c == ',' ||
-        c == '.' ||
-        c == ';')
+        c == ':')
         return (1);
     return (0);
 }
@@ -37,21 +37,21 @@ int check_forbiden_char_join(std::string channel)
         unsigned int i = 1;
         while (i < channel.length())
         {
-            if (isalnum(channel[i]) == 0 && specialchar_join(channel[i]) == 0)
-                return (-1);
+            if (specialchar_join(channel[i]) == 1)
+                return (0);
             i++;
         }
     }
-    return (0);
+    return (1);
 }
 
 void create_channel(User *user, std::string channel, std::string pwdchan)
 {
     std::cout << "Creating the chan" << std::endl;
-    if (channel.size() > 164)
+    if (channel.size() >= 50)
         return user->get_server()->to_send(ERR_NOSUCHCHANNEL(getArgs(channel), user->get_nick()),
                                            user->get_fd());
-    if (check_forbiden_char_join(channel) == -1)
+    if (check_forbiden_char_join(channel) == 0)
         return user->get_server()->to_send(ERR_BADCHANMASK(getArgs(channel), user->get_nick()),
                                            user->get_fd());
 
