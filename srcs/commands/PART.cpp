@@ -6,7 +6,7 @@
 /*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:22:03 by ali               #+#    #+#             */
-/*   Updated: 2022/11/10 17:49:08 by ali              ###   ########.fr       */
+/*   Updated: 2022/11/14 15:05:07 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,16 @@ void	PART(User* user)
 		partMsg = getStr(msg);
 	}
 
+	std::cout << "HERE" << std::endl;
 	std::vector<std::string> chanNames = splitStr(params[0], ",");
 	Channel* chan;
 	for (std::vector<std::string>::iterator it = chanNames.begin(); it != chanNames.end(); it++)
 	{
-		chan = user->get_server()->get_channel(chan->getName());
+		chan = user->get_server()->get_channel(*it);
 		if (chan == NULL)
 			user->get_server()->to_send(ERR_NOSUCHCHANNEL(getArgs(chan->getName()),
 					user->get_nick()), user->get_fd());
-		partChan(partMsg, user, chan);
+		else
+			partChan(partMsg, user, chan);
 	}
 }
