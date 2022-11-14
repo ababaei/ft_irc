@@ -177,8 +177,6 @@ void JOIN(User *user)
         return;
     }
 
-    std::string key;
-    std::string delimiter = ","; // suivi d'espace ou pas ?
     std::vector<std::string> listNewChans;
     if (user->param_list[0][0] == '#' || user->param_list[0][0] == '&' || user->param_list[0][0] == '+' || user->param_list[0][0] == '!')
         listNewChans = splitStr(user->param_list[0], ",");
