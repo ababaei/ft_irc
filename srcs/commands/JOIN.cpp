@@ -14,7 +14,7 @@
 // #chan, #chan key, key
 // #chan, #chan key
 
-//     +pareil avec &instead of #
+//     +pareil avec & + !
 
 int specialchar_join(char c)
 {
@@ -181,7 +181,7 @@ void JOIN(User *user)
 
     std::string delimiter = ","; // suivi d'espace ou pas ?
     std::vector<std::string> listNewChans;
-    if (user->param_list[0][0] == '#' || user->param_list[0][0] == '&')
+    if (user->param_list[0][0] == '#' || user->param_list[0][0] == '&' || user->param_list[0][0] == '+' || user->param_list[0][0] == '!')
     {
         size_t pos = 0;
         std::string token;
@@ -195,7 +195,7 @@ void JOIN(User *user)
     }
 
     std::vector<std::string> listNewPwd;
-    if (user->param_list.size() != 1 && user->param_list[1][0] != '#' && user->param_list[1][0] != '&' && isalnum(user->param_list[1][0]) != 0)
+    if (user->param_list.size() != 1 && user->param_list[1][0] != '#' && user->param_list[1][0] != '&' && user->param_list[1][0] != '+' && user->param_list[1][0] != '!' && isalnum(user->param_list[1][0]) != 0)
     {
         if (user->param_list[1][0] != '#' || user->param_list[1][0] != '&' || user->param_list[1][0] != '+')
         {
