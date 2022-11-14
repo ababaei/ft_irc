@@ -6,7 +6,7 @@
 /*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:42:08 by ali               #+#    #+#             */
-/*   Updated: 2022/11/10 17:51:32 by ali              ###   ########.fr       */
+/*   Updated: 2022/11/14 15:13:39 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	KICK(User* user)
 	Channel* chan;
 	for (unsigned int i = 0; i < chanNames.size(); i++)
 	{
-		chan = user->get_server()->get_channel(chan->getName());
+		chan = user->get_server()->get_channel(chanNames[i]);
 		if (chan == NULL)
 			user->get_server()->to_send(ERR_NOSUCHCHANNEL(getArgs(chan->getName()),
 					user->get_nick()), user->get_fd());
