@@ -65,29 +65,49 @@ void LIST(User *user)
     }
     else
     {
-        std::string s = user->param_list[0];
-        std::string delimiter = ",";
-        size_t pos = 0;
-        std::string token;
-        while ((pos = s.find(delimiter)) != std::string::npos)
+        std::vector<std::string> channels = splitStr(user->param_list[0], ",");
+        for (std::vector<std::string>::iterator it = channels.begin(); it != channels.end(); ++it)
         {
-            token = s.substr(0, pos);
-            if (channelList.count(token) == 1)
-            {
-                std::vector<std::string> listNick = user->get_server()->get_channel(token)->getNickList();
-                user->get_server()->to_send(RPL_LIST(getArgs(user->get_server()->get_channel(token)->getName(), count_users(listNick, user), user->get_server()->get_channel(token)->getTopic()), user->get_nick()),
-                                            user->get_fd());
-                // std::cout << GREEN << user->get_server()->get_channel(token)->getName() << " " << itoa(count) << " " << user->get_server()->get_channel(token)->getTopic() << E << std::endl;
-            }
-            s.erase(0, pos + delimiter.length());
-        }
-        if (channelList.count(s) == 1)
-        {
-            std::vector<std::string> listNick = user->get_server()->get_channel(s)->getNickList();
-            user->get_server()->to_send(RPL_LIST(getArgs(user->get_server()->get_channel(s)->getName(), count_users(listNick, user), user->get_server()->get_channel(s)->getTopic()), user->get_nick()),
+            std::vector<std::string> listNick = user->get_server()->get_channel(*it)->getNickList();
+            user->get_server()->to_send(RPL_LIST(getArgs(user->get_server()->get_channel(*it)->getName(), count_users(listNick, user), user->get_server()->get_channel(*it)->getTopic()), user->get_nick()),
                                         user->get_fd());
-            // std::cout << CYAN << user->get_server()->get_channel(s)->getName() << " " << itoa(count) << " " << user->get_server()->get_channel(s)->getTopic() << E << std::endl;
         }
+        std::string s = user->param_list[0];
+        std::vector<std::string> listNick = user->get_server()->get_channel(s)->getNickList();
+        user->get_server()->to_send(RPL_LIST(getArgs(user->get_server()->get_channel(s)->getName(), count_users(listNick, user), user->get_server()->get_channel(s)->getTopic()), user->get_nick()),
+                                    user->get_fd());
+
+        // if (channels.size() == 0)
+        // {
+        // std::string s = user->param_list[0];
+        // std::vector<std::string> listNick = user->get_server()->get_channel(s)->getNickList();
+        // user->get_server()->to_send(RPL_LIST(getArgs(user->get_server()->get_channel(s)->getName(), count_users(listNick, user), user->get_server()->get_channel(s)->getTopic()), user->get_nick()),
+        //                             user->get_fd());
+        // }
+
+        // std::string s = user->param_list[0];
+        // std::string delimiter = ",";
+        // size_t pos = 0;
+        // std::string token;
+        // while ((pos = s.find(delimiter)) != std::string::npos)
+        // {
+        //     token = s.substr(0, pos);
+        //     if (channelList.count(token) == 1)
+        //     {
+        //         std::vector<std::string> listNick = user->get_server()->get_channel(token)->getNickList();
+        //         user->get_server()->to_send(RPL_LIST(getArgs(user->get_server()->get_channel(token)->getName(), count_users(listNick, user), user->get_server()->get_channel(token)->getTopic()), user->get_nick()),
+        //                                     user->get_fd());
+        //         // std::cout << GREEN << user->get_server()->get_channel(token)->getName() << " " << itoa(count) << " " << user->get_server()->get_channel(token)->getTopic() << E << std::endl;
+        //     }
+        //     s.erase(0, pos + delimiter.length());
+        // }
+        // if (channelList.count(s) == 1)
+        // {
+        //     std::vector<std::string> listNick = user->get_server()->get_channel(s)->getNickList();
+        //     user->get_server()->to_send(RPL_LIST(getArgs(user->get_server()->get_channel(s)->getName(), count_users(listNick, user), user->get_server()->get_channel(s)->getTopic()), user->get_nick()),
+        //                                 user->get_fd());
+        //     // std::cout << CYAN << user->get_server()->get_channel(s)->getName() << " " << itoa(count) << " " << user->get_server()->get_channel(s)->getTopic() << E << std::endl;
+        // }
     }
     return user->get_server()->to_send(RPL_LISTEND(getArgs(), user->get_nick()),
                                        user->get_fd());
