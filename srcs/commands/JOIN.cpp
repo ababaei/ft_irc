@@ -178,37 +178,16 @@ void JOIN(User *user)
     }
 
     std::string key;
-
     std::string delimiter = ","; // suivi d'espace ou pas ?
     std::vector<std::string> listNewChans;
     if (user->param_list[0][0] == '#' || user->param_list[0][0] == '&' || user->param_list[0][0] == '+' || user->param_list[0][0] == '!')
-    {
-        size_t pos = 0;
-        std::string token;
-        while ((pos = user->param_list[0].find(delimiter)) != std::string::npos)
-        {
-            token = user->param_list[0].substr(0, pos);
-            listNewChans.push_back(token);
-            user->param_list[0].erase(0, pos + delimiter.length());
-        }
-        listNewChans.push_back(user->param_list[0]);
-    }
+        listNewChans = splitStr(user->param_list[0], ",");
 
     std::vector<std::string> listNewPwd;
     if (user->param_list.size() != 1 && user->param_list[1][0] != '#' && user->param_list[1][0] != '&' && user->param_list[1][0] != '+' && user->param_list[1][0] != '!' && isalnum(user->param_list[1][0]) != 0)
     {
         if (user->param_list[1][0] != '#' || user->param_list[1][0] != '&' || user->param_list[1][0] != '+')
-        {
-            size_t pos = 0;
-            std::string token;
-            while ((pos = user->param_list[1].find(delimiter)) != std::string::npos)
-            {
-                token = user->param_list[1].substr(0, pos);
-                listNewPwd.push_back(token);
-                user->param_list[1].erase(0, pos + delimiter.length());
-            }
-            listNewPwd.push_back(user->param_list[1]);
-        }
+            listNewPwd = splitStr(user->param_list[1], ",");
     }
 
     std::cout << YELLOW "chans are:" E << std::endl;
