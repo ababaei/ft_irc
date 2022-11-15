@@ -7,19 +7,15 @@ void	chanMsg(Channel* chan, User* user, std::vector<std::string>& params)
 		return user->get_server()->to_send(ERR_CANNOTSENDTOCHAN(getArgs(params[0]), user->get_nick()), 
 				user->get_fd());
 
-	user->get_server()->to_send(getMsg(user, "PRIVMSG", params), chan->getOtherFds(user->get_nick()));
+	user->get_server()->to_send(getMsg(user, "NOTICE", params), chan->getOtherFds(user->get_nick()));
 }
 
 void	userMsg(User* recipient, User* user, std::vector<std::string>& params)
 { 
-	if (recipient->get_status() == "away")
-		user->get_server()->to_send(RPL_AWAY(getArgs(recipient->get_nick(), recipient->getAway()),
-					user->get_nick()), user->get_fd());
-	else
-		user->get_server()->to_send(getMsg(user, "PRIVMSG", params), recipient->get_fd());
+	user->get_server()->to_send(getMsg(user, "NOTICE", params), recipient->get_fd());
 }
 
-void	PRIVMSG(User* user)
+void	NOTICE(User* user)
 {
 	std::vector<std::string> params = user->param_list;
 
@@ -30,7 +26,7 @@ void	PRIVMSG(User* user)
 	{
 		Channel* channel = user->get_server()->get_channel(params[0]);
 		if (channel == NULL)
-			return user->get_server()->to_send(ERR_NORECIPIENT(getArgs("PRIVMSG"),
+			return user->get_server()->to_send(ERR_NORECIPIENT(getArgs("NOTICE"),
 						user->get_nick()), user->get_fd());
 		else
 			chanMsg(channel, user, params);
