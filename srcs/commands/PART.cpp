@@ -6,7 +6,7 @@
 /*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:22:03 by ali               #+#    #+#             */
-/*   Updated: 2022/11/15 10:37:07 by ali              ###   ########.fr       */
+/*   Updated: 2022/11/15 11:11:04 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,14 @@ void	partChan(std::string& partMsg, User* user, Channel* chan)
 	user->get_server()->to_send(getMsg(user, "PART", msgParams), chan->getFds());
 	chan->kickUser(user->get_nick());
 	if (chan->getUserNum() == 0)
+	{
+		user->get_server()->to_send(ERR_CANNOTSENDTOCHAN(getArgs(chan->getName()), user->get_nick()),
+			user->get_fd());
 		user->get_server()->deleteChannel(chan->getName());
+	}
+	else
+		user->get_server()->to_send(ERR_CANNOTSENDTOCHAN(getArgs(chan->getName()), user->get_nick()),
+			user->get_fd());
 }
 
 void	PART(User* user)
