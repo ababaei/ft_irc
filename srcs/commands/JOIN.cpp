@@ -63,6 +63,8 @@ void create_channel(User *user, std::string channel, std::string pwdchan)
     user->set_mode("operator", 1);
     YELLOW;
     user->get_server()->to_send(getMsg(user, "JOIN", channel), user->get_fd()); // ?? Est ce une reply
+	user->get_server()->to_send(RPL_UNIQOPIS(getArgs(channel, user->get_nick()),
+								user->get_nick()), chan->getFds());
 
     if (pwdchan != "")
         chan->setKey(pwdchan);

@@ -6,7 +6,7 @@
 /*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:42:08 by ali               #+#    #+#             */
-/*   Updated: 2022/11/15 11:13:48 by ali              ###   ########.fr       */
+/*   Updated: 2022/11/15 13:36:06 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,17 @@ void	kickUser(Channel* chan, User* user, std::string& nick, std::string& kickMsg
 	else
 		msgParams = getArgs(chan->getName(), nick, user->get_nick());
 	user->get_server()->to_send(getMsg(user, "KICK", msgParams), chan->getFds());
+	User* kicked = user->get_server()->get_user(nick);
 	chan->kickUser(nick);
 	if (chan->getUserNum() == 0)
 	{
-		user->get_server()->to_send(ERR_CANNOTSENDTOCHAN(getArgs(chan->getName()), user->get_nick()),
-			user->get_fd());
+		user->get_server()->to_send(ERR_CANNOTSENDTOCHAN(getArgs(chan->getName()), kicked->get_nick()),
+			kicked->get_fd());
 		user->get_server()->deleteChannel(chan->getName());
 	}
 	else
-		user->get_server()->to_send(ERR_CANNOTSENDTOCHAN(getArgs(chan->getName()), user->get_nick()),
-			user->get_fd());
+		user->get_server()->to_send(ERR_CANNOTSENDTOCHAN(getArgs(chan->getName()), kicked->get_nick()),
+			kicked->get_fd());
 }
 
 void	KICK(User* user)
