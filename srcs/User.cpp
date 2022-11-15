@@ -37,15 +37,15 @@ User::User(int fd, Server *server) : _fd(fd), _server(server)
 
 User::~User() {}
 
-int User::get_fd() { return (this->_fd); }
-std::string User::get_nick() { return (this->_nick); }
-std::string User::get_username() { return (this->_username); }
-std::string User::get_hostname() { return (this->_hostname); }
-std::string User::get_real_name() { return (this->_real_name); }
-std::string User::get_status() { return (this->_status); }
-time_t User::get_activity(void) { return (this->_last_activity); }
-Server *User::get_server() { return (this->_server); }
-int User::getChanelLimit() const { return this->_chanelsLimit; }
+int User::getFd() { return (this->_fd); }
+std::string User::getNick() { return (this->_nick); }
+std::string User::getUsername() { return (this->_username); }
+std::string User::getHostname() { return (this->_hostname); }
+std::string User::getRealName() { return (this->_real_name); }
+std::string User::getStatus() { return (this->_status); }
+time_t User::getActivity(void) { return (this->_last_activity); }
+Server *User::getServer() { return (this->_server); }
+int User::getChannelLimit() const { return this->_chanelsLimit; }
 const std::vector<std::string> User::getChannelList() const
 {
 	std::vector<std::string> channelList;
@@ -55,57 +55,57 @@ const std::vector<std::string> User::getChannelList() const
 	return channelList;
 }
 
-bool	User::get_mode(const std::string& mode)
+bool	User::getMode(const std::string& mode)
 {
 	return modes[mode];
 }
 
-void	User::set_nick(std::string nick)
+void	User::setNick(std::string nick)
 {
 	this->_nick = nick;
 }
 
-void User::set_username(std::string username)
+void User::setUsername(std::string username)
 {
 	this->_username = username;
 }
 
-void User::set_hostname(std::string hostname)
+void User::setHostname(std::string hostname)
 {
 	this->_hostname = hostname;
 }
 
-void User::set_real_name(std::string real_name)
+void User::setRealName(std::string real_name)
 {
 	this->_real_name = real_name;
 }
 
-void User::set_status(std::string status)
+void User::setStatus(std::string status)
 {
 	this->_status = status;
 }
 
-void User::set_mode(const std::string &mode, bool b)
+void User::setMode(const std::string &mode, bool b)
 {
 	modes[mode] = b;
 }
 
-void User::set_away(const std::string awayMsg)
+void User::setAway(const std::string awayMsg)
 {
 	this->awayMsg = awayMsg;
 }
 
-void	User::setChanelLimit(int aChanelLimit)
+void	User::setChannelLimit(int aChanelLimit)
 {
 	_chanelsLimit = aChanelLimit;
 }
 
-void User::add_channel(std::string new_channel)
+void User::addChannel(std::string new_channel)
 {
 	this->_chanels.push_back(new_channel);
 }
 
-void User::to_command(std::string msg)
+void User::toCommand(std::string msg)
 {
 	std::cout << CYAN "msg is " << msg << E << std::endl;
 	std::stringstream ss(msg);
@@ -121,12 +121,11 @@ void User::to_command(std::string msg)
 	this->param_list.assign(words.begin() + 1, words.end());
 	// std::cout << "size=" << this->param_list.size() << "\n";
 	// check when no pwd --> A mettre dans une autre fct ?
-	if (this->_command != "CAP" && this->_command != "PASS" && this->_nick == "" && this->_status != "connected/registered")
-	{
-		std::cout << RED "FAILED TO CONNECT : no password" E << std::endl;
-		// exit(0); // Quitter de maniere plus propre
-	    this->set_status("out");
-	}
+	// if (this->_command != "CAP" && this->_command != "PASS" && this->_nick == "" && this->_status != "registered")
+	// {
+		// std::cout << RED "FAILED TO CONNECT : no password" E << std::endl;
+	    // this->set_status("out");
+	// }
 
 	// std::cout << "WORDS are:" << std::endl;
 	// for (std::vector<std::string>::iterator it = words.begin(); it != words.end(); ++it)
@@ -138,11 +137,11 @@ void User::to_command(std::string msg)
 	// 	std::cout << ' ' << *it;
 	// std::cout << std::endl;
 
-	this->exec_cmd();
-	this->clear_cmd();
+	this->execCmd();
+	this->clearCmd();
 }
 
-void User::clear_cmd(void)
+void User::clearCmd(void)
 {
 	this->message.clear();
 	this->_command.clear();
@@ -151,7 +150,7 @@ void User::clear_cmd(void)
 
 /* TO PROTECT
 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvv*/
-void User::exec_cmd(void)
+void User::execCmd(void)
 {
 	if (this->_cmd_list.find(this->_command) == this->_cmd_list.end())
 	{
@@ -162,11 +161,11 @@ void User::exec_cmd(void)
 	{
 		std::cout << "exe>" << this->_command << "\n";
 		this->_cmd_list[this->_command](this);
-		this->update_activity();
+		this->updateActivity();
 	}
 }
 
-void User::update_activity(void)
+void User::updateActivity(void)
 {
 	this->_last_activity = time(NULL);
 }

@@ -20,8 +20,12 @@ Server::~Server() {}
 ** --------------------------------- METHODS ----------------------------------
 */
 
+<<<<<<< HEAD
 /*vvvvvvvvvvvvvvvvvvvv Socket listener creation and adding socket to the server's list vvvvvvvvvvvvvvv*/
 void Server::setListenerSock(void)
+=======
+void Server::set_listener_sock(void)
+>>>>>>> arvin
 {
 	int listener;
 	int yes = 1;
@@ -93,10 +97,15 @@ void Server::addChannel(const std::string& new_channel, Channel * chan)
 {
 	_channels.insert(std::pair<std::string, Channel*>(new_channel, chan));
 }
+<<<<<<< HEAD
 /*	poll() function uses array and i wanted to work with container
 	so i made two function to go to one from another.
 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv*/
 void Server::pollLoop()
+=======
+
+void Server::poll_loop()
+>>>>>>> arvin
 {
 	while (1)
 	{
@@ -156,11 +165,15 @@ bool	Server::isHere(const std::string& nick)
 	return false;
 }
 
+<<<<<<< HEAD
 /*  This function will check the results of poll() by doing a bitwise AND on the returned event.
 	If its the listener that has something to say, that means we have a new connection.
 	Otherwise, we have data to read with recv().
 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv*/
 void Server::handlePfds()
+=======
+void Server::handle_pfds()
+>>>>>>> arvin
 {
 	std::list<pollfd>::iterator it;
 	std::list<pollfd>::iterator itend;
@@ -205,7 +218,8 @@ void Server::handleNewConnection()
 
 	fcntl(new_fd, F_SETFL, O_NONBLOCK);
 	addSocketToList(new_fd, POLLIN | POLLOUT, 0);
-	_user_list[new_fd] = new User(new_fd, this);
+	_User_list[new_fd]= new User(new_fd, this);
+	_User_list[new_fd]->setStatus("pending");
 	std::cout << "pollserver: new connection\n";
 }
 
@@ -220,7 +234,6 @@ void Server::closeConnection(int sender_fd, int nbytes)
 
 void Server::handleRaw(int sender_fd)
 {
-//	std::cout << "_______entering handleraw______" << std::endl;
 	std::string tmp; 
 
 	tmp.append(_user_list[sender_fd]->message);
@@ -239,9 +252,8 @@ void Server::handleRaw(int sender_fd)
 		// std::cout << "tmp[pos + 2]: " << tmp.substr(pos + 2) << "\n";
 		tmp = tmp.substr(pos + 2);
 	}
-	_user_list[sender_fd]->message = tmp;
-	memset(_buf, 0, 510);
-	// std::cout << "_______exiting handleraw______" << std::endl;
+	this->_User_list[sender_fd]->message = tmp;
+	memset(this->_buf, 0, 512);
 }
 
 /*

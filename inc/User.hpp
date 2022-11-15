@@ -15,33 +15,33 @@ public:
         User(int fd, Server *server);
         ~User();
 
-        int get_fd(void);
-        std::string get_nick(void);
-        std::string get_username(void);
-        std::string get_real_name(void);
-        std::string get_hostname(void);
-        std::string get_status(void);
-        std::string get_away(void);
-        time_t get_activity(void);
-        Server *get_server(void);
-        bool get_mode(const std::string &mode);
+        int getFd(void);
+        std::string getNick(void);
+        std::string getUsername(void);
+        std::string getRealName(void);
+        std::string getHostname(void);
+        std::string getStatus(void);
+        std::string getAway(void);
+        time_t getActivity(void);
+        Server *getServer(void);
+        bool getMode(const std::string &mode);
         int getChanelLimit() const;
 		const std::string&	getAway() const;
         const std::vector<std::string> getChannelList() const;
 
-        void set_nick(std::string nick);
-        void set_username(std::string username);
-        void set_hostname(std::string hostname);
-        void set_real_name(std::string real_name);
-        void set_status(std::string status);
-        void set_mode(const std::string &mode, bool b);
-        void set_away(const std::string awayMsg);
-        void setChanelLimit(int aUserLimit);
-        void add_channel(std::string new_channel);
+        void setNick(std::string nick);
+        void setUsername(std::string username);
+        void setHostname(std::string hostname);
+        void setRealName(std::string real_name);
+        void setStatus(std::string status);
+        void setMode(const std::string &mode, bool b);
+        void setAway(const std::string awayMsg);
+        void setChannelLimit(int aUserLimit);
+        void addChannel(std::string new_channel);
 		void removeChannel(const std::string& name);
 
-        void to_command(std::string msg);
-        void update_activity(void);
+        void toCommand(std::string msg);
+        void updateActivity(void);
 
         std::string message;
         std::vector<std::string> param_list;
@@ -66,8 +66,8 @@ private: // variables
 		std::string	awayMsg; // message quand le user est away
 
 private: // method
-        void exec_cmd(void);
-        void clear_cmd(void);
+        void execCmd(void);
+        void clearCmd(void);
         /*
         inet_ntop(remoteaddr.ss_family, get_in_addr((struct sockaddr*)&remoteaddr),remoteIP, INET6_ADDRSTRLEN)
         */

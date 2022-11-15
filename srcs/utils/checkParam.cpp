@@ -14,8 +14,8 @@
 
 bool	isChanName(const std::string& param)
 {
-	const char *str = param.c_str();
-	if (str[0] == '&' || str[0] == '#' || str[0] == '+' || str[0] == '!')
+	// const char *str = param.c_str();
+	if (param[0] == '&' || param[0] == '#' || param[0] == '+' || param[0] == '!')
 		return true;
 	return false;
 }
