@@ -13,8 +13,11 @@ void	chanMsg(Channel* chan, User* user, std::vector<std::string>& params)
 void	userMsg(User* recipient, User* user, std::vector<std::string>& params)
 { 
 	if (recipient->get_status() == "away")
+	{
+		std::cout << "is away" << std::endl;
 		user->get_server()->to_send(RPL_AWAY(getArgs(recipient->get_nick(), recipient->getAway()),
 					user->get_nick()), user->get_fd());
+	}
 	else
 		user->get_server()->to_send(getMsg(user, "PRIVMSG", params), recipient->get_fd());
 }
