@@ -225,6 +225,8 @@ void Server::handle_raw(int sender_fd)
 	{
 		if (pos != 0)
 			this->_User_list[sender_fd]->to_command(tmp.substr(0, pos));
+		if (_User_list[sender_fd]->get_status() == "out")
+			return ;
 		// std::cout << "pos: " << pos << "\n";
 		// std::cout << "tmp: " << tmp << "\n";
 		// std::cout << "tmp[pos + 2]: " << tmp.substr(pos + 2) << "\n";

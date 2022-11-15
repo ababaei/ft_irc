@@ -6,7 +6,7 @@
 /*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 18:53:39 by ali               #+#    #+#             */
-/*   Updated: 2022/11/09 16:49:47 by amontaut         ###   ########.fr       */
+/*   Updated: 2022/11/10 14:06:49 by amontaut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ std::string	getReplyEnd(unsigned short code, std::vector<std::string> args)
 		case 331:
 			return args[0] + " :No topic is set";
 		case 353:
-			return /*truc chelou*/ args[0] + " :" /*truc chelou*/ + args[1] /*truc chelou*/;
+			return args[0] + " :" + args[1];
 		case 366:
 			return args[0] + " :End of NAMES list";
 		case 402:

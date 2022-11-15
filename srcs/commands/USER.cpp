@@ -52,5 +52,10 @@ void USER(User *user)
             return (user->get_server()->to_send(RPL_WELCOME(
                 getArgs(user->get_nick(), user->get_username(), user->get_hostname()), user->get_nick()), user->get_fd()));
         }
+        else
+        {
+            user->set_status("out");
+            return ;
+        }
     }
 }

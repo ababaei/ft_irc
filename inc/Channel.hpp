@@ -6,7 +6,7 @@
 /*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 13:32:51 by ali               #+#    #+#             */
-/*   Updated: 2022/11/03 11:26:01 by amontaut         ###   ########.fr       */
+/*   Updated: 2022/11/15 15:02:01 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,16 @@ class User;
 class Channel
 {
 	private:
-		std::string	name;
-		std::string	topic;
-		std::map<std::string, bool>	flags;
-		std::vector<std::string> inviteList;
-		std::vector<std::string> banList;
-		std::map<std::string, User*> users;
-		std::map<std::string, std::map<std::string, bool> > userModes;
+		std::string	_name;
+		std::string	_topic;
+		std::map<std::string, bool>	_flags;
+		std::vector<std::string> _invite_list;
+		std::vector<std::string> _ban_list;
+		std::map<std::string, User*> _users;
+		std::map<std::string, std::map<std::string, bool> > _user_modes;
 		// map to check for each user if voiced or if chanOp
-		std::string	key;
-		int	userLimit;
+		std::string	_key;
+		int	_user_limit;
 
 	public:
 		Channel(const std::string& aName);
@@ -56,6 +56,7 @@ class Channel
 		bool	isModerated();
 		bool	isInviteOnly();
 		bool	isAnonymous();
+		bool	isPrivate();
 		bool	isTopicOperatorOnly();
 		bool	hasOneOp();
 		bool	canSpeak(const std::string& nick);

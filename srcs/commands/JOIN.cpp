@@ -14,18 +14,18 @@
 // #chan, #chan key, key
 // #chan, #chan key
 
-//     +pareil avec &instead of #
+//     +pareil avec & + !
 
 int specialchar_join(char c)
 {
     // _ - = @ , . ;
-    if (c == '_' ||
-        c == '-' ||
-        c == '=' ||
-        c == '@' ||
+
+    //(' '), a control G (^G or ASCII 7), ',' , ':'
+
+    if (c == ' ' ||
+        c == 7 ||
         c == ',' ||
-        c == '.' ||
-        c == ';')
+        c == ':')
         return (1);
     return (0);
 }
@@ -37,21 +37,21 @@ int check_forbiden_char_join(std::string channel)
         unsigned int i = 1;
         while (i < channel.length())
         {
-            if (isalnum(channel[i]) == 0 && specialchar_join(channel[i]) == 0)
-                return (-1);
+            if (specialchar_join(channel[i]) == 1)
+                return (0);
             i++;
         }
     }
-    return (0);
+    return (1);
 }
 
 void create_channel(User *user, std::string channel, std::string pwdchan)
 {
     std::cout << "Creating the chan" << std::endl;
-    if (channel.size() > 164)
+    if (channel.size() >= 50)
         return user->get_server()->to_send(ERR_NOSUCHCHANNEL(getArgs(channel), user->get_nick()),
                                            user->get_fd());
-    if (check_forbiden_char_join(channel) == -1)
+    if (check_forbiden_char_join(channel) == 0)
         return user->get_server()->to_send(ERR_BADCHANMASK(getArgs(channel), user->get_nick()),
                                            user->get_fd());
 
@@ -63,12 +63,36 @@ void create_channel(User *user, std::string channel, std::string pwdchan)
     user->set_mode("operator", 1);
     YELLOW;
     user->get_server()->to_send(getMsg(user, "JOIN", channel), user->get_fd()); // ?? Est ce une reply
+	user->get_server()->to_send(RPL_UNIQOPIS(getArgs(channel, user->get_nick()),
+								user->get_nick()), chan->getFds());
 
     if (pwdchan != "")
         chan->setKey(pwdchan);
-    // return user->get_server()->to_send(RPL_NAMEREPLY(getArgs(channel),
-    //                                                  user->get_nick()),
-    //                                    user->get_fd());
+
+    std::string reply_channel;
+    std::string reply_nick;
+
+    if (chan->isSecret() == true)
+        reply_channel = "@" + channel;
+    else if (chan->isPrivate() == true)
+        reply_channel = "*" + channel;
+    else
+        reply_channel = "=" + channel;
+
+    std::vector<std::string> nick_list = chan->getNickList();
+    for (std::vector<std::string>::iterator it = nick_list.begin(); it != nick_list.end(); ++it)
+    {
+        std::string tmp;
+        if (chan->isChanOp(*it))
+            tmp = "@" + *it;
+        else if (chan->canSpeak(*it))
+            tmp = "+" + *it;
+        reply_nick += tmp;
+        std::cout << ' ' << *it;
+    }
+    return user->get_server()->to_send(RPL_NAMEREPLY(getArgs(reply_channel, reply_nick),
+                                                     user->get_nick()),
+                                       user->get_fd());
     // return user->get_server()->to_send(RPL_ENDOFNAMES(getArgs(channel),
     //                                                   user->get_nick()),
     //                                    user->get_fd());
@@ -103,15 +127,33 @@ void join_channel(Channel *chan, User *user)
         user->get_server()->to_send(RPL_NOTOPIC(getArgs(channel),
                                                 user->get_nick()),
                                     user->get_fd());
+    std::string reply_channel;
+    std::string reply_nick;
 
-    // return user->get_server()->to_send(RPL_NAMEREPLY(getArgs(channel),
-    //                                                  user->get_nick()),
-    //                                    user->get_fd());
+    if (chan->isSecret() == true)
+        reply_channel = "@" + channel;
+    else if (chan->isPrivate() == true)
+        reply_channel = "*" + channel;
+    else
+        reply_channel = "=" + channel;
+
+    std::vector<std::string> nick_list = chan->getNickList();
+    for (std::vector<std::string>::iterator it = nick_list.begin(); it != nick_list.end(); ++it)
+    {
+        std::string tmp;
+        if (chan->isChanOp(*it))
+            tmp = "@" + *it;
+        else if (chan->canSpeak(*it))
+            tmp = "+" + *it;
+        reply_nick += tmp;
+        std::cout << ' ' << *it;
+    }
+    return user->get_server()->to_send(RPL_NAMEREPLY(getArgs(reply_channel, reply_nick),
+                                                     user->get_nick()),
+                                       user->get_fd());
     // return user->get_server()->to_send(RPL_ENDOFNAMES(getArgs(channel),
     //                                                   user->get_nick()),
     //                                    user->get_fd());
-    //             // RPL_NAMREPLY (353) // ajouter reply
-    //             // RPL_ENDOFNAMES (366). // ajouter reply
 }
 
 void JOIN(User *user)
@@ -138,37 +180,15 @@ void JOIN(User *user)
     }
 
     std::string key;
-
-    std::string delimiter = ","; // suivi d'espace ou pas ?
     std::vector<std::string> listNewChans;
-    if (user->param_list[0][0] == '#' || user->param_list[0][0] == '&')
-    {
-        size_t pos = 0;
-        std::string token;
-        while ((pos = user->param_list[0].find(delimiter)) != std::string::npos)
-        {
-            token = user->param_list[0].substr(0, pos);
-            listNewChans.push_back(token);
-            user->param_list[0].erase(0, pos + delimiter.length());
-        }
-        listNewChans.push_back(user->param_list[0]);
-    }
+    if (user->param_list[0][0] == '#' || user->param_list[0][0] == '&' || user->param_list[0][0] == '+' || user->param_list[0][0] == '!')
+        listNewChans = splitStr(user->param_list[0], ",");
 
     std::vector<std::string> listNewPwd;
-    if (user->param_list.size() != 1 && user->param_list[1][0] != '#' && user->param_list[1][0] != '&' && isalnum(user->param_list[1][0]) != 0)
+    if (user->param_list.size() != 1 && user->param_list[1][0] != '#' && user->param_list[1][0] != '&' && user->param_list[1][0] != '+' && user->param_list[1][0] != '!' && isalnum(user->param_list[1][0]) != 0)
     {
         if (user->param_list[1][0] != '#' || user->param_list[1][0] != '&' || user->param_list[1][0] != '+')
-        {
-            size_t pos = 0;
-            std::string token;
-            while ((pos = user->param_list[1].find(delimiter)) != std::string::npos)
-            {
-                token = user->param_list[1].substr(0, pos);
-                listNewPwd.push_back(token);
-                user->param_list[1].erase(0, pos + delimiter.length());
-            }
-            listNewPwd.push_back(user->param_list[1]);
-        }
+            listNewPwd = splitStr(user->param_list[1], ",");
     }
 
     std::cout << YELLOW "chans are:" E << std::endl;

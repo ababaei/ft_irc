@@ -1,4 +1,4 @@
-NAME		= ft_irc
+NAME		= ircserv
 
 OBJSDIR		= objs
 OBJSFILES = $(SRCSFILES:.cpp=.o)

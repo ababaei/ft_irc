@@ -6,7 +6,7 @@
 /*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:42:08 by ali               #+#    #+#             */
-/*   Updated: 2022/11/10 17:51:32 by ali              ###   ########.fr       */
+/*   Updated: 2022/11/15 13:36:06 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,19 @@ void	kickUser(Channel* chan, User* user, std::string& nick, std::string& kickMsg
 	if (kickMsg != "")
 		msgParams = getArgs(chan->getName(), nick, kickMsg);
 	else
-		msgParams = getArgs(chan->getName(), nick);
+		msgParams = getArgs(chan->getName(), nick, user->get_nick());
 	user->get_server()->to_send(getMsg(user, "KICK", msgParams), chan->getFds());
+	User* kicked = user->get_server()->get_user(nick);
 	chan->kickUser(nick);
 	if (chan->getUserNum() == 0)
+	{
+		user->get_server()->to_send(ERR_CANNOTSENDTOCHAN(getArgs(chan->getName()), kicked->get_nick()),
+			kicked->get_fd());
 		user->get_server()->deleteChannel(chan->getName());
+	}
+	else
+		user->get_server()->to_send(ERR_CANNOTSENDTOCHAN(getArgs(chan->getName()), kicked->get_nick()),
+			kicked->get_fd());
 }
 
 void	KICK(User* user)
@@ -61,10 +69,13 @@ void	KICK(User* user)
 	Channel* chan;
 	for (unsigned int i = 0; i < chanNames.size(); i++)
 	{
-		chan = user->get_server()->get_channel(chan->getName());
+		chan = user->get_server()->get_channel(chanNames[i]);
 		if (chan == NULL)
-			user->get_server()->to_send(ERR_NOSUCHCHANNEL(getArgs(chan->getName()),
+		{
+			user->get_server()->to_send(ERR_NOSUCHCHANNEL(getArgs(chanNames[i]),
 					user->get_nick()), user->get_fd());
+			continue ;
+		}
 		if (chanNames.size() == 1)
 		{
 			for (std::vector<std::string>::iterator it = userNicks.begin(); it != userNicks.end();

@@ -23,6 +23,7 @@ User::User(int fd, Server *server) : _fd(fd), _server(server)
 	this->_cmd_list["INVITE"] = INVITE;
 	this->_cmd_list["QUIT"] = QUIT;
 	this->_cmd_list["AWAY"] = AWAY;
+	this->_cmd_list["NOTICE"] = AWAY;
 
 	modes["away"] = false;
 	modes["invisible"] = false;
@@ -123,7 +124,8 @@ void User::to_command(std::string msg)
 	if (this->_command != "CAP" && this->_command != "PASS" && this->_nick == "" && this->_status != "connected/registered")
 	{
 		std::cout << RED "FAILED TO CONNECT : no password" E << std::endl;
-		exit(0); // Quitter de maniere plus propre
+		// exit(0); // Quitter de maniere plus propre
+	    this->set_status("out");
 	}
 
 	// std::cout << "WORDS are:" << std::endl;
@@ -172,4 +174,9 @@ void User::update_activity(void)
 const std::string&	User::getAway() const
 {
 	return awayMsg;
+}
+
+void	User::removeChannel(const std::string& name)
+{
+	_chanels.erase(std::find(_chanels.begin(), _chanels.end(), name));
 }

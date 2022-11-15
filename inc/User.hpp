@@ -21,6 +21,7 @@ public:
         std::string get_real_name(void);
         std::string get_hostname(void);
         std::string get_status(void);
+        std::string get_away(void);
         time_t get_activity(void);
         Server *get_server(void);
         bool get_mode(const std::string &mode);
@@ -37,6 +38,7 @@ public:
         void set_away(const std::string awayMsg);
         void setChanelLimit(int aUserLimit);
         void add_channel(std::string new_channel);
+		void removeChannel(const std::string& name);
 
         void to_command(std::string msg);
         void update_activity(void);

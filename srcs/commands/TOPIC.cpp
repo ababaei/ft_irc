@@ -6,7 +6,7 @@
 /*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:42:08 by ali               #+#    #+#             */
-/*   Updated: 2022/11/08 18:17:12 by ali              ###   ########.fr       */
+/*   Updated: 2022/11/10 13:47:28 by amontaut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ void TOPIC(User *user)
 
 	if (chan->isHere(user->get_nick()) == false)
 	{
-		std::cout << "ERR_NOTONCHANNEL = You're not in the chan" << std::endl;
 		return user->get_server()->to_send(ERR_NOTONCHANNEL(getArgs(channel), user->get_nick()),
 				user->get_fd());
 	}
@@ -68,11 +67,9 @@ void TOPIC(User *user)
 	{
 		chan->setTopic(newtopic);
 		user->get_server()->to_send(RPL_TOPIC(getArgs(channel, newtopic), user->get_nick()), chan->getFds());
-		std::cout << YELLOW "New topic is:" << chan->getTopic() << E << std::endl;
 	}
 	else
 	{
 		user->get_server()->to_send(ERR_CHANOPRIVSNEEDED(getArgs(channel), user->get_nick()), user->get_fd());
-		std::cout << "ERR_CHANOPRIVSNEEDED you dont have the rights" << std::endl;
 	}
 }
