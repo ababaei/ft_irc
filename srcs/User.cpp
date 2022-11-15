@@ -6,7 +6,7 @@
 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv */
 User::User(int fd, Server *server) : _fd(fd), _server(server)
 {
-	update_activity();
+	updateActivity();
 	this->_cmd_list["NICK"] = NICK;
 	this->_cmd_list["PASS"] = PASS;
 	this->_cmd_list["USER"] = USER;

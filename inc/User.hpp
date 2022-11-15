@@ -25,7 +25,7 @@ public:
         time_t getActivity(void);
         Server *getServer(void);
         bool getMode(const std::string &mode);
-        int getChanelLimit() const;
+        int getChannelLimit() const;
 		const std::string&	getAway() const;
         const std::vector<std::string> getChannelList() const;
 
