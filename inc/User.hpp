@@ -21,7 +21,6 @@ public:
         std::string getRealName(void);
         std::string getHostname(void);
         std::string getStatus(void);
-        std::string getAway(void);
         time_t getActivity(void);
         Server *getServer(void);
         bool getMode(const std::string &mode);
@@ -29,15 +28,15 @@ public:
 		const std::string&	getAway() const;
         const std::vector<std::string> getChannelList() const;
 
-        void setNick(std::string nick);
-        void setUsername(std::string username);
-        void setHostname(std::string hostname);
-        void setRealName(std::string real_name);
-        void setStatus(std::string status);
+        void setNick(const std::string& nick);
+        void setUsername(const std::string&  username);
+        void setHostname(const std::string&  hostname);
+        void setRealName(const std::string&  real_name);
+        void setStatus(const std::string&  status);
         void setMode(const std::string &mode, bool b);
-        void setAway(const std::string awayMsg);
+        void setAway(const std::string&  awayMsg);
         void setChannelLimit(int aUserLimit);
-        void addChannel(std::string new_channel);
+        void addChannel(const std::string&  new_channel);
 		void removeChannel(const std::string& name);
 
         void toCommand(std::string msg);

@@ -23,6 +23,7 @@ void NAMES(User *user);
 void INVITE(User *user);
 void QUIT(User *user);
 void AWAY(User *user);
+void NOTICE(User *user);
 
 
 #endif

@@ -37,7 +37,7 @@ std::string count_users(std::vector<std::string> listNick, User *user)
     int count = 0;
     for (std::vector<std::string>::iterator it = listNick.begin(); it != listNick.end(); ++it)
     {
-        if (user->get_server()->getUser(*it)->get_mode("invisible") == false)
+        if (user->getServer()->getUser(*it)->getMode("invisible") == false)
             count++;
         // std::cout << ' ' << *it;
     }
@@ -51,15 +51,15 @@ void LIST(User *user)
     // if (list + un ou plusieurs channel en param )
     //     affiche titre + topic du/des channel
     // reply : RPL_LIST :"<channel> <counts> :<topic>"
-    std::map<std::string, Channel *> channelList = user->get_server()->getChannelList();
+    std::map<std::string, Channel *> channelList = user->getServer()->getChannelList();
     if (user->param_list.size() == 0)
     {
         // std::cout << YELLOW "All channels and their topic" E << std::endl;
         for (std::map<std::string, Channel *>::iterator it = channelList.begin(); it != channelList.end(); ++it)
         {
             std::vector<std::string> listNick = it->second->getNickList();
-            user->get_server()->toSend(RPL_LIST(getArgs(it->first, count_users(listNick, user), it->second->getTopic()), user->get_nick()),
-                                        user->get_fd());
+            user->getServer()->toSend(RPL_LIST(getArgs(it->first, count_users(listNick, user), it->second->getTopic()), user->getNick()),
+                                        user->getFd());
             // std::cout << YELLOW << it->first << " " << finalcount << " " << it->second->getTopic() << E << std::endl;
         }
     }
@@ -68,18 +68,18 @@ void LIST(User *user)
         std::vector<std::string> channels = splitStr(user->param_list[0], ",");
         for (std::vector<std::string>::iterator it = channels.begin(); it != channels.end(); ++it)
         {
-            Channel *chan = user->get_server()->getChannel(*it);
+            Channel *chan = user->getServer()->getChannel(*it);
             if (chan == NULL)
             {
-                user->get_server()->toSend(ERR_NOSUCHCHANNEL(getArgs(*it), user->get_nick()),
-                                            user->get_fd());
+                user->getServer()->toSend(ERR_NOSUCHCHANNEL(getArgs(*it), user->getNick()),
+                                            user->getFd());
                 continue;
             }
-            std::vector<std::string> listNick = user->get_server()->getChannel(*it)->getNickList();
-            user->get_server()->toSend(RPL_LIST(getArgs(user->get_server()->getChannel(*it)->getName(), count_users(listNick, user), user->get_server()->getChannel(*it)->getTopic()), user->get_nick()),
-                                        user->get_fd());
+            std::vector<std::string> listNick = user->getServer()->getChannel(*it)->getNickList();
+            user->getServer()->toSend(RPL_LIST(getArgs(user->getServer()->getChannel(*it)->getName(), count_users(listNick, user), user->getServer()->getChannel(*it)->getTopic()), user->getNick()),
+                                        user->getFd());
         }
     }
-    return user->get_server()->toSend(RPL_LISTEND(getArgs(), user->get_nick()),
-                                       user->get_fd());
+    return user->getServer()->toSend(RPL_LISTEND(getArgs(), user->getNick()),
+                                       user->getFd());
 }

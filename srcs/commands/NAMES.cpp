@@ -6,7 +6,7 @@
 /*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 11:02:35 by amontaut          #+#    #+#             */
-/*   Updated: 2022/11/15 15:31:55 by ali              ###   ########.fr       */
+/*   Updated: 2022/11/15 16:19:05 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void NAMES(User *user)
 	//    RPL_NAMEREPLY messages with a RPL_ENDOFNAMES to mark
 	//    the end.
 	
-	std::map<std::string, Channel *> channelList = user->get_server()->getChannelList();
+	std::map<std::string, Channel *> channelList = user->getServer()->getChannelList();
 
 	// if (user->param_list.size() == 0)
 	// {

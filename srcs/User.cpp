@@ -60,27 +60,32 @@ bool	User::getMode(const std::string& mode)
 	return modes[mode];
 }
 
-void	User::setNick(std::string nick)
+const std::string&	User::getAway() const
+{
+	return awayMsg;
+}
+
+void	User::setNick(const std::string& nick)
 {
 	this->_nick = nick;
 }
 
-void User::setUsername(std::string username)
+void User::setUsername(const std::string& username)
 {
 	this->_username = username;
 }
 
-void User::setHostname(std::string hostname)
+void User::setHostname(const std::string& hostname)
 {
 	this->_hostname = hostname;
 }
 
-void User::setRealName(std::string real_name)
+void User::setRealName(const std::string& real_name)
 {
 	this->_real_name = real_name;
 }
 
-void User::setStatus(std::string status)
+void User::setStatus(const std::string& status)
 {
 	this->_status = status;
 }
@@ -90,7 +95,7 @@ void User::setMode(const std::string &mode, bool b)
 	modes[mode] = b;
 }
 
-void User::setAway(const std::string awayMsg)
+void User::setAway(const std::string& awayMsg)
 {
 	this->awayMsg = awayMsg;
 }
@@ -100,7 +105,7 @@ void	User::setChannelLimit(int aChanelLimit)
 	_chanelsLimit = aChanelLimit;
 }
 
-void User::addChannel(std::string new_channel)
+void User::addChannel(const std::string& new_channel)
 {
 	this->_chanels.push_back(new_channel);
 }
@@ -168,11 +173,6 @@ void User::execCmd(void)
 void User::updateActivity(void)
 {
 	this->_last_activity = time(NULL);
-}
-
-const std::string&	User::getAway() const
-{
-	return awayMsg;
 }
 
 void	User::removeChannel(const std::string& name)

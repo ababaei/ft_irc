@@ -70,7 +70,7 @@ const std::vector<int> Channel::getFds() const
 
 	for (std::map<std::string, User *>::const_iterator it = _users.begin();
 		 it != _users.end(); it++)
-		fds.push_back(it->second->get_fd());
+		fds.push_back(it->second->getFd());
 	return fds;
 }
 
@@ -81,8 +81,8 @@ const std::vector<int> Channel::getOtherFds(const std::string &nick) const
 	for (std::map<std::string, User *>::const_iterator it = _users.begin();
 		 it != _users.end(); it++)
 	{
-		if (nick != it->second->get_nick())
-			fds.push_back(it->second->get_fd());
+		if (nick != it->second->getNick())
+			fds.push_back(it->second->getFd());
 	}
 	return fds;
 }
@@ -221,7 +221,7 @@ void Channel::kickUser(const std::string &nick)
 
 void Channel::addUser(User *user)
 {
-	std::string nick = user->get_nick();
+	std::string nick = user->getNick();
 	_users[nick] = user;
 	if (_user_modes.empty())
 		_user_modes[nick]["operator"] = true;

@@ -6,7 +6,7 @@
 /*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:42:08 by ali               #+#    #+#             */
-/*   Updated: 2022/11/15 15:30:32 by ali              ###   ########.fr       */
+/*   Updated: 2022/11/15 16:18:10 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,40 +36,40 @@ void TOPIC(User *user)
 	// /TOPIC #toto lala = #toto :lala
 
 	if (user->param_list.size() < 2)
-		return user->get_server()->toSend(ERR_NEEDMOREPARAMS(getArgs("TOPIC"), user->get_nick()),
-				user->get_fd());
+		return user->getServer()->toSend(ERR_NEEDMOREPARAMS(getArgs("TOPIC"), user->getNick()),
+				user->getFd());
 	std::string channel = user->param_list[0];
 	std::string newtopic = user->param_list[1].erase(0, 1);
 	if (newtopic.length() > 80)
 	{
 		std::cout << RED "Topic's name is too long" E << std::endl; // Pas dans rfc mais sur https://www.techbull.com/techbull/guide/internet/irccommande.html 
-		return user->get_server()->toSend(ERR_NEEDMOREPARAMS(getArgs("TOPIC"), user->get_nick()),
-				user->get_fd());
+		return user->getServer()->toSend(ERR_NEEDMOREPARAMS(getArgs("TOPIC"), user->getNick()),
+				user->getFd());
 	}
 
-	Channel* chan = user->get_server()->getChannel(channel);
+	Channel* chan = user->getServer()->getChannel(channel);
 	if (chan == NULL)
 	{
 		std::cout << RED "Chanel doesnt exist" E << std::endl; // utile ?
-		return user->get_server()->toSend(ERR_NEEDMOREPARAMS(getArgs("TOPIC"), user->get_nick()),
-				user->get_fd());
+		return user->getServer()->toSend(ERR_NEEDMOREPARAMS(getArgs("TOPIC"), user->getNick()),
+				user->getFd());
 	}
 
-	if (chan->isHere(user->get_nick()) == false)
+	if (chan->isHere(user->getNick()) == false)
 	{
-		return user->get_server()->toSend(ERR_NOTONCHANNEL(getArgs(channel), user->get_nick()),
-				user->get_fd());
+		return user->getServer()->toSend(ERR_NOTONCHANNEL(getArgs(channel), user->getNick()),
+				user->getFd());
 	}
 
 	// SI chan en mode +t , alors only ops can change subject.
-	if ((chan->isTopicOperatorOnly() && chan->isChanOp(user->get_nick()) == 1)
+	if ((chan->isTopicOperatorOnly() && chan->isChanOp(user->getNick()) == 1)
 			|| chan->isTopicOperatorOnly() == false)
 	{
 		chan->setTopic(newtopic);
-		user->get_server()->toSend(RPL_TOPIC(getArgs(channel, newtopic), user->get_nick()), chan->getFds());
+		user->getServer()->toSend(RPL_TOPIC(getArgs(channel, newtopic), user->getNick()), chan->getFds());
 	}
 	else
 	{
-		user->get_server()->toSend(ERR_CHANOPRIVSNEEDED(getArgs(channel), user->get_nick()), user->get_fd());
+		user->getServer()->toSend(ERR_CHANOPRIVSNEEDED(getArgs(channel), user->getNick()), user->getFd());
 	}
 }

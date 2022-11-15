@@ -6,7 +6,7 @@
 /*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 18:17:03 by ali               #+#    #+#             */
-/*   Updated: 2022/11/03 13:38:41 by ali              ###   ########.fr       */
+/*   Updated: 2022/11/15 16:25:22 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 const std::string    getMsg(User* user, const std::string& command,
         std::vector<std::string>& params)
 {
-    std::string msg = ":" + user->get_nick() + "!" + user->get_username() + "@"
-        + user->get_hostname() + " " + command + " ";
+    std::string msg = ":" + user->getNick() + "!" + user->getUsername() + "@"
+        + user->getHostname() + " " + command + " ";
     for (std::vector<std::string>::iterator it = params.begin(); it != params.end();
             it++)
 	{
@@ -31,6 +31,6 @@ const std::string    getMsg(User* user, const std::string& command,
 
 const std::string	getMsg(User* user, const std::string& command, const std::string& param)
 {
-    return ":" + user->get_nick() + "!" + user->get_username() + "@"
-        + user->get_hostname() + " " + command + " " + param + "\r\n";
+    return ":" + user->getNick() + "!" + user->getUsername() + "@"
+        + user->getHostname() + " " + command + " " + param + "\r\n";
 }

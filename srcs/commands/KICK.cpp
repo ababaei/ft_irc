@@ -6,7 +6,7 @@
 /*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:42:08 by ali               #+#    #+#             */
-/*   Updated: 2022/11/15 15:27:25 by ali              ###   ########.fr       */
+/*   Updated: 2022/11/15 16:15:56 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,35 +14,35 @@
 
 void	kickUser(Channel* chan, User* user, std::string& nick, std::string& kickMsg)
 {
-	if (chan->isHere(user->get_nick()) == false)
-		return user->get_server()->toSend(ERR_NOTONCHANNEL(getArgs(chan->getName()),
-				user->get_nick()), user->get_fd());
+	if (chan->isHere(user->getNick()) == false)
+		return user->getServer()->toSend(ERR_NOTONCHANNEL(getArgs(chan->getName()),
+				user->getNick()), user->getFd());
 
-	if (chan->isChanOp(user->get_nick()) == false)
-		return user->get_server()->toSend(ERR_CHANOPRIVSNEEDED(getArgs(chan->getName()),
-					user->get_nick()), user->get_fd());
+	if (chan->isChanOp(user->getNick()) == false)
+		return user->getServer()->toSend(ERR_CHANOPRIVSNEEDED(getArgs(chan->getName()),
+					user->getNick()), user->getFd());
 
 	if (chan->isHere(nick) == false)
-		return user->get_server()->toSend(ERR_USERNOTINCHANNEL(getArgs(nick, chan->getName()),
-					user->get_nick()), user->get_fd());
+		return user->getServer()->toSend(ERR_USERNOTINCHANNEL(getArgs(nick, chan->getName()),
+					user->getNick()), user->getFd());
 
 	std::vector<std::string> msgParams;
 	if (kickMsg != "")
 		msgParams = getArgs(chan->getName(), nick, kickMsg);
 	else
-		msgParams = getArgs(chan->getName(), nick, user->get_nick());
-	user->get_server()->toSend(getMsg(user, "KICK", msgParams), chan->getFds());
-	User* kicked = user->get_server()->getUser(nick);
+		msgParams = getArgs(chan->getName(), nick, user->getNick());
+	user->getServer()->toSend(getMsg(user, "KICK", msgParams), chan->getFds());
+	User* kicked = user->getServer()->getUser(nick);
 	chan->kickUser(nick);
 	if (chan->getUserNum() == 0)
 	{
-		user->get_server()->toSend(ERR_CANNOTSENDTOCHAN(getArgs(chan->getName()), kicked->get_nick()),
-			kicked->get_fd());
-		user->get_server()->deleteChannel(chan->getName());
+		user->getServer()->toSend(ERR_CANNOTSENDTOCHAN(getArgs(chan->getName()), kicked->getNick()),
+			kicked->getFd());
+		user->getServer()->deleteChannel(chan->getName());
 	}
 	else
-		user->get_server()->toSend(ERR_CANNOTSENDTOCHAN(getArgs(chan->getName()), kicked->get_nick()),
-			kicked->get_fd());
+		user->getServer()->toSend(ERR_CANNOTSENDTOCHAN(getArgs(chan->getName()), kicked->getNick()),
+			kicked->getFd());
 }
 
 void	KICK(User* user)
@@ -51,8 +51,8 @@ void	KICK(User* user)
 	std::string	kickMsg = "";
 
 	if (params.size() < 2)
-		return user->get_server()->toSend(ERR_NEEDMOREPARAMS(getArgs("KICK"),
-					user->get_nick()), user->get_fd());
+		return user->getServer()->toSend(ERR_NEEDMOREPARAMS(getArgs("KICK"),
+					user->getNick()), user->getFd());
 	if (params.size() > 2)
 	{
 		std::vector<std::string> msg(params.begin() + 2, params.end());
@@ -63,17 +63,17 @@ void	KICK(User* user)
 	std::vector<std::string> userNicks = splitStr(params[1], ",");
 
 	if (chanNames.size() != 1 && chanNames.size() != userNicks.size())
-		return user->get_server()->toSend(ERR_NEEDMOREPARAMS(getArgs("KICK"),
-					user->get_nick()), user->get_fd());
+		return user->getServer()->toSend(ERR_NEEDMOREPARAMS(getArgs("KICK"),
+					user->getNick()), user->getFd());
 
 	Channel* chan;
 	for (unsigned int i = 0; i < chanNames.size(); i++)
 	{
-		chan = user->get_server()->getChannel(chanNames[i]);
+		chan = user->getServer()->getChannel(chanNames[i]);
 		if (chan == NULL)
 		{
-			user->get_server()->toSend(ERR_NOSUCHCHANNEL(getArgs(chanNames[i]),
-					user->get_nick()), user->get_fd());
+			user->getServer()->toSend(ERR_NOSUCHCHANNEL(getArgs(chanNames[i]),
+					user->getNick()), user->getFd());
 			continue ;
 		}
 		if (chanNames.size() == 1)
