@@ -49,21 +49,21 @@ void create_channel(User *user, std::string channel, std::string pwdchan)
 {
     std::cout << "Creating the chan" << std::endl;
     if (channel.size() >= 50)
-        return user->get_server()->to_send(ERR_NOSUCHCHANNEL(getArgs(channel), user->get_nick()),
+        return user->get_server()->toSend(ERR_NOSUCHCHANNEL(getArgs(channel), user->get_nick()),
                                            user->get_fd());
     if (check_forbiden_char_join(channel) == 0)
-        return user->get_server()->to_send(ERR_BADCHANMASK(getArgs(channel), user->get_nick()),
+        return user->get_server()->toSend(ERR_BADCHANMASK(getArgs(channel), user->get_nick()),
                                            user->get_fd());
 
     Channel *chan = new Channel(channel);
     chan->setName(channel);
     chan->addUser(user);
-    user->get_server()->add_channel(channel, chan);
+    user->get_server()->addChannel(channel, chan);
     user->add_channel(channel);
     user->set_mode("operator", 1);
     YELLOW;
-    user->get_server()->to_send(getMsg(user, "JOIN", channel), user->get_fd()); // ?? Est ce une reply
-	user->get_server()->to_send(RPL_UNIQOPIS(getArgs(channel, user->get_nick()),
+    user->get_server()->toSend(getMsg(user, "JOIN", channel), user->get_fd()); // ?? Est ce une reply
+	user->get_server()->toSend(RPL_UNIQOPIS(getArgs(channel, user->get_nick()),
 								user->get_nick()), chan->getFds());
 
     if (pwdchan != "")
@@ -90,10 +90,10 @@ void create_channel(User *user, std::string channel, std::string pwdchan)
         reply_nick += tmp;
         std::cout << ' ' << *it;
     }
-    return user->get_server()->to_send(RPL_NAMEREPLY(getArgs(reply_channel, reply_nick),
+    return user->get_server()->toSend(RPL_NAMEREPLY(getArgs(reply_channel, reply_nick),
                                                      user->get_nick()),
                                        user->get_fd());
-    // return user->get_server()->to_send(RPL_ENDOFNAMES(getArgs(channel),
+    // return user->get_server()->toSend(RPL_ENDOFNAMES(getArgs(channel),
     //                                                   user->get_nick()),
     //                                    user->get_fd());
 }
@@ -102,29 +102,29 @@ void join_channel(Channel *chan, User *user)
 {
     std::string channel = chan->getName();
     if (chan->isBanned(user->get_nick()) == 1)
-        return user->get_server()->to_send(ERR_BANNEDFROMCHAN(getArgs(channel), user->get_nick()),
+        return user->get_server()->toSend(ERR_BANNEDFROMCHAN(getArgs(channel), user->get_nick()),
                                            user->get_fd());
     if (chan->getUserNum() >= chan->getUserLimit())
-        return user->get_server()->to_send(ERR_CHANNELISFULL(getArgs(channel), user->get_nick()),
+        return user->get_server()->toSend(ERR_CHANNELISFULL(getArgs(channel), user->get_nick()),
                                            user->get_fd());
     if (user->getChannelList().size() >= static_cast<unsigned int>(user->getChanelLimit()))
-        return user->get_server()->to_send(ERR_TOOMANYCHANNELS(getArgs(channel), user->get_nick()),
+        return user->get_server()->toSend(ERR_TOOMANYCHANNELS(getArgs(channel), user->get_nick()),
                                            user->get_fd());
     if (chan->isInvited(user->get_nick()) == false && chan->isInviteOnly() == 1)
-        return user->get_server()->to_send(ERR_INVITEONLYCHAN(getArgs(channel), user->get_nick()),
+        return user->get_server()->toSend(ERR_INVITEONLYCHAN(getArgs(channel), user->get_nick()),
                                            user->get_fd());
 
     std::cout << "Joined the chan" << std::endl;
-    user->get_server()->to_send(getMsg(user, "JOIN", channel),
+    user->get_server()->toSend(getMsg(user, "JOIN", channel),
                                 chan->getFds());
     chan->addUser(user);
     user->add_channel(chan->getName());
     if (chan->getTopic() != "")
-        user->get_server()->to_send(RPL_TOPIC(getArgs(channel, chan->getTopic()),
+        user->get_server()->toSend(RPL_TOPIC(getArgs(channel, chan->getTopic()),
                                               user->get_nick()),
                                     user->get_fd());
     else
-        user->get_server()->to_send(RPL_NOTOPIC(getArgs(channel),
+        user->get_server()->toSend(RPL_NOTOPIC(getArgs(channel),
                                                 user->get_nick()),
                                     user->get_fd());
     std::string reply_channel;
@@ -148,10 +148,10 @@ void join_channel(Channel *chan, User *user)
         reply_nick += tmp;
         std::cout << ' ' << *it;
     }
-    return user->get_server()->to_send(RPL_NAMEREPLY(getArgs(reply_channel, reply_nick),
+    return user->get_server()->toSend(RPL_NAMEREPLY(getArgs(reply_channel, reply_nick),
                                                      user->get_nick()),
                                        user->get_fd());
-    // return user->get_server()->to_send(RPL_ENDOFNAMES(getArgs(channel),
+    // return user->get_server()->toSend(RPL_ENDOFNAMES(getArgs(channel),
     //                                                   user->get_nick()),
     //                                    user->get_fd());
 }
@@ -168,7 +168,7 @@ void JOIN(User *user)
     // OK joined too many chans : ERR_TOOMANYCHANNELS
 
     // JOIN 0 = leave all channel grace via PART
-    std::map<std::string, Channel *> channelList = user->get_server()->get_channel_list();
+    std::map<std::string, Channel *> channelList = user->get_server()->getChannelList();
     if (user->param_list[0] == "0" || user->param_list[0] == "#0")
     {
         for (std::map<std::string, Channel *>::iterator it = channelList.begin(); it != channelList.end(); ++it)
@@ -204,7 +204,7 @@ void JOIN(User *user)
     unsigned int i = 0;
     while (i < listNewChans.size())
     {
-        Channel *chan = user->get_server()->get_channel(listNewChans[i]);
+        Channel *chan = user->get_server()->getChannel(listNewChans[i]);
         if (listNewPwd.size() > 0)
         {
             if (listNewPwd[i].size() > 0)
@@ -223,14 +223,14 @@ void JOIN(User *user)
             if (key == chan->getKey())
                 join_channel(chan, user);
             else
-                user->get_server()->to_send(ERR_BADCHANNELKEY(getArgs(listNewChans[i]), user->get_nick()),
+                user->get_server()->toSend(ERR_BADCHANNELKEY(getArgs(listNewChans[i]), user->get_nick()),
                                             user->get_fd());
         }
         i++;
     }
 
     std::cout << YELLOW "all chan + pwd + nick in the chan" E << std::endl;
-    std::map<std::string, Channel *> channelsList = user->get_server()->get_channel_list();
+    std::map<std::string, Channel *> channelsList = user->get_server()->getChannelList();
     for (std::map<std::string, Channel *>::iterator it = channelsList.begin(); it != channelsList.end(); ++it)
     {
         std::cout << it->first << "   ";

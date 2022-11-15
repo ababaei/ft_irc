@@ -19,10 +19,10 @@ void AWAY(User *user)
 
 		std::vector<std::string> msg(user->param_list.begin() + 1, user->param_list.end());
 		user->set_away(getStr(msg));
-        user->get_server()->to_send(RPL_NOWAWAY(getArgs(""),
+        user->get_server()->toSend(RPL_NOWAWAY(getArgs(""),
                                                 user->get_nick()),
                                     user->get_fd());
-		user->get_server()->to_send(RPL_UMODEIS(getArgs("+a"), user->get_nick()),
+		user->get_server()->toSend(RPL_UMODEIS(getArgs("+a"), user->get_nick()),
 					user->get_fd());
         // std::cout << "RPL_NOWAWAY" << std::endl;
     }
@@ -31,10 +31,10 @@ void AWAY(User *user)
         user->set_mode("away", false);
          user->set_status("");
         user->set_away("");
-        user->get_server()->to_send(RPL_UNAWAY(getArgs(""),
+        user->get_server()->toSend(RPL_UNAWAY(getArgs(""),
                                                user->get_nick()),
                                     user->get_fd());
-		user->get_server()->to_send(RPL_UMODEIS(getArgs("-a"), user->get_nick()),
+		user->get_server()->toSend(RPL_UMODEIS(getArgs("-a"), user->get_nick()),
 					user->get_fd());
         // std::cout << "RPL_UNAWAY" << std::endl;
     }

@@ -26,7 +26,7 @@ void INVITE(User *user)
     if (user->param_list.size() < 2)
     {
         std::cout << RED "ERR_NEEDMOREPARAMS" E << std::endl; // rajouter reply
-		return user->get_server()->to_send(ERR_NEEDMOREPARAMS(getArgs("TOPIC"), user->get_nick()),
+		return user->get_server()->toSend(ERR_NEEDMOREPARAMS(getArgs("TOPIC"), user->get_nick()),
 				user->get_fd());
     }
 
@@ -37,53 +37,53 @@ void INVITE(User *user)
     if (isChanName(user->param_list[0]))
 	{
 		chanName = user->param_list[0];
-		chan = user->get_server()->get_channel(user->param_list[0]);
-		invited = user->get_server()->get_user(user->param_list[1]);
+		chan = user->get_server()->getChannel(user->param_list[0]);
+		invited = user->get_server()->getUser(user->param_list[1]);
 	}
 	else if (isChanName(user->param_list[1]))
 	{
 		chanName = user->param_list[1];
-		chan = user->get_server()->get_channel(user->param_list[1]);
-		invited = user->get_server()->get_user(user->param_list[0]);
+		chan = user->get_server()->getChannel(user->param_list[1]);
+		invited = user->get_server()->getUser(user->param_list[0]);
 	}
 
 	if (chan == NULL)
 	{
 		std::cout << RED "Channel does not exist" E << std::endl; // rajouter reply
-		return user->get_server()->to_send(ERR_NOSUCHCHANNEL(getArgs(chanName), user->get_nick()),
+		return user->get_server()->toSend(ERR_NOSUCHCHANNEL(getArgs(chanName), user->get_nick()),
 				user->get_fd());
 	}
 	if (invited == NULL)
 	{
 		std::cout << RED "ERR_NOSUCHNICK" E << std::endl; // rajouter reply
-		return user->get_server()->to_send(ERR_NOSUCHNICK(getArgs(invited->get_nick()), user->get_nick()),
+		return user->get_server()->toSend(ERR_NOSUCHNICK(getArgs(invited->get_nick()), user->get_nick()),
 				user->get_fd());
 	}
 	if (chan->isHere(user->get_nick()) == false)
 	{
 		std::cout << RED "ERR_NOTONCHANNEL you're not on that channel" E << std::endl; // rajouter reply
-		return user->get_server()->to_send(ERR_NOTONCHANNEL(getArgs(chan->getName()), user->get_nick()),
+		return user->get_server()->toSend(ERR_NOTONCHANNEL(getArgs(chan->getName()), user->get_nick()),
 				user->get_fd());
 	}
 	if (chan->isHere(invited->get_nick()))
 	{
 		std::cout << RED "ERR_USERONCHANNEL is already on that channel" E << std::endl; // rajouter reply
-		return user->get_server()->to_send(ERR_USERONCHANNEL(getArgs(invited->get_nick(), chan->getName()),
+		return user->get_server()->toSend(ERR_USERONCHANNEL(getArgs(invited->get_nick(), chan->getName()),
 					user->get_nick()), user->get_fd());
 	}
 	if (chan->isChanOp(user->get_nick()) == false)
 	{
 		std::cout << RED "ERR_CHANOPRIVSNEEDED is invite only and you're not ops" E << std::endl; // rajouter reply.
-		return user->get_server()->to_send(ERR_CHANOPRIVSNEEDED(getArgs(chan->getName()),
+		return user->get_server()->toSend(ERR_CHANOPRIVSNEEDED(getArgs(chan->getName()),
 					user->get_nick()), user->get_fd());
 	}
 	if (invited->get_status() == "away")
-		return user->get_server()->to_send(RPL_AWAY(getArgs(user->get_nick(), user->getAway()), user->get_nick()), user->get_fd());
+		return user->get_server()->toSend(RPL_AWAY(getArgs(user->get_nick(), user->getAway()), user->get_nick()), user->get_fd());
 	std::cout << GREEN "RPL_INVITING is invited" E << std::endl; // rajouter reply.
 
 	std::vector<int> fds;
 	fds.push_back(user->get_fd());
 	fds.push_back(invited->get_fd());
-	user->get_server()->to_send(RPL_INVITING(getArgs(chan->getName(), invited->get_nick()), user->get_nick()),
+	user->get_server()->toSend(RPL_INVITING(getArgs(chan->getName(), invited->get_nick()), user->get_nick()),
 		fds);
 }

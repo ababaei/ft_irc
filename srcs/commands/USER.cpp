@@ -30,5 +30,5 @@ void USER(User *user)
     user->set_real_name(realname);
     std::cout << BBLUE "Your realname is: " << user->get_real_name() << E << std::endl;
     // ---------------------
-    return (user->get_server()->to_send(RPL_WELCOME(user->param_list, user->get_nick()), user->get_fd()));
+    return (user->get_server()->toSend(RPL_WELCOME(user->param_list, user->get_nick()), user->get_fd()));
 }

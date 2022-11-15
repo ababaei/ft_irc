@@ -8,10 +8,10 @@
 ** ------------------------------- CONSTRUCTOR/DESTRUCTOR --------------------------------
 */
 
-Server::Server(std::string given_port, std::string pword) : _port(given_port), _password(pword)
+Server::Server(const std::string& given_port, const std::string& pword) : _port(given_port), _password(pword)
 {
-	this->_address = "127.0.0.1";
-	this->_server_name = "OurSuperServer";
+	_address = "127.0.0.1";
+	_serverName = "OurSuperServer";
 }
 
 Server::~Server() {}
@@ -21,7 +21,7 @@ Server::~Server() {}
 */
 
 /*vvvvvvvvvvvvvvvvvvvv Socket listener creation and adding socket to the server's list vvvvvvvvvvvvvvv*/
-void Server::set_listener_sock(void)
+void Server::setListenerSock(void)
 {
 	int listener;
 	int yes = 1;
@@ -34,7 +34,7 @@ void Server::set_listener_sock(void)
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_flags = AI_PASSIVE;
 
-	if ((status = getaddrinfo(NULL, this->_port.c_str(), &hints, &servinfo)) != 0)
+	if ((status = getaddrinfo(NULL, _port.c_str(), &hints, &servinfo)) != 0)
 	{
 		std::cerr << "getaddrinfo error: " << gai_strerror(status) << std::endl;
 		exit(EXIT_FAILURE);
@@ -74,11 +74,11 @@ void Server::set_listener_sock(void)
 		exit(1);
 	}
 
-	this->_listener = listener;
-	add_socket_to_list(listener, POLLIN, 0);
+	_listener = listener;
+	addSocketToList(listener, POLLIN, 0);
 }
 
-void Server::add_socket_to_list(int filed, short ev, short rev)
+void Server::addSocketToList(int filed, short ev, short rev)
 {
 	struct pollfd tmp;
 
@@ -86,56 +86,56 @@ void Server::add_socket_to_list(int filed, short ev, short rev)
 	tmp.events = ev;
 	tmp.revents = rev;
 
-	this->_pfds.push_back(tmp);
+	_pfds.push_back(tmp);
 }
 
-void Server::add_channel(std::string new_channel, Channel * chan)
+void Server::addChannel(const std::string& new_channel, Channel * chan)
 {
-	this->_channels.insert(std::pair<std::string, Channel*>(new_channel, chan));
+	_channels.insert(std::pair<std::string, Channel*>(new_channel, chan));
 }
 /*	poll() function uses array and i wanted to work with container
 	so i made two function to go to one from another.
 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv*/
-void Server::poll_loop()
+void Server::pollLoop()
 {
 	while (1)
 	{
 		// std::cout << "polling fds..." << std::endl;
 		polling();
-		handle_pfds();
-		check_activity();
+		handlePfds();
+		checkActivity();
 	}
 }
 
-void Server::list_to_arr()
+void Server::listToArr()
 {
-	this->_arr_pfds = (pollfd *)malloc(sizeof(struct pollfd) * sizeof(this->_pfds.size()));
-	std::copy(this->_pfds.begin(), this->_pfds.end(), this->_arr_pfds);
+	_arr_pfds = (pollfd *)malloc(sizeof(struct pollfd) * sizeof(_pfds.size()));
+	std::copy(_pfds.begin(), _pfds.end(), _arr_pfds);
 }
 
-void Server::arr_to_list()
+void Server::arrToList()
 {
-	std::copy(this->_arr_pfds, this->_arr_pfds + this->_pfds.size(), this->_pfds.begin());
+	std::copy(_arr_pfds, _arr_pfds + _pfds.size(), _pfds.begin());
 }
 
 void Server::polling()
 {
-	list_to_arr();
-	poll(this->_arr_pfds, this->_pfds.size(), -1);
-	arr_to_list();
-	free(this->_arr_pfds);
+	listToArr();
+	poll(_arr_pfds, _pfds.size(), -1);
+	arrToList();
+	free(_arr_pfds);
 }
 
-void Server::check_activity(void)
+void Server::checkActivity(void)
 {
 	std::map<int, User *>::iterator it;
 
-	for (it = this->_User_list.begin(); it != _User_list.end(); it++)
+	for (it = _user_list.begin(); it != _user_list.end(); it++)
 	{
 		if (difftime(time(NULL), it->second->get_activity()) > 180)
 			it->second->set_status("inactive");
 	}
-	for (it = this->_User_list.begin(); it != _User_list.end(); it++)
+	for (it = _user_list.begin(); it != _user_list.end(); it++)
 	{
 		if (it->second->get_status() == "out")
 		{
@@ -147,7 +147,7 @@ void Server::check_activity(void)
 
 bool	Server::isHere(const std::string& nick)
 {
-	for (std::map<int, User*>::iterator it = _User_list.begin(); it != _User_list.end();
+	for (std::map<int, User*>::iterator it = _user_list.begin(); it != _user_list.end();
 			it++)
 	{
 		if (it->second->get_nick() == nick)
@@ -160,34 +160,34 @@ bool	Server::isHere(const std::string& nick)
 	If its the listener that has something to say, that means we have a new connection.
 	Otherwise, we have data to read with recv().
 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv*/
-void Server::handle_pfds()
+void Server::handlePfds()
 {
 	std::list<pollfd>::iterator it;
 	std::list<pollfd>::iterator itend;
 
-	itend = this->_pfds.end();
-	for (it = this->_pfds.begin(); it != itend; it++)
+	itend = _pfds.end();
+	for (it = _pfds.begin(); it != itend; it++)
 	{
 		if (it->revents & POLLIN)
 		{
-			if (it->fd == this->_listener)
-				this->handle_new_connection();
+			if (it->fd == _listener)
+				handleNewConnection();
 			else
 			{
-				int nbytes = recv(it->fd, this->_buf, sizeof(this->_buf), 0);
+				int nbytes = recv(it->fd, _buf, sizeof(_buf), 0);
 				int sender_fd = it->fd;
 				if (nbytes <= 0)
 				{
-					this->close_connection(sender_fd, nbytes);
-					this->_pfds.erase(it++);
+					closeConnection(sender_fd, nbytes);
+					_pfds.erase(it++);
 				}
 				else
 				{
-					this->_buf[nbytes] = '\0';
-					std::cout << "< received " << nbytes << " bytes (" << this->_buf << ")\n";
-					this->handle_raw(sender_fd);
+					_buf[nbytes] = '\0';
+					std::cout << "< received " << nbytes << " bytes (" << _buf << ")\n";
+					handleRaw(sender_fd);
 				}
-				// std::cout << this->message << "\n";
+				// std::cout << message << "\n";
 				std::cout << "------------------------------\n";
 			}
 		}
@@ -197,19 +197,19 @@ void Server::handle_pfds()
 /*	This function will accept a new connection, add it to the server's fd list,
 	alloc a new User and add it to the server's User map.
 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv*/
-void Server::handle_new_connection()
+void Server::handleNewConnection()
 {
 	struct sockaddr_storage remote_addr;
 	socklen_t addr_size = sizeof(remote_addr);
-	int new_fd = accept(this->_listener, (struct sockaddr *)&remote_addr, &addr_size);
+	int new_fd = accept(_listener, (struct sockaddr *)&remote_addr, &addr_size);
 
 	fcntl(new_fd, F_SETFL, O_NONBLOCK);
-	add_socket_to_list(new_fd, POLLIN | POLLOUT, 0);
-	_User_list[new_fd] = new User(new_fd, this);
+	addSocketToList(new_fd, POLLIN | POLLOUT, 0);
+	_user_list[new_fd] = new User(new_fd, this);
 	std::cout << "pollserver: new connection\n";
 }
 
-void Server::close_connection(int sender_fd, int nbytes)
+void Server::closeConnection(int sender_fd, int nbytes)
 {
 	if (nbytes == 0)
 		std::cout << "socket " << sender_fd << " hang up\n";
@@ -218,45 +218,45 @@ void Server::close_connection(int sender_fd, int nbytes)
 	close(sender_fd);
 }
 
-void Server::handle_raw(int sender_fd)
+void Server::handleRaw(int sender_fd)
 {
 //	std::cout << "_______entering handleraw______" << std::endl;
 	std::string tmp; 
 
-	tmp.append(this->_User_list[sender_fd]->message);
-	tmp.append(this->_buf);
+	tmp.append(_user_list[sender_fd]->message);
+	tmp.append(_buf);
 
 	std::size_t pos = tmp.find("\r\n");
 //	std::cout << "pos: " << pos << std::endl;
 	while ((pos = tmp.find("\r\n")) != std::string::npos)
 	{
 		if (pos != 0)
-			this->_User_list[sender_fd]->to_command(tmp.substr(0, pos));
-		if (_User_list[sender_fd]->get_status() == "out")
+			_user_list[sender_fd]->to_command(tmp.substr(0, pos));
+		if (_user_list[sender_fd]->get_status() == "out")
 			return ;
 		// std::cout << "pos: " << pos << "\n";
 		// std::cout << "tmp: " << tmp << "\n";
 		// std::cout << "tmp[pos + 2]: " << tmp.substr(pos + 2) << "\n";
 		tmp = tmp.substr(pos + 2);
 	}
-	this->_User_list[sender_fd]->message = tmp;
-	memset(this->_buf, 0, 510);
+	_user_list[sender_fd]->message = tmp;
+	memset(_buf, 0, 510);
 	// std::cout << "_______exiting handleraw______" << std::endl;
 }
 
 /*
 ** --------------------------------- ACCESSOR ---------------------------------
 */
-std::string				Server::get_address(void) { return (this->_address); }
+std::string				Server::getAddress(void) { return (_address); }
 
-std::string				Server::get_server_name(void) { return (this->_server_name); }
+std::string				Server::getServerName(void) { return (_serverName); }
 
-std::string				Server::get_password() { return (this->_password); }
+std::string				Server::getPassword() { return (_password); }
 
-std::map<int, User *>	Server::get_user_list() { return (this->_User_list); }
-std::map<std::string, Channel*> Server::get_channel_list() { return (this->_channels); }
+std::map<int, User *>	Server::getUserList() { return (_user_list); }
+std::map<std::string, Channel*> Server::getChannelList() { return (_channels); }
 
-Channel*				Server::get_channel(const std::string& name)
+Channel*				Server::getChannel(const std::string& name)
 {
 	std::map<std::string, Channel*>::iterator it = _channels.find(name);
 	if (it != _channels.end())
@@ -264,9 +264,9 @@ Channel*				Server::get_channel(const std::string& name)
 	return NULL;
 }
 
-User*					Server::get_user(const std::string& nick)
+User*					Server::getUser(const std::string& nick)
 {
-	for (std::map<int, User*>::iterator it = _User_list.begin(); it != _User_list.end();
+	for (std::map<int, User*>::iterator it = _user_list.begin(); it != _user_list.end();
 			it++)
 	{
 		if (it->second->get_nick() == nick)
@@ -284,14 +284,14 @@ void	Server::deleteUser(const std::string& nick)
 {
 	int fd;
 
-	for (std::map<int, User*>::iterator it = _User_list.begin(); it != _User_list.end();
+	for (std::map<int, User*>::iterator it = _user_list.begin(); it != _user_list.end();
 			it++)
 	{
 		if (it->second->get_nick() == nick)
 		{
 			fd = it->second->get_fd();
-			close_connection(fd, 1);
-			_User_list.erase(it);
+			closeConnection(fd, 1);
+			_user_list.erase(it);
 			for (std::list<pollfd>::iterator it = _pfds.begin(); it != _pfds.end(); it++)
 			{
 				if (it->fd == fd)

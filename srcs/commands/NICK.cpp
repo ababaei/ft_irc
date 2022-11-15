@@ -56,15 +56,15 @@ void NICK(User *user)
     std::string nickname = user->param_list[0].substr(0, 9);
     // user->param_list[0] = user->param_list[0].substr(0, 9);
     if (user->param_list.size() == 0)                                    // quand on passe NICK dans irssi sans param ca fait rien a part redire le nick
-            return (user->get_server()->to_send(ERR_NONICKNAMEGIVEN(user->param_list, nickname), user->get_fd()));
+            return (user->get_server()->toSend(ERR_NONICKNAMEGIVEN(user->param_list, nickname), user->get_fd()));
 
     if (check_forbiden_char_nick(nickname) == -1)
-            return (user->get_server()->to_send(ERR_ERRONEUSNICKNAME(user->param_list, nickname), user->get_fd()));
-    std::map<int, User *> users = user->get_server()->get_user_list();
+            return (user->get_server()->toSend(ERR_ERRONEUSNICKNAME(user->param_list, nickname), user->get_fd()));
+    std::map<int, User *> users = user->get_server()->getUserList();
     for (std::map<int, User *>::iterator it = users.begin(); it != users.end(); it++)
     {
         if (nickname == it->second->get_nick())
-            return (user->get_server()->to_send(ERR_NICKNAMEINUSE(user->param_list, nickname), user->get_fd()));
+            return (user->get_server()->toSend(ERR_NICKNAMEINUSE(user->param_list, nickname), user->get_fd()));
     }
     user->set_nick(nickname);
 }

@@ -20,7 +20,7 @@ int main(int ac, char **av)
 	
     Server  irc_serv(av[1], av[2]);
 
-    irc_serv.set_listener_sock();
-    irc_serv.poll_loop();
+    irc_serv.setListenerSock();
+    irc_serv.pollLoop();
 	return (0);
 }

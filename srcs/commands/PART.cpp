@@ -6,7 +6,7 @@
 /*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:22:03 by ali               #+#    #+#             */
-/*   Updated: 2022/11/15 11:11:04 by ali              ###   ########.fr       */
+/*   Updated: 2022/11/15 15:26:30 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	partChan(std::string& partMsg, User* user, Channel* chan)
 {
 	if (chan->isHere(user->get_nick()) == false)
-		return user->get_server()->to_send(ERR_NOTONCHANNEL(getArgs(chan->getName()),
+		return user->get_server()->toSend(ERR_NOTONCHANNEL(getArgs(chan->getName()),
 				user->get_nick()), user->get_fd());
 	
 	std::vector<std::string> msgParams;
@@ -23,16 +23,16 @@ void	partChan(std::string& partMsg, User* user, Channel* chan)
 		msgParams = getArgs(chan->getName(), partMsg);
 	else
 		msgParams = getArgs(chan->getName(), user->get_nick());
-	user->get_server()->to_send(getMsg(user, "PART", msgParams), chan->getFds());
+	user->get_server()->toSend(getMsg(user, "PART", msgParams), chan->getFds());
 	chan->kickUser(user->get_nick());
 	if (chan->getUserNum() == 0)
 	{
-		user->get_server()->to_send(ERR_CANNOTSENDTOCHAN(getArgs(chan->getName()), user->get_nick()),
+		user->get_server()->toSend(ERR_CANNOTSENDTOCHAN(getArgs(chan->getName()), user->get_nick()),
 			user->get_fd());
 		user->get_server()->deleteChannel(chan->getName());
 	}
 	else
-		user->get_server()->to_send(ERR_CANNOTSENDTOCHAN(getArgs(chan->getName()), user->get_nick()),
+		user->get_server()->toSend(ERR_CANNOTSENDTOCHAN(getArgs(chan->getName()), user->get_nick()),
 			user->get_fd());
 }
 
@@ -42,7 +42,7 @@ void	PART(User* user)
 	std::string partMsg = "";
 
 	if (params.size() < 1)
-		return user->get_server()->to_send(ERR_NEEDMOREPARAMS(getArgs("PART"),
+		return user->get_server()->toSend(ERR_NEEDMOREPARAMS(getArgs("PART"),
 					user->get_nick()), user->get_fd());
 	if (params.size() > 1)
 	{
@@ -55,9 +55,9 @@ void	PART(User* user)
 	Channel* chan;
 	for (std::vector<std::string>::iterator it = chanNames.begin(); it != chanNames.end(); it++)
 	{
-		chan = user->get_server()->get_channel(*it);
+		chan = user->get_server()->getChannel(*it);
 		if (chan == NULL)
-			user->get_server()->to_send(ERR_NOSUCHCHANNEL(getArgs(*it),
+			user->get_server()->toSend(ERR_NOSUCHCHANNEL(getArgs(*it),
 					user->get_nick()), user->get_fd());
 		else
 			partChan(partMsg, user, chan);
