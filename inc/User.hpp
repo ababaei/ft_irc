@@ -37,6 +37,7 @@ public:
         void set_away(const std::string awayMsg);
         void setChanelLimit(int aUserLimit);
         void add_channel(std::string new_channel);
+		void removeChannel(const std::string& name);
 
         void to_command(std::string msg);
         void update_activity(void);

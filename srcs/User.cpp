@@ -174,3 +174,8 @@ const std::string&	User::getAway() const
 {
 	return awayMsg;
 }
+
+void	User::removeChannel(const std::string& name)
+{
+	_chanels.erase(std::find(_chanels.begin(), _chanels.end(), name));
+}

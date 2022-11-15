@@ -214,6 +214,7 @@ void Channel::uninviteUser(const std::string &nick)
 
 void Channel::kickUser(const std::string &nick)
 {
+	users[nick]->removeChannel(name);
 	users.erase(nick);
 	userModes.erase(nick);
 }
