@@ -5,6 +5,11 @@
 // Quels protections necessaires vu que USER est utilise que 1 fois a la connexion ?
 void USER(User *user)
 {
+	if (user->get_nick() == "")
+	{
+		user->set_status("out");
+		return ;
+	}
     std::cout << "Hello USER" << std::endl;
 //    std::string msg = ":127.0.0.1 001 " + user->get_nick() + "!ababaei@127.0.0.1\r\n";
  //   send(user->get_fd(), msg.c_str(), msg.length(), 0);
