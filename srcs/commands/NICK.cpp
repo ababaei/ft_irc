@@ -6,7 +6,7 @@
 
 // patern :   nickname   =  ( letter / special ) *8( letter / digit / special / "-" )
 
-int specialchar_nick(char c)
+int specialcharNick(char c)
 {
     if (c == '-' ||
         c == '[' ||
@@ -24,7 +24,7 @@ int specialchar_nick(char c)
 
 // patern :   nickname   =  ( letter / special ) *8( letter / digit / special / "-" )
 
-int check_forbiden_char_nick(std::string nick)
+int checkForbidenCharNick(std::string nick)
 {
     if (nick != "")
     {
@@ -33,16 +33,16 @@ int check_forbiden_char_nick(std::string nick)
         {
             i++;
         }
-        if (nick.length() == 1 && isalpha(nick[i]) == 0 && specialchar_nick(nick[i]) == 0)
+        if (nick.length() == 1 && isalpha(nick[i]) == 0 && specialcharNick(nick[i]) == 0)
             return (-1);
         while (i < nick.length() - 1)
         {
-            if ((isalpha(nick[i]) == 0 && specialchar_nick(nick[i]) == 0) || (nick.length() == 1 && nick[i] == ':'))
+            if ((isalpha(nick[i]) == 0 && specialcharNick(nick[i]) == 0) || (nick.length() == 1 && nick[i] == ':'))
                 return (-1);
             i++;
         }
         std::cout << "CHAR IS " << nick[i] << std::endl;
-        if (isalnum(nick[i]) == 0 && specialchar_nick(nick[i]) == 0)
+        if (isalnum(nick[i]) == 0 && specialcharNick(nick[i]) == 0)
             return (-1);
         return (0);
     }
@@ -58,7 +58,7 @@ void NICK(User *user)
     if (user->param_list.size() == 0)                                    // quand on passe NICK dans irssi sans param ca fait rien a part redire le nick
             return (user->getServer()->toSend(ERR_NONICKNAMEGIVEN(user->param_list, nickname), user->getFd()));
 
-    if (check_forbiden_char_nick(nickname) == -1)
+    if (checkForbidenCharNick(nickname) == -1)
             return (user->getServer()->toSend(ERR_ERRONEUSNICKNAME(user->param_list, nickname), user->getFd()));
     std::map<int, User *> users = user->getServer()->getUserList();
     for (std::map<int, User *>::iterator it = users.begin(); it != users.end(); it++)
