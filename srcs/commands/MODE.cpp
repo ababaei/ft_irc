@@ -6,7 +6,7 @@
 /*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 15:06:42 by ali               #+#    #+#             */
-/*   Updated: 2022/11/16 18:02:08 by ali              ###   ########.fr       */
+/*   Updated: 2022/11/16 18:48:11 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,9 +252,6 @@ void    MODE(User *user)
 		}
 		if (chan->isChanOp(user->getNick()))
 			user->getServer()->toSend(RPL_CHANNELMODEIS(getArgs(params[0], "+o", user->getNick()),
-						user->getNick()), chan->getFds());
-		else
-			user->getServer()->toSend(RPL_CHANNELMODEIS(getArgs(params[0], "-o", user->getNick()),
 						user->getNick()), chan->getFds());
 
 

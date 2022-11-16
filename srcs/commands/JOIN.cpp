@@ -48,31 +48,31 @@ int check_forbiden_char_join(std::string channel)
 void nameReply(User* user, Channel* chan)
 {
     std::string reply_channel;
-    std::string reply_nick;
+    std::string reply_nick = "";
 
-    if (chan->isSecret() == true)
-        reply_channel = "@" + chan->getName();
+	if (chan->isSecret() == true)
+        reply_channel = "@ " + chan->getName();
     else if (chan->isPrivate() == true)
-        reply_channel = "*" + chan->getName();
+        reply_channel = "* " + chan->getName();
     else
-        reply_channel = "=" + chan->getName();
+        reply_channel = "= " + chan->getName();
 
     std::vector<std::string> nick_list = chan->getNickList();
-    for (std::vector<std::string>::iterator it = nick_list.begin(); it != nick_list.end(); ++it)
+    for (std::vector<std::string>::iterator it = nick_list.begin(); it != nick_list.end(); it++)
     {
-        std::string tmp;
-        if (chan->isChanOp(*it))
-            tmp = "@" + *it;
-        else if (chan->canSpeak(*it))
-            tmp = "+" + *it;
-        reply_nick += tmp;
-		if (it != nick_list.end() - 1)
+		std::cout << "NICK = " << *it << std::endl;
+		if (reply_nick != "")
 			reply_nick += " ";
+        if (chan->isChanOp(*it))
+            reply_nick += "@" + *it;
+        else if (chan->isModerated() && chan->canSpeak(*it))
+			reply_nick += "+" + *it;
+		else
+			reply_nick += " " + *it;
     }
     user->getServer()->toSend(RPL_NAMEREPLY(getArgs(reply_channel, reply_nick),
-                                                   user->getNick()),
-                                     chan->getFds());
-	user->getServer()->toSend(RPL_ENDOFNAMES(getArgs(chan->getName()), user->getNick()), chan->getFds());
+				user->getNick()), user->getFd());
+	user->getServer()->toSend(RPL_ENDOFNAMES(getArgs(chan->getName()), user->getNick()), user->getFd());
     user->getServer()->toSend(getMsg(user, "JOIN", chan->getName()),
                              chan->getFds());
 }
