@@ -175,8 +175,8 @@ bool Channel::hasOneOp()
 			count++;
 	}
 	if (count >= 1)
-		return false;
-	return true;
+		return true;
+	return false;
 }
 
 bool	Channel::canSpeak(const std::string& nick)
