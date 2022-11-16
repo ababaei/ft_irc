@@ -6,7 +6,7 @@
 /*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 15:06:42 by ali               #+#    #+#             */
-/*   Updated: 2022/11/16 15:50:30 by ali              ###   ########.fr       */
+/*   Updated: 2022/11/16 17:20:02 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	setChanMode(User* user, Channel* channel, const std::vector<std::string>& p
 			if (params[1][i] == 'o')
 			{
 				channel->setUserOp(params[2], b);
-				if (channel->hasOneOp())
+				if (channel->hasOneOp() == false)
 					user->getServer()->toSend(RPL_UNIQOPIS(getArgs(params[0], params[2]),
 								user->getNick()), channel->getFds());
 			}
@@ -243,10 +243,23 @@ void	userMode(User* user, std::vector<std::string>& params)
 void    MODE(User *user)
 {
 	std::vector<std::string> params = user->param_list;
-	if (params.size() < 2)
+	if (params.size() == 1 && isChanName(params[0]))
+	{
+		Channel* chan = user->getServer()->getChannel(params[0]);
+		if (chan == NULL)
+		{
+			return user->getServer()->toSend(ERR_NOSUCHCHANNEL(getArgs(params[0]), user->getNick()),
+				user->getFd());
+		}
+		if (chan->isChanOp(user->getNick()))
+			user->getServer()->toSend(RPL_CHANNELMODEIS(getArgs(params[0], "+o", user->getNick()),
+						user->getNick()), chan->getFds());
+
+	}
+	else if (params.size() < 2)
 		return user->getServer()->toSend(ERR_NEEDMOREPARAMS(getArgs("MODE"), user->getNick()),
 				user->getFd());
-	if (isChanName(params[0]))
+	else if (isChanName(params[0]))
 		chanMode(user, params);
 	else
 		userMode(user, params);
