@@ -62,10 +62,6 @@ void create_channel(User *user, std::string channel, std::string pwdchan)
     user->addChannel(channel);
     user->setMode("operator", 1);
     YELLOW;
-    user->getServer()->toSend(getMsg(user, "JOIN", channel), user->getFd()); // ?? Est ce une reply
-    user->getServer()->toSend(RPL_UNIQOPIS(getArgs(channel, user->getNick()),
-                                           user->getNick()),
-                              chan->getFds());
 
     if (pwdchan != "")
         chan->setKey(pwdchan);
@@ -91,15 +87,12 @@ void create_channel(User *user, std::string channel, std::string pwdchan)
         reply_nick += tmp;
 		if (it != nick_list.end() - 1)
 			reply_nick += " ";
-        // std::cout << ' ' << *it;
     }
-    // a garder car dans la doc https://www.rfc-editor.org/rfc/rfc2812#section-3.2
-    std::cout << "You have created and joined the channel " << reply_channel << "!" << std::endl;
-    std::cout << "Commands you can use : INVITE KICK LIST MODE QUIT PRIVMSG/NOTICE PART TOPIC NICK" << std::endl;
     user->getServer()->toSend(RPL_NAMEREPLY(getArgs(reply_channel, reply_nick),
                                                    user->getNick()),
                                      user->getFd());
 	user->getServer()->toSend(RPL_ENDOFNAMES(getArgs(chan->getName()), user->getNick()), user->getFd());
+    user->getServer()->toSend(getMsg(user, "JOIN", channel), user->getFd()); // ?? Est ce une reply
 }
 
 void join_channel(Channel *chan, User *user)
@@ -119,8 +112,6 @@ void join_channel(Channel *chan, User *user)
                                          user->getFd());
 
     std::cout << "Joined the chan" << std::endl;
-    user->getServer()->toSend(getMsg(user, "JOIN", channel),
-                              chan->getFds());
     chan->addUser(user);
     user->addChannel(chan->getName());
     if (chan->getTopic() != "")
@@ -161,6 +152,8 @@ void join_channel(Channel *chan, User *user)
                                                    user->getNick()),
                                      user->getFd());
 	user->getServer()->toSend(RPL_ENDOFNAMES(getArgs(chan->getName()), user->getNick()), user->getFd());
+    user->getServer()->toSend(getMsg(user, "JOIN", channel),
+                              chan->getFds());
 }
 
 void JOIN(User *user)

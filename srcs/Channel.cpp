@@ -174,7 +174,7 @@ bool Channel::hasOneOp()
 		if (it->second["operator"] == true)
 			count++;
 	}
-	if (count > 1)
+	if (count >= 1)
 		return false;
 	return true;
 }
