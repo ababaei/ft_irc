@@ -50,10 +50,10 @@ void create_channel(User *user, std::string channel, std::string pwdchan)
     std::cout << "Creating the chan" << std::endl;
     if (channel.size() >= 50)
         return user->getServer()->toSend(ERR_NOSUCHCHANNEL(getArgs(channel), user->getNick()),
-                                           user->getFd());
+                                         user->getFd());
     if (check_forbiden_char_join(channel) == 0)
         return user->getServer()->toSend(ERR_BADCHANMASK(getArgs(channel), user->getNick()),
-                                           user->getFd());
+                                         user->getFd());
 
     Channel *chan = new Channel(channel);
     chan->setName(channel);
@@ -63,8 +63,9 @@ void create_channel(User *user, std::string channel, std::string pwdchan)
     user->setMode("operator", 1);
     YELLOW;
     user->getServer()->toSend(getMsg(user, "JOIN", channel), user->getFd()); // ?? Est ce une reply
-	user->getServer()->toSend(RPL_UNIQOPIS(getArgs(channel, user->getNick()),
-								user->getNick()), chan->getFds());
+    user->getServer()->toSend(RPL_UNIQOPIS(getArgs(channel, user->getNick()),
+                                           user->getNick()),
+                              chan->getFds());
 
     if (pwdchan != "")
         chan->setKey(pwdchan);
@@ -90,9 +91,12 @@ void create_channel(User *user, std::string channel, std::string pwdchan)
         reply_nick += tmp;
         // std::cout << ' ' << *it;
     }
+    // a garder car dans la doc https://www.rfc-editor.org/rfc/rfc2812#section-3.2
+    std::cout << "You have created and joined the channel " << reply_channel << "!" << std::endl;
+    std::cout << "Commands you can use : INVITE KICK LIST MODE QUIT PRIVMSG/NOTICE PART TOPIC NICK" << std::endl;
     return user->getServer()->toSend(RPL_NAMEREPLY(getArgs(reply_channel, reply_nick),
-                                                     user->getNick()),
-                                       user->getFd());
+                                                   user->getNick()),
+                                     user->getFd());
 }
 
 void join_channel(Channel *chan, User *user)
@@ -100,30 +104,30 @@ void join_channel(Channel *chan, User *user)
     std::string channel = chan->getName();
     if (chan->isBanned(user->getNick()) == 1)
         return user->getServer()->toSend(ERR_BANNEDFROMCHAN(getArgs(channel), user->getNick()),
-                                           user->getFd());
+                                         user->getFd());
     if (chan->getUserNum() >= chan->getUserLimit())
         return user->getServer()->toSend(ERR_CHANNELISFULL(getArgs(channel), user->getNick()),
-                                           user->getFd());
+                                         user->getFd());
     if (user->getChannelList().size() >= static_cast<unsigned int>(user->getChannelLimit()))
         return user->getServer()->toSend(ERR_TOOMANYCHANNELS(getArgs(channel), user->getNick()),
-                                           user->getFd());
+                                         user->getFd());
     if (chan->isInvited(user->getNick()) == false && chan->isInviteOnly() == 1)
         return user->getServer()->toSend(ERR_INVITEONLYCHAN(getArgs(channel), user->getNick()),
-                                           user->getFd());
+                                         user->getFd());
 
     std::cout << "Joined the chan" << std::endl;
     user->getServer()->toSend(getMsg(user, "JOIN", channel),
-                                chan->getFds());
+                              chan->getFds());
     chan->addUser(user);
     user->addChannel(chan->getName());
     if (chan->getTopic() != "")
         user->getServer()->toSend(RPL_TOPIC(getArgs(channel, chan->getTopic()),
-                                              user->getNick()),
-                                    user->getFd());
+                                            user->getNick()),
+                                  user->getFd());
     else
         user->getServer()->toSend(RPL_NOTOPIC(getArgs(channel),
-                                                user->getNick()),
-                                    user->getFd());
+                                              user->getNick()),
+                                  user->getFd());
     std::string reply_channel;
     std::string reply_nick;
 
@@ -145,11 +149,12 @@ void join_channel(Channel *chan, User *user)
         reply_nick += tmp;
         // std::cout << ' ' << *it;
     }
-    //a garder car dans la doc https://www.rfc-editor.org/rfc/rfc1459.html#section-4.2.1
+    // a garder car dans la doc https://www.rfc-editor.org/rfc/rfc2812#section-3.2
+    std::cout << "You have joined the channel " << reply_channel << "!" << std::endl;
     std::cout << "Commands you can use : INVITE KICK LIST MODE QUIT PRIVMSG/NOTICE PART TOPIC NICK" << std::endl;
     return user->getServer()->toSend(RPL_NAMEREPLY(getArgs(reply_channel, reply_nick),
-                                                     user->getNick()),
-                                       user->getFd());
+                                                   user->getNick()),
+                                     user->getFd());
 }
 
 void JOIN(User *user)
@@ -220,7 +225,7 @@ void JOIN(User *user)
                 join_channel(chan, user);
             else
                 user->getServer()->toSend(ERR_BADCHANNELKEY(getArgs(listNewChans[i]), user->getNick()),
-                                            user->getFd());
+                                          user->getFd());
         }
         i++;
     }
