@@ -6,7 +6,7 @@
 /*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:42:08 by ali               #+#    #+#             */
-/*   Updated: 2022/11/15 16:15:56 by ali              ###   ########.fr       */
+/*   Updated: 2022/11/16 18:07:49 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,9 @@ void	kickUser(Channel* chan, User* user, std::string& nick, std::string& kickMsg
 	else
 		msgParams = getArgs(chan->getName(), nick, user->getNick());
 	user->getServer()->toSend(getMsg(user, "KICK", msgParams), chan->getFds());
-	User* kicked = user->getServer()->getUser(nick);
 	chan->kickUser(nick);
 	if (chan->getUserNum() == 0)
-	{
-		user->getServer()->toSend(ERR_CANNOTSENDTOCHAN(getArgs(chan->getName()), kicked->getNick()),
-			kicked->getFd());
 		user->getServer()->deleteChannel(chan->getName());
-	}
-	else
-		user->getServer()->toSend(ERR_CANNOTSENDTOCHAN(getArgs(chan->getName()), kicked->getNick()),
-			kicked->getFd());
 }
 
 void	KICK(User* user)
