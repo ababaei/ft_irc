@@ -89,14 +89,17 @@ void create_channel(User *user, std::string channel, std::string pwdchan)
         else if (chan->canSpeak(*it))
             tmp = "+" + *it;
         reply_nick += tmp;
+		if (it != nick_list.end() - 1)
+			reply_nick += " ";
         // std::cout << ' ' << *it;
     }
     // a garder car dans la doc https://www.rfc-editor.org/rfc/rfc2812#section-3.2
     std::cout << "You have created and joined the channel " << reply_channel << "!" << std::endl;
     std::cout << "Commands you can use : INVITE KICK LIST MODE QUIT PRIVMSG/NOTICE PART TOPIC NICK" << std::endl;
-    return user->getServer()->toSend(RPL_NAMEREPLY(getArgs(reply_channel, reply_nick),
+    user->getServer()->toSend(RPL_NAMEREPLY(getArgs(reply_channel, reply_nick),
                                                    user->getNick()),
                                      user->getFd());
+	user->getServer()->toSend(RPL_ENDOFNAMES(getArgs(chan->getName()), user->getNick()), user->getFd());
 }
 
 void join_channel(Channel *chan, User *user)
@@ -147,14 +150,17 @@ void join_channel(Channel *chan, User *user)
         else if (chan->canSpeak(*it))
             tmp = "+" + *it;
         reply_nick += tmp;
+		if (it != nick_list.end() - 1)
+			reply_nick += " ";
         // std::cout << ' ' << *it;
     }
     // a garder car dans la doc https://www.rfc-editor.org/rfc/rfc2812#section-3.2
     std::cout << "You have joined the channel " << reply_channel << "!" << std::endl;
     std::cout << "Commands you can use : INVITE KICK LIST MODE QUIT PRIVMSG/NOTICE PART TOPIC NICK" << std::endl;
-    return user->getServer()->toSend(RPL_NAMEREPLY(getArgs(reply_channel, reply_nick),
+    user->getServer()->toSend(RPL_NAMEREPLY(getArgs(reply_channel, reply_nick),
                                                    user->getNick()),
                                      user->getFd());
+	user->getServer()->toSend(RPL_ENDOFNAMES(getArgs(chan->getName()), user->getNick()), user->getFd());
 }
 
 void JOIN(User *user)
