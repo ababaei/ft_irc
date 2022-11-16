@@ -12,6 +12,6 @@ void    PING(User *user)
     if (params[0] != user->getServer()->getServerName())
         return(user->getServer()->toSend(ERR_NOORIGIN(getArgs(user->getServer()->getAddress()), user->getNick()), user->getFd()));
 
-    return(user->getServer()->toSend("PONG " + user->getServer()->getServerName(), user->getFd()));
+    return(user->getServer()->toSend("PONG :" + user->getNick(), user->getFd()));
     //std::cout << "Hello PING" << std::endl;
 }

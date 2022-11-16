@@ -41,8 +41,8 @@ void USER(User *user)
         std::string realname;
         for (unsigned int i = 3; i < user->param_list.size(); i++)
             realname.append(user->param_list[i] + ' ');
-        realname.erase(realname.begin(), realname.end() - 1);
-        if (checkRealName(realname))
+        realname = realname.substr(0,realname.size() - 1);
+        if (checkRealName(realname) == true)
             user->setRealName(realname);
         std::cout << BBLUE "Your realname is: " << user->getRealName() << E << std::endl;
         // ---------------------

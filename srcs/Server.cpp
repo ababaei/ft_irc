@@ -212,10 +212,15 @@ void Server::handleNewConnection()
 
 void Server::closeConnection(int sender_fd, int nbytes)
 {
-	if (nbytes == 0)
-		std::cout << "socket " << sender_fd << " hang up\n";
-	else
-		std::cerr << "recv\n";
+	#ifdef DEBUG
+		char errstr[256];
+		if (nbytes == 0)
+			std::cout << "socket " << sender_fd << " hang up\n";
+		else
+		{
+			std::cerr << "recv: " << errno << " " << strerror_r(errno, errstr, 256) << "\n";
+		}
+	#endif
 	close(sender_fd);
 }
 
