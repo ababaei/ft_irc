@@ -206,7 +206,7 @@ void Server::handleNewConnection()
 	fcntl(new_fd, F_SETFL, O_NONBLOCK);
 	addSocketToList(new_fd, POLLIN | POLLOUT, 0);
 	_user_list[new_fd]= new User(new_fd, this);
-	_user_list[new_fd]->setStatus("pending");
+	_user_list[new_fd]->setStatus(NULL);
 	std::cout << "pollserver: new connection\n";
 }
 

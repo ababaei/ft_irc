@@ -4,7 +4,7 @@
 
 void    PASS(User *user)
 {
-    if (user->getStatus() == "registered")
+    if (user->getStatus() == "registered" || user->getStatus() == "pending")
         return (user->getServer()->toSend(
             ERR_ALREADYREGISTRED(getArgs(), user->getNick()), user->getFd()));
     if (user->param_list.size() == 0)
@@ -20,7 +20,7 @@ void    PASS(User *user)
     else
     {
         std::cout << GREEN "CONNECTED/REGISTERED !" E << std::endl;
-        // user->set_status("connected/registered");
+        user->setStatus("pending");
     }
     // set_password(User->param_list[0]);
 }
