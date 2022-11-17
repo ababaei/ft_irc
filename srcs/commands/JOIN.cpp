@@ -147,6 +147,9 @@ void JOIN(User *user)
     // OK joined too many chans : ERR_TOOMANYCHANNELS
 
     // JOIN 0 = leave all channel grace via PART
+    if (user->param_list.size() == 0)
+        return user->getServer()->toSend(ERR_NEEDMOREPARAMS(getArgs("JOIN"), user->getNick()),
+				user->getFd());
     std::map<std::string, Channel *> channelList = user->getServer()->getChannelList();
     if (user->param_list[0] == "0" || user->param_list[0] == "#0")
     {
