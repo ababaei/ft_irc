@@ -6,7 +6,7 @@
 /*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 15:06:42 by ali               #+#    #+#             */
-/*   Updated: 2022/11/16 17:20:02 by ali              ###   ########.fr       */
+/*   Updated: 2022/11/16 18:48:11 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,8 @@ void	setChanMode(User* user, Channel* channel, const std::vector<std::string>& p
 			if (params[1][i] == 'o')
 			{
 				channel->setUserOp(params[2], b);
-				if (channel->hasOneOp() == false)
-					user->getServer()->toSend(RPL_UNIQOPIS(getArgs(params[0], params[2]),
-								user->getNick()), channel->getFds());
+				user->getServer()->toSend(RPL_CHANNELMODEIS(getArgs(params[0], sign + "o", params[2]),
+						user->getNick()), channel->getFds());
 			}
 			else if (params[1][i] == 'v')
 				channel->setUserVoiced(params[2], b);
@@ -254,6 +253,7 @@ void    MODE(User *user)
 		if (chan->isChanOp(user->getNick()))
 			user->getServer()->toSend(RPL_CHANNELMODEIS(getArgs(params[0], "+o", user->getNick()),
 						user->getNick()), chan->getFds());
+
 
 	}
 	else if (params.size() < 2)

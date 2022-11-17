@@ -41,7 +41,7 @@ int Channel::getUserLimit() const
 	return _user_limit;
 }
 
-const std::vector<User *> Channel::getUserList() const
+std::vector<User *> Channel::getUserList() const
 {
 	std::vector<User *> userList;
 	for (std::map<std::string, User *>::const_iterator it = _users.begin();
@@ -175,8 +175,8 @@ bool Channel::hasOneOp()
 			count++;
 	}
 	if (count >= 1)
-		return false;
-	return true;
+		return true;
+	return false;
 }
 
 bool	Channel::canSpeak(const std::string& nick)
