@@ -264,3 +264,14 @@ void Channel::setUserVoiced(const std::string &nick, bool b)
 {
 	_user_modes[nick]["voiced"] = b;
 }
+
+void	Channel::updateUser(const std::string& oldNick, const std::string& newNick)
+{
+	std::map<std::string, User*>::iterator it = _users.find(oldNick);
+	if (it != _users.end())
+	{
+		User* user = it->second;
+		_users.erase(it);
+		_users[newNick] = user;
+	}
+}
