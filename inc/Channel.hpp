@@ -6,7 +6,7 @@
 /*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 13:32:51 by ali               #+#    #+#             */
-/*   Updated: 2022/11/15 15:02:01 by ali              ###   ########.fr       */
+/*   Updated: 2022/11/16 18:38:55 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ class Channel
 		const std::string&	getTopic() const;
 		const std::string&	getKey() const;
 		int	getUserLimit() const;
-		const std::vector<User*>	getUserList() const;
+		std::vector<User*>	getUserList() const;
 		const std::vector<std::string> getNickList() const;
 		int	getUserNum() const;
 		const std::vector<int>	getFds() const;

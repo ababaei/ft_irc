@@ -45,6 +45,38 @@ int check_forbiden_char_join(std::string channel)
     return (1);
 }
 
+void nameReply(User* user, Channel* chan)
+{
+    std::string reply_channel;
+    std::string reply_nick = "";
+
+	if (chan->isSecret() == true)
+        reply_channel = "@ " + chan->getName();
+    else if (chan->isPrivate() == true)
+        reply_channel = "* " + chan->getName();
+    else
+        reply_channel = "= " + chan->getName();
+
+    std::vector<std::string> nick_list = chan->getNickList();
+    for (std::vector<std::string>::iterator it = nick_list.begin(); it != nick_list.end(); it++)
+    {
+		std::cout << "NICK = " << *it << std::endl;
+		if (reply_nick != "")
+			reply_nick += " ";
+        if (chan->isChanOp(*it))
+            reply_nick += "@" + *it;
+        else if (chan->isModerated() && chan->canSpeak(*it))
+			reply_nick += "+" + *it;
+		else
+			reply_nick += " " + *it;
+    }
+    user->getServer()->toSend(RPL_NAMEREPLY(getArgs(reply_channel, reply_nick),
+				user->getNick()), user->getFd());
+	user->getServer()->toSend(RPL_ENDOFNAMES(getArgs(chan->getName()), user->getNick()), user->getFd());
+    user->getServer()->toSend(getMsg(user, "JOIN", chan->getName()),
+                             chan->getFds());
+}
+
 void create_channel(User *user, std::string channel, std::string pwdchan)
 {
     std::cout << "Creating the chan" << std::endl;
@@ -60,43 +92,13 @@ void create_channel(User *user, std::string channel, std::string pwdchan)
     chan->addUser(user);
     user->getServer()->addChannel(channel, chan);
     user->addChannel(channel);
-    user->setMode("operator", 1);
+	chan->setUserOp(user->getNick(), true);
     YELLOW;
-    user->getServer()->toSend(getMsg(user, "JOIN", channel), user->getFd()); // ?? Est ce une reply
-    user->getServer()->toSend(RPL_UNIQOPIS(getArgs(channel, user->getNick()),
-                                           user->getNick()),
-                              chan->getFds());
 
     if (pwdchan != "")
-        chan->setKey(pwdchan);
+		chan->setKey(pwdchan);
 
-    std::string reply_channel;
-    std::string reply_nick;
-
-    if (chan->isSecret() == true)
-        reply_channel = "@" + channel;
-    else if (chan->isPrivate() == true)
-        reply_channel = "*" + channel;
-    else
-        reply_channel = "=" + channel;
-
-    std::vector<std::string> nick_list = chan->getNickList();
-    for (std::vector<std::string>::iterator it = nick_list.begin(); it != nick_list.end(); ++it)
-    {
-        std::string tmp;
-        if (chan->isChanOp(*it))
-            tmp = "@" + *it;
-        else if (chan->canSpeak(*it))
-            tmp = "+" + *it;
-        reply_nick += tmp;
-        // std::cout << ' ' << *it;
-    }
-    // a garder car dans la doc https://www.rfc-editor.org/rfc/rfc2812#section-3.2
-    std::cout << "You have created and joined the channel " << reply_channel << "!" << std::endl;
-    std::cout << "Commands you can use : INVITE KICK LIST MODE QUIT PRIVMSG/NOTICE PART TOPIC NICK" << std::endl;
-    return user->getServer()->toSend(RPL_NAMEREPLY(getArgs(reply_channel, reply_nick),
-                                                   user->getNick()),
-                                     user->getFd());
+	nameReply(user, chan);
 }
 
 void join_channel(Channel *chan, User *user)
@@ -116,45 +118,21 @@ void join_channel(Channel *chan, User *user)
                                          user->getFd());
 
     std::cout << "Joined the chan" << std::endl;
-    user->getServer()->toSend(getMsg(user, "JOIN", channel),
-                              chan->getFds());
     chan->addUser(user);
     user->addChannel(chan->getName());
+
     if (chan->getTopic() != "")
         user->getServer()->toSend(RPL_TOPIC(getArgs(channel, chan->getTopic()),
                                             user->getNick()),
                                   user->getFd());
     else
-        user->getServer()->toSend(RPL_NOTOPIC(getArgs(channel),
-                                              user->getNick()),
-                                  user->getFd());
-    std::string reply_channel;
-    std::string reply_nick;
+		user->getServer()->toSend(RPL_NOTOPIC(getArgs(channel),
+					user->getNick()), user->getFd());
 
-    if (chan->isSecret() == true)
-        reply_channel = "@" + channel;
-    else if (chan->isPrivate() == true)
-        reply_channel = "*" + channel;
-    else
-        reply_channel = "=" + channel;
-
-    std::vector<std::string> nick_list = chan->getNickList();
-    for (std::vector<std::string>::iterator it = nick_list.begin(); it != nick_list.end(); ++it)
-    {
-        std::string tmp;
-        if (chan->isChanOp(*it))
-            tmp = "@" + *it;
-        else if (chan->canSpeak(*it))
-            tmp = "+" + *it;
-        reply_nick += tmp;
-        // std::cout << ' ' << *it;
-    }
-    // a garder car dans la doc https://www.rfc-editor.org/rfc/rfc2812#section-3.2
-    std::cout << "You have joined the channel " << reply_channel << "!" << std::endl;
-    std::cout << "Commands you can use : INVITE KICK LIST MODE QUIT PRIVMSG/NOTICE PART TOPIC NICK" << std::endl;
-    return user->getServer()->toSend(RPL_NAMEREPLY(getArgs(reply_channel, reply_nick),
-                                                   user->getNick()),
-                                     user->getFd());
+	if (chan->hasOneOp() == false)
+		chan->setUserOp(user->getNick(), true);
+	
+	nameReply(user, chan);
 }
 
 void JOIN(User *user)

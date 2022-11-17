@@ -24,6 +24,7 @@ User::User(int fd, Server *server) : _fd(fd), _server(server)
 	this->_cmd_list["QUIT"] = QUIT;
 	this->_cmd_list["AWAY"] = AWAY;
 	this->_cmd_list["NOTICE"] = AWAY;
+	this->_cmd_list["WHO"] = WHO;
 
 	modes["away"] = false;
 	modes["invisible"] = false;

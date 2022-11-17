@@ -24,6 +24,7 @@ void INVITE(User *user);
 void QUIT(User *user);
 void AWAY(User *user);
 void NOTICE(User *user);
+void WHO(User *user);
 
 
 #endif
