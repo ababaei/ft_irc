@@ -127,11 +127,12 @@ void User::toCommand(std::string msg)
 	this->param_list.assign(words.begin() + 1, words.end());
 	// std::cout << "size=" << this->param_list.size() << "\n";
 	// check when no pwd --> A mettre dans une autre fct ?
-	// if (this->_command != "CAP" && this->_command != "PASS" && this->_nick == "" && this->_status != "registered")
-	// {
-		// std::cout << RED "FAILED TO CONNECT : no password" E << std::endl;
-	    // this->set_status("out");
-	// }
+    if ((this->_command != "CAP" && this->_command != "PASS" && this->_status == "entering" && this->_username == ""))
+    {
+        std::cout << RED "FAILED TO CONNECT : no password" E << std::endl;
+        this->setStatus("out");
+        return;
+    }
 
 	// std::cout << "WORDS are:" << std::endl;
 	// for (std::vector<std::string>::iterator it = words.begin(); it != words.end(); ++it)
