@@ -76,6 +76,8 @@ class Channel
 		void	setChanFlag(const std::string& flag, bool b);
 		void	setUserOp(const std::string& nick, bool b);
 		void	setUserVoiced(const std::string& nick, bool b);
+
+		void	updateUser(const std::string& oldNick, const std::string& newNick);
 };
 
 #endif
