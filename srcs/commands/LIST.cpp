@@ -54,11 +54,15 @@ void LIST(User *user)
     std::map<std::string, Channel *> channelList = user->getServer()->getChannelList();
     if (user->param_list.size() == 0)
     {
-        // std::cout << YELLOW "All channels and their topic" E << std::endl;
+        std::cout << YELLOW "All channels and their topic" E << std::endl;
         for (std::map<std::string, Channel *>::iterator it = channelList.begin(); it != channelList.end(); ++it)
         {
             std::vector<std::string> listNick = it->second->getNickList();
-            user->getServer()->toSend(RPL_LIST(getArgs(it->first, count_users(listNick, user), it->second->getTopic()), user->getNick()),
+            if (it->second->getTopic().size() > 0)
+                user->getServer()->toSend(RPL_LIST(getArgs(it->first, count_users(listNick, user), it->second->getTopic()), user->getNick()),
+                                        user->getFd());
+            else
+                user->getServer()->toSend(RPL_LIST(getArgs(it->first, count_users(listNick, user), " "), user->getNick()),
                                         user->getFd());
             // std::cout << YELLOW << it->first << " " << finalcount << " " << it->second->getTopic() << E << std::endl;
         }
@@ -76,8 +80,13 @@ void LIST(User *user)
                 continue;
             }
             std::vector<std::string> listNick = user->getServer()->getChannel(*it)->getNickList();
-            user->getServer()->toSend(RPL_LIST(getArgs(user->getServer()->getChannel(*it)->getName(), count_users(listNick, user), user->getServer()->getChannel(*it)->getTopic()), user->getNick()),
+            if (user->getServer()->getChannel(*it)->getTopic().size() > 0)
+                user->getServer()->toSend(RPL_LIST(getArgs(user->getServer()->getChannel(*it)->getName(), count_users(listNick, user), user->getServer()->getChannel(*it)->getTopic()), user->getNick()),
                                         user->getFd());
+            else
+                user->getServer()->toSend(RPL_LIST(getArgs(user->getServer()->getChannel(*it)->getName(), count_users(listNick, user), " "), user->getNick()),
+                                        user->getFd());
+
         }
     }
     return user->getServer()->toSend(RPL_LISTEND(getArgs(), user->getNick()),
