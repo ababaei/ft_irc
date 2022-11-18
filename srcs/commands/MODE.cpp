@@ -28,20 +28,44 @@ void	setChanMode(User* user, Channel* channel, const std::vector<std::string>& p
 			if (params[1][i] == 'I')
 			{
 				if (sign == "+")
+				{
 					channel->inviteUser(params[2]);
+					user->getServer()->toSend(RPL_CHANNELMODEIS(getArgs(params[0], sign + "i", params[2]),
+						user->getNick()), channel->getFds());
+				}
 				else
+				{
 					channel->uninviteUser(params[2]);
+					user->getServer()->toSend(RPL_CHANNELMODEIS(getArgs(params[0], sign + "i", params[2]),
+						user->getNick()), channel->getFds());
+				}
 			}
 			if (params[1][i] == 'b')
 			{
 				if (sign == "+")
+				{
+					if (channel->isHere(params[2]))
+					{
+						std::vector<std::string> msgParams = getArgs(params[0], params[2], user->getNick());
+						user->getServer()->toSend(getMsg(user, "KICK", msgParams), channel->getFds());
+					}
+
 					channel->banUser(params[2]);
+					user->getServer()->toSend(RPL_CHANNELMODEIS(getArgs(params[0], sign + "b", params[2]),
+						user->getNick()), channel->getFds());
+				}
 				else
+				{
 					channel->unbanUser(params[2]);
+					user->getServer()->toSend(RPL_CHANNELMODEIS(getArgs(params[0], sign + "b", params[2]),
+						user->getNick()), channel->getFds());
+				}
 			}
-			if (channel->isHere(params[2]) == false)
+			else if (channel->isHere(params[2]) == false)
+			{
 				return user->getServer()->toSend(ERR_USERNOTINCHANNEL(getArgs(params[2],
 								params[0]), user->getNick()), user->getFd());
+			}
 			if (params[1][i] == 'o')
 			{
 				channel->setUserOp(params[2], b);
