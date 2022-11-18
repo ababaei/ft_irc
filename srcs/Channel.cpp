@@ -268,6 +268,16 @@ void Channel::setUserVoiced(const std::string &nick, bool b)
 void	Channel::updateUser(const std::string& oldNick, const std::string& newNick)
 {
 	std::map<std::string, User*>::iterator it = _users.find(oldNick);
+	if (isBanned(oldNick))
+	{
+		unbanUser(oldNick);
+		banUser(newNick);
+	}
+	if (isInvited(oldNick))
+	{
+		uninviteUser(oldNick);
+		inviteUser(newNick);
+	}
 	if (it != _users.end())
 	{
 		User* user = it->second;

@@ -67,8 +67,8 @@ void NICK(User *user)
             return (user->getServer()->toSend(ERR_NICKNAMEINUSE(user->param_list, nickname), user->getFd()));
     }
 	
-	std::vector<std::string> chanList = user->getChannelList();
-	for (std::vector<std::string>::iterator it = chanList.begin(); it != chanList.end(); it++)
-		user->getServer()->getChannel(*it)->updateUser(user->getNick(), nickname);
+	std::map<std::string, Channel*> chanList = user->getServer()->getChannelList();
+	for (std::map<std::string, Channel*>::iterator it = chanList.begin(); it != chanList.end(); it++)
+		it->second->updateUser(user->getNick(), nickname);
     user->setNick(nickname);
 }
