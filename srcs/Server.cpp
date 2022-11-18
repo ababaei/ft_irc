@@ -178,6 +178,7 @@ void Server::handlePfds()
 				int sender_fd = it->fd;
 				if (nbytes <= 0)
 				{
+					std::cout << "nbytes = " << nbytes << std::endl;
 					closeConnection(sender_fd, nbytes);
 					_pfds.erase(it++);
 				}
