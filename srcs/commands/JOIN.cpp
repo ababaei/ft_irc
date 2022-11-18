@@ -199,6 +199,11 @@ void JOIN(User *user)
         }
         else
         {
+            if (chan->isHere(user->getNick()) == 1)
+            {
+                std::cout << "Already in the chan" << std::endl;
+                return;
+            }
             if (key == chan->getKey())
                 join_channel(chan, user);
             else
