@@ -46,7 +46,9 @@ void INVITE(User *user)
 		chan = user->getServer()->getChannel(user->param_list[1]);
 		invited = user->getServer()->getUser(user->param_list[0]);
 	}
-	
+	else
+		chanName = user->param_list[0];
+
 	if (chan == NULL)
 	{
 		std::cout << RED "Channel does not exist" E << std::endl; // rajouter reply
