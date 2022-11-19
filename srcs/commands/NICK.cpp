@@ -69,6 +69,9 @@ void NICK(User *user)
 	
 	std::map<std::string, Channel*> chanList = user->getServer()->getChannelList();
 	for (std::map<std::string, Channel*>::iterator it = chanList.begin(); it != chanList.end(); it++)
+	{
 		it->second->updateUser(user->getNick(), nickname);
+		user->getServer()->toSend(getMsg(user, "NICK", nickname), it->second->getFds());
+	}
     user->setNick(nickname);
 }
