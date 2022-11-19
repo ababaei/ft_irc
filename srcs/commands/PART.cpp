@@ -22,7 +22,7 @@ void	partChan(std::string& partMsg, User* user, Channel* chan)
 	if (partMsg != "")
 		msgParams = getArgs(chan->getName(), partMsg);
 	else
-		msgParams = getArgs(chan->getName());
+		msgParams = getArgs(chan->getName(), user->getNick());
 	user->getServer()->toSend(getMsg(user, "PART", msgParams), chan->getFds());
 	chan->kickUser(user->getNick());
 	if (chan->getUserNum() == 0)
