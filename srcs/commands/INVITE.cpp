@@ -29,25 +29,11 @@ void INVITE(User *user)
 
 	Channel* chan = NULL;
 	User* invited = NULL;
-	std::string invitedName = " ";
-	std::string chanName = " ";
 
-    if (isChanName(user->param_list[0]))
-	{
-		chanName = user->param_list[0];
-		invitedName = user->param_list[1];
-		chan = user->getServer()->getChannel(user->param_list[0]);
-		invited = user->getServer()->getUser(user->param_list[1]);
-	}
-	else if (isChanName(user->param_list[1]))
-	{
-		chanName = user->param_list[1];
-		invitedName = user->param_list[0];
-		chan = user->getServer()->getChannel(user->param_list[1]);
-		invited = user->getServer()->getUser(user->param_list[0]);
-	}
-	else
-		chanName = user->param_list[0];
+	std::string chanName = user->param_list[1];
+	std::string invitedName = user->param_list[0];
+	chan = user->getServer()->getChannel(user->param_list[1]);
+	invited = user->getServer()->getUser(user->param_list[0]);
 
 	if (chan == NULL)
 	{
