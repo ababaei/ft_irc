@@ -29,8 +29,8 @@ void INVITE(User *user)
 
 	Channel* chan = NULL;
 	User* invited = NULL;
-	std::string invitedName = "";
-	std::string chanName = "";
+	std::string invitedName = " ";
+	std::string chanName = " ";
 
     if (isChanName(user->param_list[0]))
 	{
