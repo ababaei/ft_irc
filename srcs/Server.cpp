@@ -276,7 +276,9 @@ User*					Server::getUser(const std::string& nick)
 
 void	Server::deleteChannel(const std::string& name)
 {
+	Channel* to_erase = _channels[name];
 	_channels.erase(name);
+	delete to_erase;
 }
 
 void	Server::deleteUser(const std::string& nick)
@@ -288,9 +290,11 @@ void	Server::deleteUser(const std::string& nick)
 	{
 		if (it->second->getNick() == nick)
 		{
+			User* to_erase = it->second;
 			fd = it->second->getFd();
 			closeConnection(fd, 1);
 			_user_list.erase(it);
+			delete to_erase;
 			for (std::list<pollfd>::iterator it = _pfds.begin(); it != _pfds.end(); it++)
 			{
 				if (it->fd == fd)
