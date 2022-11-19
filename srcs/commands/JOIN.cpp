@@ -60,7 +60,6 @@ void nameReply_join(User* user, Channel* chan)
     std::vector<std::string> nick_list = chan->getNickList();
     for (std::vector<std::string>::iterator it = nick_list.begin(); it != nick_list.end(); it++)
     {
-		std::cout << "NICK = " << *it << std::endl;
 		if (reply_nick != "")
 			reply_nick += " ";
         if (chan->isChanOp(*it))
@@ -165,11 +164,12 @@ void JOIN(User *user)
     std::vector<std::string> listNewChans;
     if (user->param_list[0][0] == '#' || user->param_list[0][0] == '&' || user->param_list[0][0] == '+' || user->param_list[0][0] == '!')
         listNewChans = splitStr(user->param_list[0], ",");
-
+    else 
+        return;
     std::vector<std::string> listNewPwd;
     if (user->param_list.size() != 1 && user->param_list[1][0] != '#' && user->param_list[1][0] != '&' && user->param_list[1][0] != '+' && user->param_list[1][0] != '!' && isalnum(user->param_list[1][0]) != 0)
     {
-        if (user->param_list[1][0] != '#' || user->param_list[1][0] != '&' || user->param_list[1][0] != '+')
+        if (user->param_list[1][0] != '#' || user->param_list[1][0] != '&' || user->param_list[1][0] != '+' || user->param_list[1][0] != '!')
             listNewPwd = splitStr(user->param_list[1], ",");
     }
 
@@ -189,8 +189,13 @@ void JOIN(User *user)
         Channel *chan = user->getServer()->getChannel(listNewChans[i]);
         if (listNewPwd.size() > 0)
         {
-            if (listNewPwd[i].size() > 0)
+            if ((i == 0 && listNewPwd.size() == 1) || (i == 1 && listNewPwd.size() == 2))
+            {
                 key = listNewPwd[i];
+            }
+            else
+                key = "";
+
         }
         else
         {
@@ -213,6 +218,7 @@ void JOIN(User *user)
                 user->getServer()->toSend(ERR_BADCHANNELKEY(getArgs(listNewChans[i]), user->getNick()),
                                           user->getFd());
         }
+
         i++;
     }
 
