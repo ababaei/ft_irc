@@ -101,6 +101,11 @@ void Server::pollLoop()
 	while (1)
 	{
 		// std::cout << "polling fds..." << std::endl;
+		if (g_end == 1)
+		{
+			cleanServer();
+			exit(0);
+		}
 		polling();
 		handlePfds();
 		checkActivity();
@@ -305,5 +310,31 @@ void	Server::deleteUser(const std::string& nick)
 			}
 		}
 	}
+}
+
+void	Server::cleanServer()
+{
+	std::vector<int>	userFds;
+	std::vector<std::string>	chanNames;
+
+	for (std::map<int, User*>::iterator it = _user_list.begin(); it != _user_list.end();
+			it++)
+		userFds.push_back(it->first);
+	for (std::vector<int>::iterator it = userFds.begin(); it != userFds.end(); it++)
+	{
+		User* to_erase = _user_list[*it];
+		_user_list.erase(*it);
+		delete to_erase;
+	}
+
+	for (std::map<std::string, Channel*>::iterator it = _channels.begin(); it != _channels.end(); it++)
+		chanNames.push_back(it->first);
+	for(std::vector<std::string>::iterator it = chanNames.begin(); it != chanNames.end(); it++)
+	{
+		Channel* to_erase = _channels[*it];
+		_channels.erase(*it);
+		delete to_erase;
+	}
+	_pfds.clear();
 }
 /* ************************************************************************** */

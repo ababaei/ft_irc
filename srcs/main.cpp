@@ -2,6 +2,15 @@
 
 #define PORT "6667"
 
+int g_end;
+
+void	sigHandler(int sig)
+{
+	(void) sig;
+	std::cout << "Signal received! The server cleans itself" << std::endl;
+	g_end = 1;
+}
+
 int main(int ac, char **av)
 {
 	if (ac != 3)
@@ -17,6 +26,9 @@ int main(int ac, char **av)
 			return (1);
 		}
 	}
+	g_end = 0;
+	signal(SIGTERM, sigHandler);
+	signal(SIGINT, sigHandler);
 	
     Server  irc_serv(av[1], av[2]);
 
