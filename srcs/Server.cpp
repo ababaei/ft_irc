@@ -209,7 +209,7 @@ void Server::handleNewConnection()
 	int new_fd = accept(_listener, (struct sockaddr *)&remote_addr, &addr_size);
 
 	fcntl(new_fd, F_SETFL, O_NONBLOCK);
-	addSocketToList(new_fd, POLLIN | POLLOUT, 0);
+	addSocketToList(new_fd, POLLIN, 0);
 	_user_list[new_fd]= new User(new_fd, this);
 	_user_list[new_fd]->setStatus("entering");
 	std::cout << "pollserver: new connection\n";
@@ -217,10 +217,15 @@ void Server::handleNewConnection()
 
 void Server::closeConnection(int sender_fd, int nbytes)
 {
-	if (nbytes == 0)
-		std::cout << "socket " << sender_fd << " hang up\n";
-	else
-		std::cerr << "recv\n";
+	#ifdef DEBUG
+		char errstr[256];
+		if (nbytes == 0)
+			std::cout << "socket " << sender_fd << " hang up\n";
+		else
+		{
+			std::cerr << "recv: " << errno << " " << strerror_r(errno, errstr, 256) << "\n";
+		}
+	#endif
 	close(sender_fd);
 }
 
@@ -297,7 +302,7 @@ void	Server::deleteUser(const std::string& nick)
 		{
 			User* to_erase = it->second;
 			fd = it->second->getFd();
-			closeConnection(fd, 1);
+			close(fd);
 			_user_list.erase(it);
 			delete to_erase;
 			for (std::list<pollfd>::iterator it = _pfds.begin(); it != _pfds.end(); it++)
