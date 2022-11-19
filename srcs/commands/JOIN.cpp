@@ -45,7 +45,7 @@ int check_forbiden_char_join(std::string channel)
     return (1);
 }
 
-void nameReply(User* user, Channel* chan)
+void nameReply_join(User* user, Channel* chan)
 {
     std::string reply_channel;
     std::string reply_nick = "";
@@ -98,7 +98,7 @@ void create_channel(User *user, std::string channel, std::string pwdchan)
     if (pwdchan != "")
 		chan->setKey(pwdchan);
 
-	nameReply(user, chan);
+	nameReply_join(user, chan);
 }
 
 void join_channel(Channel *chan, User *user)
@@ -132,7 +132,7 @@ void join_channel(Channel *chan, User *user)
 	if (chan->hasOneOp() == false)
 		chan->setUserOp(user->getNick(), true);
 	
-	nameReply(user, chan);
+	nameReply_join(user, chan);
 }
 
 void JOIN(User *user)

@@ -1,0 +1,283 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+AWAY	srcs/commands/AWAY.cpp	/^void AWAY(User *user)$/;"	f
+BBLUE	inc/colors.hpp	18;"	d
+BLUE	inc/colors.hpp	8;"	d
+BOLD	inc/colors.hpp	12;"	d
+CC	Makefile	/^CC			= clang++$/;"	m
+CFLAGS	Makefile	/^CFLAGS	= -Wall -Wextra -Werror -std=c++98 -g$/;"	m
+CHANNEL_HPP	inc/Channel.hpp	14;"	d
+COLORS_HPP	inc/colors.hpp	2;"	d
+COMMAND_HPP	inc/command.hpp	2;"	d
+CYAN	inc/colors.hpp	10;"	d
+Channel	inc/Channel.hpp	/^class Channel$/;"	c
+Channel	srcs/Channel.cpp	/^Channel::Channel(const std::string &aName) : _name(aName)$/;"	f	class:Channel
+DEBUG	inc/Server.hpp	9;"	d
+DEPENDS	Makefile	/^DEPENDS = $(OBJS:.o=.d)$/;"	m
+E	inc/colors.hpp	15;"	d
+ERR_ALREADYREGISTRED	inc/replies.hpp	26;"	d
+ERR_BADCHANMASK	inc/replies.hpp	51;"	d
+ERR_BADCHANNELKEY	inc/replies.hpp	50;"	d
+ERR_BANNEDFROMCHAN	inc/replies.hpp	49;"	d
+ERR_CANNOTSENDTOCHAN	inc/replies.hpp	94;"	d
+ERR_CHANNELISFULL	inc/replies.hpp	45;"	d
+ERR_CHANOPRIVSNEEDED	inc/replies.hpp	66;"	d
+ERR_ERRONEUSNICKNAME	inc/replies.hpp	33;"	d
+ERR_INVITEONLYCHAN	inc/replies.hpp	44;"	d
+ERR_KEYSET	inc/replies.hpp	65;"	d
+ERR_NEEDMOREPARAMS	inc/replies.hpp	27;"	d
+ERR_NICKNAMEINUSE	inc/replies.hpp	31;"	d
+ERR_NOCHANMODES	inc/replies.hpp	58;"	d
+ERR_NONICKNAMEGIVEN	inc/replies.hpp	30;"	d
+ERR_NOORIGIN	inc/replies.hpp	118;"	d
+ERR_NORECIPIENT	inc/replies.hpp	93;"	d
+ERR_NOSUCHCHANNEL	inc/replies.hpp	46;"	d
+ERR_NOSUCHNICK	inc/replies.hpp	86;"	d
+ERR_NOSUCHSERVER	inc/replies.hpp	78;"	d
+ERR_NOTEXTTOSEND	inc/replies.hpp	96;"	d
+ERR_NOTONCHANNEL	inc/replies.hpp	55;"	d
+ERR_NOTOPLEVEL	inc/replies.hpp	97;"	d
+ERR_RESTRICTED	inc/replies.hpp	34;"	d
+ERR_TOOMANYCHANNELS	inc/replies.hpp	52;"	d
+ERR_TOOMANYTARGETS	inc/replies.hpp	47;"	d
+ERR_UMODEUNKNOWNFLAG	inc/replies.hpp	37;"	d
+ERR_UNAVAILRESOURCE	inc/replies.hpp	32;"	d
+ERR_UNKNOWNCOMMAND	inc/replies.hpp	123;"	d
+ERR_UNKNOWNMODE	inc/replies.hpp	67;"	d
+ERR_USERNOTINCHANNEL	inc/replies.hpp	59;"	d
+ERR_USERONCHANNEL	inc/replies.hpp	87;"	d
+ERR_USERSDONTMATCH	inc/replies.hpp	38;"	d
+ERR_WILDTOPLEVEL	inc/replies.hpp	95;"	d
+GREEN	inc/colors.hpp	6;"	d
+GREY	inc/colors.hpp	4;"	d
+INCS	Makefile	/^INCS = inc$/;"	m
+INVITE	srcs/commands/INVITE.cpp	/^void INVITE(User *user)$/;"	f
+ITALIC	inc/colors.hpp	13;"	d
+ITGREY	inc/colors.hpp	17;"	d
+JOIN	srcs/commands/JOIN.cpp	/^void JOIN(User *user)$/;"	f
+KICK	srcs/commands/KICK.cpp	/^void	KICK(User* user)$/;"	f
+LIST	srcs/commands/LIST.cpp	/^void LIST(User *user)$/;"	f
+MAGENTA	inc/colors.hpp	9;"	d
+MODE	srcs/commands/MODE.cpp	/^void    MODE(User *user)$/;"	f
+NAME	Makefile	/^NAME		= ircserv$/;"	m
+NAMES	srcs/commands/NAMES.cpp	/^void NAMES(User *user)$/;"	f
+NICK	srcs/commands/NICK.cpp	/^void NICK(User *user)$/;"	f
+NOTICE	srcs/commands/NOTICE.cpp	/^void	NOTICE(User* user)$/;"	f
+OBJS	Makefile	/^OBJS = $(addprefix $(OBJSDIR)\/, $(OBJSFILES))$/;"	m
+OBJSDIR	Makefile	/^OBJSDIR		= objs$/;"	m
+OBJSFILES	Makefile	/^OBJSFILES = $(SRCSFILES:.cpp=.o)$/;"	m
+PART	srcs/commands/PART.cpp	/^void	PART(User* user)$/;"	f
+PASS	srcs/commands/PASS.cpp	/^void    PASS(User *user)$/;"	f
+PING	srcs/commands/PING.cpp	/^void    PING(User *user)$/;"	f
+PORT	inc/Server.hpp	8;"	d
+PORT	srcs/main.cpp	3;"	d	file:
+PRIVMSG	srcs/commands/PRIVMSG.cpp	/^void	PRIVMSG(User* user)$/;"	f
+QUIT	srcs/commands/QUIT.cpp	/^void	QUIT(User* user)$/;"	f
+RED	inc/colors.hpp	5;"	d
+REPLIES_HPP	inc/replies.hpp	14;"	d
+RPL_AWAY	inc/replies.hpp	88;"	d
+RPL_BANLIST	inc/replies.hpp	61;"	d
+RPL_CHANNELMODEIS	inc/replies.hpp	60;"	d
+RPL_ENDOFBANLIST	inc/replies.hpp	68;"	d
+RPL_ENDOFEXCEPTLIST	inc/replies.hpp	69;"	d
+RPL_ENDOFINVITELIST	inc/replies.hpp	70;"	d
+RPL_ENDOFNAMES	inc/replies.hpp	77;"	d
+RPL_ENDOFWHO	inc/replies.hpp	103;"	d
+RPL_ENDOFWHOIS	inc/replies.hpp	109;"	d
+RPL_EXCEPTLIST	inc/replies.hpp	62;"	d
+RPL_INVITELIST	inc/replies.hpp	63;"	d
+RPL_INVITING	inc/replies.hpp	85;"	d
+RPL_LIST	inc/replies.hpp	81;"	d
+RPL_LISTEND	inc/replies.hpp	82;"	d
+RPL_MYINFO	inc/replies.hpp	124;"	d
+RPL_NAMEREPLY	inc/replies.hpp	76;"	d
+RPL_NOTOPIC	inc/replies.hpp	73;"	d
+RPL_NOWAWAY	inc/replies.hpp	128;"	d
+RPL_TOPIC	inc/replies.hpp	48;"	d
+RPL_UMODEIS	inc/replies.hpp	39;"	d
+RPL_UNAWAY	inc/replies.hpp	127;"	d
+RPL_UNIQOPIS	inc/replies.hpp	64;"	d
+RPL_WELCOME	inc/replies.hpp	25;"	d
+RPL_WHOISCHANNELS	inc/replies.hpp	107;"	d
+RPL_WHOISERVER	inc/replies.hpp	110;"	d
+RPL_WHOISIDLE	inc/replies.hpp	108;"	d
+RPL_WHOISOPERATOR	inc/replies.hpp	111;"	d
+RPL_WHOISUSER	inc/replies.hpp	106;"	d
+RPL_WHOREPLY	inc/replies.hpp	102;"	d
+SERVER_HPP	inc/Server.hpp	2;"	d
+SRCS	Makefile	/^SRCS = $(addprefix $(SRCSDIR)\/,$(SRCSFILES))$/;"	m
+SRCSDIR	Makefile	/^SRCSDIR = srcs$/;"	m
+SRCSFILES	Makefile	/^SRCSFILES	= 	main.cpp \\$/;"	m
+STD_HPP	inc/std.hpp	14;"	d
+Server	inc/Server.hpp	/^class Server$/;"	c
+Server	srcs/Server.cpp	/^Server::Server(const std::string& given_port, const std::string& pword) : _port(given_port), _password(pword)$/;"	f	class:Server
+TOPIC	srcs/commands/TOPIC.cpp	/^void TOPIC(User *user)$/;"	f
+UNDERL	inc/colors.hpp	14;"	d
+USER	srcs/commands/USER.cpp	/^void USER(User *user)$/;"	f
+USER_HPP	inc/User.hpp	2;"	d
+UTILS_HPP	inc/utils.hpp	14;"	d
+User	inc/User.hpp	/^class User$/;"	c
+User	srcs/User.cpp	/^User::User(int fd, Server *server) : _fd(fd), _server(server)$/;"	f	class:User
+WHITE	inc/colors.hpp	11;"	d
+WHO	srcs/commands/WHO.cpp	/^void	WHO(User* user)$/;"	f
+WHOIS	srcs/commands/WHOIS.cpp	/^void    WHOIS(User *user)$/;"	f
+YELLOW	inc/colors.hpp	7;"	d
+_address	inc/Server.hpp	/^	std::string _address;$/;"	m	class:Server
+_arr_pfds	inc/Server.hpp	/^	struct pollfd *_arr_pfds;$/;"	m	class:Server	typeref:struct:Server::pollfd
+_ban_list	inc/Channel.hpp	/^		std::vector<std::string> _ban_list;$/;"	m	class:Channel
+_buf	inc/Server.hpp	/^	char _buf[512];$/;"	m	class:Server
+_chanels	inc/User.hpp	/^        std::vector<std::string> _chanels;$/;"	m	class:User
+_chanelsLimit	inc/User.hpp	/^        int _chanelsLimit;$/;"	m	class:User
+_channels	inc/Server.hpp	/^	std::map<std::string, Channel *> _channels;$/;"	m	class:Server
+_cmd_list	inc/User.hpp	/^        std::map<std::string, void (*)(User *)> _cmd_list;$/;"	m	class:User
+_command	inc/User.hpp	/^        std::string _command;$/;"	m	class:User
+_fd	inc/User.hpp	/^        int _fd;$/;"	m	class:User
+_flags	inc/Channel.hpp	/^		std::map<std::string, bool>	_flags;$/;"	m	class:Channel
+_hostname	inc/User.hpp	/^        std::string _hostname;$/;"	m	class:User
+_invite_list	inc/Channel.hpp	/^		std::vector<std::string> _invite_list;$/;"	m	class:Channel
+_key	inc/Channel.hpp	/^		std::string	_key;$/;"	m	class:Channel
+_last_activity	inc/User.hpp	/^        time_t _last_activity;$/;"	m	class:User
+_listener	inc/Server.hpp	/^	int _listener;$/;"	m	class:Server
+_message	inc/Server.hpp	/^	std::string _message;$/;"	m	class:Server
+_name	inc/Channel.hpp	/^		std::string	_name;$/;"	m	class:Channel
+_nick	inc/User.hpp	/^        std::string _nick;$/;"	m	class:User
+_password	inc/Server.hpp	/^	std::string _password;$/;"	m	class:Server
+_pfds	inc/Server.hpp	/^	std::list<pollfd> _pfds;$/;"	m	class:Server
+_port	inc/Server.hpp	/^	std::string _port;$/;"	m	class:Server
+_real_name	inc/User.hpp	/^        std::string _real_name;$/;"	m	class:User
+_server	inc/User.hpp	/^        Server *_server;$/;"	m	class:User
+_serverName	inc/Server.hpp	/^	std::string _serverName;$/;"	m	class:Server
+_status	inc/User.hpp	/^        std::string _status;               \/\/ connected ou enregistre \/ disconnected \/ en attente de connexion \/ inactif$/;"	m	class:User
+_topic	inc/Channel.hpp	/^		std::string	_topic;$/;"	m	class:Channel
+_user_limit	inc/Channel.hpp	/^		int	_user_limit;$/;"	m	class:Channel
+_user_list	inc/Server.hpp	/^	std::map<int, User *> _user_list;$/;"	m	class:Server
+_user_modes	inc/Channel.hpp	/^		std::map<std::string, std::map<std::string, bool> > _user_modes;$/;"	m	class:Channel
+_username	inc/User.hpp	/^        std::string _username;$/;"	m	class:User
+_users	inc/Channel.hpp	/^		std::map<std::string, User*> _users;$/;"	m	class:Channel
+addChannel	srcs/Server.cpp	/^void Server::addChannel(const std::string& new_channel, Channel * chan)$/;"	f	class:Server
+addChannel	srcs/User.cpp	/^void User::addChannel(const std::string& new_channel)$/;"	f	class:User
+addSocketToList	srcs/Server.cpp	/^void Server::addSocketToList(int filed, short ev, short rev)$/;"	f	class:Server
+addUser	srcs/Channel.cpp	/^void Channel::addUser(User *user)$/;"	f	class:Channel
+arrToList	srcs/Server.cpp	/^void Server::arrToList()$/;"	f	class:Server
+awayMsg	inc/User.hpp	/^		std::string	awayMsg; \/\/ message quand le user est away$/;"	m	class:User
+banUser	srcs/Channel.cpp	/^void	Channel::banUser(const std::string& nick)$/;"	f	class:Channel
+canSpeak	srcs/Channel.cpp	/^bool	Channel::canSpeak(const std::string& nick)$/;"	f	class:Channel
+chanMode	srcs/commands/MODE.cpp	/^void	chanMode(User* user, std::vector<std::string>& params)$/;"	f
+chanMsg	srcs/commands/PRIVMSG.cpp	/^void	chanMsg(Channel* chan, User* user, std::vector<std::string>& params)$/;"	f
+chanNotMsg	srcs/commands/NOTICE.cpp	/^void	chanNotMsg(Channel* chan, User* user, std::vector<std::string>& params)$/;"	f
+checkActivity	srcs/Server.cpp	/^void Server::checkActivity(void)$/;"	f	class:Server
+checkForbidenCharNick	srcs/commands/NICK.cpp	/^int checkForbidenCharNick(std::string nick)$/;"	f
+checkRealName	srcs/commands/USER.cpp	/^bool	checkRealName(const std::string& param)$/;"	f
+check_forbiden_char_join	srcs/commands/JOIN.cpp	/^int check_forbiden_char_join(std::string channel)$/;"	f
+clearCmd	srcs/User.cpp	/^void User::clearCmd(void)$/;"	f	class:User
+closeConnection	srcs/Server.cpp	/^void Server::closeConnection(int sender_fd, int nbytes)$/;"	f	class:Server
+convert	inc/utils.hpp	/^const std::string	convert(const T& elem)$/;"	f
+count_users	srcs/commands/LIST.cpp	/^std::string count_users(std::vector<std::string> listNick, User *user)$/;"	f
+create_channel	srcs/commands/JOIN.cpp	/^void create_channel(User *user, std::string channel, std::string pwdchan)$/;"	f
+deleteChannel	srcs/Server.cpp	/^void	Server::deleteChannel(const std::string& name)$/;"	f	class:Server
+deleteUser	srcs/Server.cpp	/^void	Server::deleteUser(const std::string& nick)$/;"	f	class:Server
+execCmd	srcs/User.cpp	/^void User::execCmd(void)$/;"	f	class:User
+getActivity	srcs/User.cpp	/^time_t User::getActivity(void) { return (this->_last_activity); }$/;"	f	class:User
+getAddress	srcs/Server.cpp	/^std::string				Server::getAddress(void) { return (_address); }$/;"	f	class:Server
+getArgs	srcs/utils/getArgs.cpp	/^const std::vector<std::string>	getArgs(const std::string& arg0,$/;"	f
+getAway	srcs/User.cpp	/^const std::string&	User::getAway() const$/;"	f	class:User
+getChannel	srcs/Server.cpp	/^Channel*				Server::getChannel(const std::string& name)$/;"	f	class:Server
+getChannelLimit	srcs/User.cpp	/^int User::getChannelLimit() const { return this->_chanelsLimit; }$/;"	f	class:User
+getChannelList	srcs/Server.cpp	/^std::map<std::string, Channel*> Server::getChannelList() { return (_channels); }$/;"	f	class:Server
+getChannelList	srcs/User.cpp	/^const std::vector<std::string> User::getChannelList() const$/;"	f	class:User
+getFd	srcs/User.cpp	/^int User::getFd() { return (this->_fd); }$/;"	f	class:User
+getFds	srcs/Channel.cpp	/^const std::vector<int> Channel::getFds() const$/;"	f	class:Channel
+getHostname	srcs/User.cpp	/^std::string User::getHostname() { return (this->_hostname); }$/;"	f	class:User
+getKey	srcs/Channel.cpp	/^const std::string &Channel::getKey() const$/;"	f	class:Channel
+getMode	srcs/User.cpp	/^bool	User::getMode(const std::string& mode)$/;"	f	class:User
+getMsg	srcs/utils/getMsg.cpp	/^const std::string	getMsg(User* user, const std::string& command, const std::string& param)$/;"	f
+getMsg	srcs/utils/getMsg.cpp	/^const std::string    getMsg(User* user, const std::string& command,$/;"	f
+getName	srcs/Channel.cpp	/^const std::string &Channel::getName() const$/;"	f	class:Channel
+getNick	srcs/User.cpp	/^std::string User::getNick() { return (this->_nick); }$/;"	f	class:User
+getNickList	srcs/Channel.cpp	/^const std::vector<std::string> Channel::getNickList() const$/;"	f	class:Channel
+getOtherFds	srcs/Channel.cpp	/^const std::vector<int> Channel::getOtherFds(const std::string &nick) const$/;"	f	class:Channel
+getPassword	srcs/Server.cpp	/^std::string				Server::getPassword() { return (_password); }$/;"	f	class:Server
+getRealName	srcs/User.cpp	/^std::string User::getRealName() { return (this->_real_name); }$/;"	f	class:User
+getReply	srcs/replies/getReply.cpp	/^std::string	getReply(unsigned short code, std::vector<std::string> args,$/;"	f
+getReplyEnd	srcs/replies/getReply.cpp	/^std::string	getReplyEnd(unsigned short code, std::vector<std::string> args)$/;"	f
+getServer	srcs/User.cpp	/^Server *User::getServer() { return (this->_server); }$/;"	f	class:User
+getServerName	srcs/Server.cpp	/^std::string				Server::getServerName(void) { return (_serverName); }$/;"	f	class:Server
+getStatus	srcs/User.cpp	/^std::string User::getStatus() { return (this->_status); }$/;"	f	class:User
+getStr	srcs/utils/getStr.cpp	/^const std::string	getStr(std::vector<std::string>& v)$/;"	f
+getTopic	srcs/Channel.cpp	/^const std::string &Channel::getTopic() const$/;"	f	class:Channel
+getUser	srcs/Server.cpp	/^User*					Server::getUser(const std::string& nick)$/;"	f	class:Server
+getUserLimit	srcs/Channel.cpp	/^int Channel::getUserLimit() const$/;"	f	class:Channel
+getUserList	srcs/Channel.cpp	/^std::vector<User *> Channel::getUserList() const$/;"	f	class:Channel
+getUserList	srcs/Server.cpp	/^std::map<int, User *>	Server::getUserList() { return (_user_list); }$/;"	f	class:Server
+getUserNum	srcs/Channel.cpp	/^int Channel::getUserNum() const$/;"	f	class:Channel
+getUsername	srcs/User.cpp	/^std::string User::getUsername() { return (this->_username); }$/;"	f	class:User
+handleNewConnection	srcs/Server.cpp	/^void Server::handleNewConnection()$/;"	f	class:Server
+handlePfds	srcs/Server.cpp	/^void Server::handlePfds()$/;"	f	class:Server
+handleRaw	srcs/Server.cpp	/^void Server::handleRaw(int sender_fd)$/;"	f	class:Server
+hasOneOp	srcs/Channel.cpp	/^bool Channel::hasOneOp()$/;"	f	class:Channel
+inviteUser	srcs/Channel.cpp	/^void Channel::inviteUser(const std::string &nick)$/;"	f	class:Channel
+isAnonymous	srcs/Channel.cpp	/^bool Channel::isAnonymous()$/;"	f	class:Channel
+isBanned	srcs/Channel.cpp	/^bool Channel::isBanned(const std::string &nick) const$/;"	f	class:Channel
+isChanName	srcs/utils/checkParam.cpp	/^bool	isChanName(const std::string& param)$/;"	f
+isChanOp	srcs/Channel.cpp	/^bool Channel::isChanOp(const std::string &nick)$/;"	f	class:Channel
+isHere	srcs/Channel.cpp	/^bool Channel::isHere(const std::string &nick) const$/;"	f	class:Channel
+isHere	srcs/Server.cpp	/^bool	Server::isHere(const std::string& nick)$/;"	f	class:Server
+isInviteOnly	srcs/Channel.cpp	/^bool Channel::isInviteOnly()$/;"	f	class:Channel
+isInvited	srcs/Channel.cpp	/^bool Channel::isInvited(const std::string &nick) const$/;"	f	class:Channel
+isModerated	srcs/Channel.cpp	/^bool Channel::isModerated()$/;"	f	class:Channel
+isPrivate	srcs/Channel.cpp	/^bool Channel::isPrivate()$/;"	f	class:Channel
+isSecret	srcs/Channel.cpp	/^bool Channel::isSecret()$/;"	f	class:Channel
+isTopicOperatorOnly	srcs/Channel.cpp	/^bool Channel::isTopicOperatorOnly()$/;"	f	class:Channel
+isVoiced	srcs/Channel.cpp	/^bool Channel::isVoiced(const std::string &nick)$/;"	f	class:Channel
+itoa	srcs/commands/LIST.cpp	/^std::string itoa(int i)$/;"	f
+join_channel	srcs/commands/JOIN.cpp	/^void join_channel(Channel *chan, User *user)$/;"	f
+kickUser	srcs/Channel.cpp	/^void Channel::kickUser(const std::string &nick)$/;"	f	class:Channel
+kickUser	srcs/commands/KICK.cpp	/^void	kickUser(Channel* chan, User* user, std::string& nick, std::string& kickMsg)$/;"	f
+listToArr	srcs/Server.cpp	/^void Server::listToArr()$/;"	f	class:Server
+main	srcs/main.cpp	/^int main(int ac, char **av)$/;"	f
+message	inc/User.hpp	/^        std::string message;$/;"	m	class:User
+modes	inc/User.hpp	/^        std::map<std::string, bool> modes; \/\/ ex: modes["away"] = true indique que le user est away$/;"	m	class:User
+nameReply	srcs/commands/JOIN.cpp	/^void nameReply(User* user, Channel* chan)$/;"	f
+param_list	inc/User.hpp	/^        std::vector<std::string> param_list;$/;"	m	class:User
+partChan	srcs/commands/PART.cpp	/^void	partChan(std::string& partMsg, User* user, Channel* chan)$/;"	f
+pollLoop	srcs/Server.cpp	/^void Server::pollLoop()$/;"	f	class:Server
+polling	srcs/Server.cpp	/^void Server::polling()$/;"	f	class:Server
+removeChannel	srcs/User.cpp	/^void	User::removeChannel(const std::string& name)$/;"	f	class:User
+send_infos	srcs/commands/WHOIS.cpp	/^void send_infos(User *user, std::string nick, std::string username, std::string realname, std::string host,$/;"	f
+setAway	srcs/User.cpp	/^void User::setAway(const std::string& awayMsg)$/;"	f	class:User
+setChanFlag	srcs/Channel.cpp	/^void Channel::setChanFlag(const std::string &flag, bool b)$/;"	f	class:Channel
+setChanMode	srcs/commands/MODE.cpp	/^void	setChanMode(User* user, Channel* channel, const std::vector<std::string>& params)$/;"	f
+setChannelLimit	srcs/User.cpp	/^void	User::setChannelLimit(int aChanelLimit)$/;"	f	class:User
+setHostname	srcs/User.cpp	/^void User::setHostname(const std::string& hostname)$/;"	f	class:User
+setKey	srcs/Channel.cpp	/^void Channel::setKey(const std::string &aKey)$/;"	f	class:Channel
+setListenerSock	srcs/Server.cpp	/^void Server::setListenerSock(void)$/;"	f	class:Server
+setMode	srcs/User.cpp	/^void User::setMode(const std::string &mode, bool b)$/;"	f	class:User
+setName	srcs/Channel.cpp	/^void Channel::setName(const std::string &aName)$/;"	f	class:Channel
+setNick	srcs/User.cpp	/^void	User::setNick(const std::string& nick)$/;"	f	class:User
+setRealName	srcs/User.cpp	/^void User::setRealName(const std::string& real_name)$/;"	f	class:User
+setStatus	srcs/User.cpp	/^void User::setStatus(const std::string& status)$/;"	f	class:User
+setTopic	srcs/Channel.cpp	/^void Channel::setTopic(const std::string &aTopic)$/;"	f	class:Channel
+setUserLimit	srcs/Channel.cpp	/^void Channel::setUserLimit(int aUserLimit)$/;"	f	class:Channel
+setUserOp	srcs/Channel.cpp	/^void Channel::setUserOp(const std::string &nick, bool b)$/;"	f	class:Channel
+setUserVoiced	srcs/Channel.cpp	/^void Channel::setUserVoiced(const std::string &nick, bool b)$/;"	f	class:Channel
+setUsername	srcs/User.cpp	/^void User::setUsername(const std::string& username)$/;"	f	class:User
+specialcharNick	srcs/commands/NICK.cpp	/^int specialcharNick(char c)$/;"	f
+specialchar_join	srcs/commands/JOIN.cpp	/^int specialchar_join(char c)$/;"	f
+splitStr	srcs/utils/splitStr.cpp	/^const std::vector<std::string> splitStr(std::string& str, const std::string& delimiter)$/;"	f
+toCommand	srcs/User.cpp	/^void User::toCommand(std::string msg)$/;"	f	class:User
+toSend	srcs/replies/sendReply.cpp	/^void    Server::toSend(const std::string msg, int sockfd)$/;"	f	class:Server
+toSend	srcs/replies/sendReply.cpp	/^void    Server::toSend(const std::string msg, std::vector<int> sockfds)$/;"	f	class:Server
+unbanUser	srcs/Channel.cpp	/^void Channel::unbanUser(const std::string &nick)$/;"	f	class:Channel
+uninviteUser	srcs/Channel.cpp	/^void Channel::uninviteUser(const std::string &nick)$/;"	f	class:Channel
+updateActivity	srcs/User.cpp	/^void User::updateActivity(void)$/;"	f	class:User
+updateUser	srcs/Channel.cpp	/^void	Channel::updateUser(const std::string& oldNick, const std::string& newNick)$/;"	f	class:Channel
+userMode	srcs/commands/MODE.cpp	/^void	userMode(User* user, std::vector<std::string>& params)$/;"	f
+userMsg	srcs/commands/PRIVMSG.cpp	/^void	userMsg(User* recipient, User* user, std::vector<std::string>& params)$/;"	f
+userNotMsg	srcs/commands/NOTICE.cpp	/^void	userNotMsg(User* recipient, User* user, std::vector<std::string>& params)$/;"	f
+~Channel	srcs/Channel.cpp	/^Channel::~Channel()$/;"	f	class:Channel
+~Server	srcs/Server.cpp	/^Server::~Server() {}$/;"	f	class:Server
+~User	srcs/User.cpp	/^User::~User() {}$/;"	f	class:User
