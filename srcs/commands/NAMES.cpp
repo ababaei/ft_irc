@@ -87,12 +87,16 @@ void NAMES(User *user)
 	}
 	else
 	{
-		Channel *chan = user->getServer()->getChannel(user->param_list[1]);
-		if (chan == NULL)
-			return (user->getServer()->toSend(RPL_ENDOFNAMES(getArgs(user->param_list[1]), user->getNick()), user->getFd()));
-		if ((chan->isHere(user->getNick()) == true && chan->isPrivate() == true) || (chan->isHere(user->getNick()) == true && chan->isSecret() == true))
+        std::vector<std::string> channels = splitStr(user->param_list[0], ",");
+        for (std::vector<std::string>::iterator it = channels.begin(); it != channels.end(); ++it)
+		{
+			Channel *chan = user->getServer()->getChannel(*it);
+			if (chan == NULL)
+				return (user->getServer()->toSend(RPL_ENDOFNAMES(getArgs(*it), user->getNick()), user->getFd()));
+			if ((chan->isHere(user->getNick()) == true && chan->isPrivate() == true) || (chan->isHere(user->getNick()) == true && chan->isSecret() == true))
 				nameReply_names(user, chan);
-		if (chan->isSecret() == false && chan->isPrivate() == false && chan->isAnonymous() == false)
-			nameReply_names(user, chan);
+			if (chan->isSecret() == false && chan->isPrivate() == false && chan->isAnonymous() == false)
+				nameReply_names(user, chan);
+		}
 	}
 }
