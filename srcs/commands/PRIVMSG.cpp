@@ -27,7 +27,10 @@ void	PRIVMSG(User* user)
 {
 	std::vector<std::string> params = user->param_list;
 
-	if (params.size() < 2)
+	if (params.size() == 0)
+			return user->getServer()->toSend(ERR_NORECIPIENT(getArgs("PRIVMSG"),
+						user->getNick()), user->getFd());
+	else if (params.size() < 2)
 		return user->getServer()->toSend(ERR_NOTEXTTOSEND(getArgs(), user->getNick()),
 				user->getFd());
 	if (isChanName(params[0]))
