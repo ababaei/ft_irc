@@ -12,6 +12,8 @@
 
 #include "../../inc/command.hpp"
 #include "../../inc/Server.hpp"
+#include "../../inc/colors.hpp"
+
 
 void	setChanMode(User* user, Channel* channel, const std::vector<std::string>& params)
 {
@@ -277,8 +279,6 @@ void    MODE(User *user)
 		if (chan->isChanOp(user->getNick()))
 			user->getServer()->toSend(RPL_CHANNELMODEIS(getArgs(params[0], "+o", user->getNick()),
 						user->getNick()), chan->getFds());
-
-
 	}
 	else if (params.size() < 2)
 		return user->getServer()->toSend(ERR_NEEDMOREPARAMS(getArgs("MODE"), user->getNick()),

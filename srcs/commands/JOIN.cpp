@@ -161,6 +161,8 @@ void JOIN(User *user)
             std::cout << RED "Part " << it->first << E << std::endl;
             user->toCommand("PART " + it->first);
         }
+        user->toCommand("PART 0");
+        user->toCommand("PART #0");
         return;
     }
 
