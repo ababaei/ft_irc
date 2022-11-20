@@ -244,8 +244,6 @@ void Server::handleRaw(int sender_fd)
 			_user_list[sender_fd]->toCommand(tmp.substr(0, pos));
 		if (_user_list[sender_fd]->getStatus() == "out")
 			return ;
-		else
-			_user_list[sender_fd]->updateActivity();
 		// std::cout << "pos: " << pos << "\n";
 		// std::cout << "tmp: " << tmp << "\n";
 		// std::cout << "tmp[pos + 2]: " << tmp.substr(pos + 2) << "\n";

@@ -1,4 +1,5 @@
 #include "command.hpp"
+#include <stdlib.h>
 
 void send_infos(User *user, std::string nick, std::string username, std::string realname, std::string host,
 time_t idle, User *user_info)
@@ -12,11 +13,10 @@ time_t idle, User *user_info)
 
 void    WHOIS(User *user)
 {
-    std::vector<std::string> params = user->param_list;
-    std::vector<std::string> user_list = splitStr(params[0], ",");
+    std::vector<std::string> user_list = splitStr(user->param_list[0], ",");
     User *user_info = NULL;
 
-    if (params.size() == 0)
+    if (user->param_list.size() == 0)
         return (user->getServer()->toSend(ERR_NONICKNAMEGIVEN(getArgs(),user->getNick()),
         user->getFd()));
     else
@@ -32,5 +32,5 @@ void    WHOIS(User *user)
                 user_info->getActivity(), user_info);
         }
     }
-   return (user->getServer()->toSend(RPL_ENDOFWHOIS(getArgs(user->getNick()), user->getNick()), user->getFd()));
+    return (user->getServer()->toSend(RPL_ENDOFWHOIS(getArgs(user->getNick()), user->getNick()), user->getFd()));
 }
