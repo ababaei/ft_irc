@@ -12,7 +12,7 @@ void AWAY(User *user)
     // RPL_NOWAWAY = marked as away
     // RPL_UNAWAY    = plus away
 
-    if (user->param_list[0].size() > 1)
+    if (user->param_list[0].size() > 0  && user->param_list.size() > 0)
     {
         user->setMode("away", true);
          user->setStatus("away");
