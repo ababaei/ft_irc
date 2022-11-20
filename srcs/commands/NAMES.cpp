@@ -6,11 +6,9 @@
 /*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 11:02:35 by amontaut          #+#    #+#             */
-/*   Updated: 2022/11/19 13:05:59 by amontaut         ###   ########.fr       */
+/*   Updated: 2022/11/20 21:00:01 by amontaut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// https://www.reddit.com/r/darknet/comments/yyel0m/anyone_know_the_link_to_get_gnomed/
 
 #include "../../inc/command.hpp"
 #include "../../inc/colors.hpp"
@@ -44,20 +42,30 @@
 
 void nameReply_names(User *user, Channel *chan)
 {
-	std::string reply_channel;
-	std::string reply_nick = "";
+	std::string reply_channel = " ";
+	std::string reply_nick = " ";
 
-	if (chan->isPrivate() == true)
+std::cout << GREEN "PRIV is " << chan->isPrivate() << E << std::endl;
+std::cout << GREEN "is here is " << chan->isHere(user->getNick()) << E << std::endl;
+
+	if (chan->isPrivate() == true && chan->isHere(user->getNick()) == true)
+	{
+		std::cout << GREEN "PASS private" << E << std::endl;
 		reply_channel = "* " + chan->getName();
-	else if (chan->isAnonymous() == false && chan->isSecret() == false)
+	}
+	if (chan->isSecret() == true && chan->isHere(user->getNick()) == true)
+		reply_channel = "@ " + chan->getName();
+	else if (chan->isAnonymous() == false && chan->isSecret() == false && chan->isPrivate() == false)
 		reply_channel = "= " + chan->getName();
+	else
+		return;
 
 	std::vector<std::string> nick_list = chan->getNickList();
 	for (std::vector<std::string>::iterator it = nick_list.begin(); it != nick_list.end(); it++)
 	{
 		std::cout << "NICK = " << *it << std::endl;
-		if (reply_nick != "")
-			reply_nick += " ";
+		// if (reply_nick != "")
+			// reply_nick += " ";
 		if (chan->isChanOp(*it))
 			reply_nick += "@" + *it;
 		else if (chan->isModerated() && chan->canSpeak(*it))
@@ -68,13 +76,11 @@ void nameReply_names(User *user, Channel *chan)
 	user->getServer()->toSend(RPL_NAMEREPLY(getArgs(reply_channel, reply_nick),
 											user->getNick()),
 							  user->getFd());
-	user->getServer()->toSend(RPL_ENDOFNAMES(getArgs(chan->getName()), user->getNick()), user->getFd());
+	user->getServer()->toSend(RPL_ENDOFNAMES(getArgs(reply_channel), user->getNick()), user->getFd());
 }
 
 void NAMES(User *user)
 {
-	std::cout << "hello Names" << std::endl;
-
 	std::map<std::string, Channel *> channelList = user->getServer()->getChannelList();
 
 	if (user->param_list.size() == 0)
@@ -90,8 +96,13 @@ void NAMES(User *user)
 	{
 		Channel *chan = user->getServer()->getChannel(user->param_list[1]);
 		if (chan == NULL)
-			user->getServer()->toSend(RPL_ENDOFNAMES(getArgs(chan->getName()), user->getNick()), user->getFd());
-
-		nameReply_names(user, chan);
+			return (user->getServer()->toSend(RPL_ENDOFNAMES(getArgs(user->param_list[1]), user->getNick()), user->getFd()));
+		if ((chan->isHere(user->getNick()) == true && chan->isPrivate() == true) || (chan->isHere(user->getNick()) == true && chan->isSecret() == true))
+			{
+				std::cout << "PASSSSSE" << std::cout;
+				nameReply_names(user, chan);
+			}
+		if (chan->isSecret() == false && chan->isPrivate() == false && chan->isAnonymous() == false)
+			nameReply_names(user, chan);
 	}
 }
