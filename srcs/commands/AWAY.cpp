@@ -12,12 +12,12 @@ void AWAY(User *user)
     // RPL_NOWAWAY = marked as away
     // RPL_UNAWAY    = plus away
 
-    if (user->param_list[0].size() > 1)
+    if (user->param_list[0].size() > 0  && user->param_list.size() > 0)
     {
         user->setMode("away", true);
          user->setStatus("away");
 
-		std::vector<std::string> msg(user->param_list.begin() + 1, user->param_list.end());
+		std::vector<std::string> msg(user->param_list.begin(), user->param_list.end());
 		user->setAway(getStr(msg));
         user->getServer()->toSend(RPL_NOWAWAY(getArgs(""),
                                                 user->getNick()),

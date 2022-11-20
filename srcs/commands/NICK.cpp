@@ -56,8 +56,8 @@ void NICK(User *user)
     std::string nickname = user->param_list[0].substr(0, 9);
     // user->param_list[0] = user->param_list[0].substr(0, 9);
     if (user->param_list.size() == 0)                                    // quand on passe NICK dans irssi sans param ca fait rien a part redire le nick
-            return (user->getServer()->toSend(ERR_NONICKNAMEGIVEN(user->param_list, nickname), user->getFd()));
-
+        return user->getServer()->toSend(ERR_NEEDMOREPARAMS(getArgs("JOIN"), user->getNick()),
+				user->getFd());
     if (checkForbidenCharNick(nickname) == -1)
             return (user->getServer()->toSend(ERR_ERRONEUSNICKNAME(user->param_list, nickname), user->getFd()));
     std::map<int, User *> users = user->getServer()->getUserList();
@@ -69,6 +69,9 @@ void NICK(User *user)
 	
 	std::map<std::string, Channel*> chanList = user->getServer()->getChannelList();
 	for (std::map<std::string, Channel*>::iterator it = chanList.begin(); it != chanList.end(); it++)
+	{
 		it->second->updateUser(user->getNick(), nickname);
+		user->getServer()->toSend(getMsg(user, "NICK", nickname), it->second->getFds());
+	}
     user->setNick(nickname);
 }

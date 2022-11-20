@@ -23,7 +23,7 @@ User::User(int fd, Server *server) : _fd(fd), _server(server)
 	this->_cmd_list["INVITE"] = INVITE;
 	this->_cmd_list["QUIT"] = QUIT;
 	this->_cmd_list["AWAY"] = AWAY;
-	this->_cmd_list["NOTICE"] = AWAY;
+	this->_cmd_list["NOTICE"] = NOTICE;
 	this->_cmd_list["WHO"] = WHO;
 
 	modes["away"] = false;
@@ -130,7 +130,7 @@ void User::toCommand(std::string msg)
     if ((this->_command != "CAP" && this->_command != "PASS" && this->_status == "entering" && this->_username == ""))
     {
         std::cout << RED "FAILED TO CONNECT : no password" E << std::endl;
-        this->setStatus("out");
+        this->setStatus("entering");
         return;
     }
 

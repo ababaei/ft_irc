@@ -29,24 +29,12 @@ void INVITE(User *user)
 
 	Channel* chan = NULL;
 	User* invited = NULL;
-	std::string invitedName = " ";
-	std::string chanName = " ";
 
-    if (isChanName(user->param_list[0]))
-	{
-		chanName = user->param_list[0];
-		invitedName = user->param_list[1];
-		chan = user->getServer()->getChannel(user->param_list[0]);
-		invited = user->getServer()->getUser(user->param_list[1]);
-	}
-	else if (isChanName(user->param_list[1]))
-	{
-		chanName = user->param_list[1];
-		invitedName = user->param_list[0];
-		chan = user->getServer()->getChannel(user->param_list[1]);
-		invited = user->getServer()->getUser(user->param_list[0]);
-	}
-	
+	std::string chanName = user->param_list[1];
+	std::string invitedName = user->param_list[0];
+	chan = user->getServer()->getChannel(user->param_list[1]);
+	invited = user->getServer()->getUser(user->param_list[0]);
+
 	if (chan == NULL)
 	{
 		std::cout << RED "Channel does not exist" E << std::endl; // rajouter reply
@@ -78,7 +66,7 @@ void INVITE(User *user)
 					user->getNick()), user->getFd());
 	}
 	if (invited->getStatus() == "away")
-		return user->getServer()->toSend(RPL_AWAY(getArgs(user->getNick(), user->getAway()), user->getNick()), user->getFd());
+		return user->getServer()->toSend(RPL_AWAY(getArgs(invited->getNick(), invited->getAway()), user->getNick()), user->getFd());
 	std::cout << GREEN "RPL_INVITING is invited" E << std::endl; // rajouter reply.
 
 	std::vector<int> fds;

@@ -11,6 +11,8 @@
 class User;
 class Channel;
 
+extern int g_end;
+
 class Server
 {
 
@@ -50,6 +52,8 @@ public:
 	Channel *getChannel(const std::string &name);
 	User *getUser(const std::string &nick);
 	std::map<std::string, Channel *> getChannelList(void);
+
+	void	cleanServer();
 
 private:
 	std::string _message;
