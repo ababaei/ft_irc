@@ -1,36 +1,36 @@
 #include "command.hpp"
 
 void send_infos(User *user, std::string nick, std::string username, std::string realname, std::string host,
-time_t idle)
+time_t idle, User *user_info)
 {
     user->getServer()->toSend(RPL_WHOISUSER(getArgs(nick, username, host, realname), nick), user->getFd());
-    if (user->getStatus() == "inactive")
+    if (user_info->getStatus() == "inactive")
         user->getServer()->toSend(RPL_WHOISIDLE(getArgs(nick, convert(idle)), nick), user->getFd());
-    else if (user->getStatus() == "away")
-        user->getServer()->toSend(RPL_AWAY(getArgs(nick, user->getAway()), nick), user->getFd());
-    user->getServer()->toSend(RPL_ENDOFWHOIS(getArgs(nick), nick), user->getFd());
+    else if (user_info->getStatus() == "away")
+        user->getServer()->toSend(RPL_AWAY(getArgs(nick, user_info->getAway()), nick), user->getFd());
 }
 
 void    WHOIS(User *user)
 {
     std::vector<std::string> params = user->param_list;
-    
+    std::vector<std::string> user_list = splitStr(params[0], ",");
+    User *user_info = NULL;
+
     if (params.size() == 0)
         return (user->getServer()->toSend(ERR_NONICKNAMEGIVEN(getArgs(),user->getNick()),
         user->getFd()));
     else
     {
-        User *user_info = user->getServer()->getUser(params[0]);
+        for(std::vector<std::string>::iterator it = user_list.begin(); it != user_list.end(); ++it)
+        {
+            user_info = user->getServer()->getUser(*it);
 
-        if (user_info == NULL)
-            return (user->getServer()->toSend(ERR_NOSUCHNICK(getArgs(params[0]),
-            params[0]), user->getFd()));
-
-        if (params.size() > 1 && params[0] != user->getServer()->getAddress())
-            return (user->getServer()->toSend(ERR_NOSUCHSERVER(getArgs(params[0]),
-            params[0]), user->getFd()));
-
-        return(send_infos(user, user_info->getNick(), user_info->getUsername(), user_info->getRealName(), user_info->getHostname(), 
-            user_info->getActivity()));
+            if (user->getServer()->isHere(*it) == false)
+                user->getServer()->toSend(ERR_NOSUCHNICK(getArgs(*it), user->getNick()), user->getFd());
+            else
+                send_infos(user, *it, user_info->getUsername(), user_info->getRealName(), user_info->getHostname(), 
+                user_info->getActivity(), user_info);
+        }
     }
+   return (user->getServer()->toSend(RPL_ENDOFWHOIS(getArgs(user->getNick()), user->getNick()), user->getFd()));
 }

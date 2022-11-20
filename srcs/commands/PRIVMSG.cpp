@@ -20,6 +20,7 @@ void	userMsg(User* recipient, User* user, std::vector<std::string>& params)
 	}
 	else
 		user->getServer()->toSend(getMsg(user, "PRIVMSG", params), recipient->getFd());
+	std::cout << user->getFd() << " to " << recipient->getFd() << std::endl;
 }
 
 void	PRIVMSG(User* user)
