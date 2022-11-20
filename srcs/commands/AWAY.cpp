@@ -17,8 +17,10 @@ void AWAY(User *user)
         user->setMode("away", true);
          user->setStatus("away");
 
-		std::vector<std::string> msg(user->param_list.begin(), user->param_list.end());
-		user->setAway(getStr(msg));
+		// std::vector<std::string> msg(user->param_list.begin(), user->param_list.end());
+        if (user->param_list[0][0] == ':')
+            user->param_list[0] = user->param_list[0].substr(1, user->param_list[0].size());
+        user->setAway(getStr(user->param_list));
         user->getServer()->toSend(RPL_NOWAWAY(getArgs(""),
                                                 user->getNick()),
                                     user->getFd());

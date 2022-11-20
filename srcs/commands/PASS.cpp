@@ -22,5 +22,4 @@ void    PASS(User *user)
         std::cout << GREEN "CONNECTED/REGISTERED !" E << std::endl;
         user->setStatus("pending");
     }
-    // set_password(User->param_list[0]);
 }
