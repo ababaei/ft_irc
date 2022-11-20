@@ -33,7 +33,7 @@ User::User(int fd, Server *server) : _fd(fd), _server(server)
 	modes["operator"] = false;
 	modes["local_op"] = false;
 	modes["server_notice"] = false;
-	_chanelsLimit = 1;
+	_chanelsLimit = 10;
 }
 
 User::~User() {}
