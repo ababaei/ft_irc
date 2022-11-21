@@ -6,7 +6,7 @@
 /*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 15:06:42 by ali               #+#    #+#             */
-/*   Updated: 2022/11/21 16:16:39 by ali              ###   ########.fr       */
+/*   Updated: 2022/11/21 16:30:31 by ali              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,10 @@ void    setChanMode(User* user, Channel* channel, const std::vector<std::string>
                 if (sign == "+")
                 {
                     if (channel->isHere(params[2]))
+                    {
                         kickBroadcast(user, channel, getArgs(channel->getName(), params[2]));
+                        channel->kickUser(params[2]);
+                    }
                     channel->banUser(params[2]);
                     user->getServer()->toSend(RPL_CHANNELMODEIS(getArgs(params[0], sign + "b", params[2]),
                         user->getNick()), user->getFd());
