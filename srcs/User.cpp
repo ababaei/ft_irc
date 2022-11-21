@@ -130,7 +130,7 @@ void User::toCommand(std::string msg)
     if ((this->_command != "CAP" && this->_command != "PASS" && this->_status == "entering" && this->_username == ""))
     {
         std::cout << RED "FAILED TO CONNECT : no password" E << std::endl;
-        this->setStatus("entering");
+        this->setStatus("out");
         return;
     }
 
