@@ -133,7 +133,7 @@ void Server::checkActivity(void)
 
 	for (it = _user_list.begin(); it != _user_list.end(); it++)
 	{
-		if (difftime(time(NULL), it->second->getActivity()) > 180)
+		if (it->second->getActivity() > 180)
 			it->second->setStatus("inactive");
 	}
 	for (it = _user_list.begin(); it != _user_list.end(); it++)

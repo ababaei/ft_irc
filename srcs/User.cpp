@@ -44,7 +44,7 @@ std::string User::getUsername() { return (this->_username); }
 std::string User::getHostname() { return (this->_hostname); }
 std::string User::getRealName() { return (this->_real_name); }
 std::string User::getStatus() { return (this->_status); }
-time_t User::getActivity(void) { return (this->_last_activity); }
+time_t User::getActivity(void) { return (time(NULL) - this->_last_activity); }
 Server *User::getServer() { return (this->_server); }
 int User::getChannelLimit() const { return this->_channelsLimit; }
 const std::vector<std::string> User::getChannelList() const
