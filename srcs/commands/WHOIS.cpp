@@ -1,10 +1,8 @@
 #include "command.hpp"
-// #include <stdlib.h>
 
 void send_infos(User *user, std::string nick, std::string username, std::string realname, std::string host,
 time_t idle, User *user_info)
 {
-    std::cout << "IDLE " << idle << std::endl;
     user->getServer()->toSend(RPL_WHOISUSER(getArgs(nick, username, host, realname), nick), user->getFd());
     if (user_info->getStatus() == "inactive")
         user->getServer()->toSend(RPL_WHOISIDLE(getArgs(nick, convert(idle)), nick), user->getFd());
@@ -22,7 +20,7 @@ void    WHOIS(User *user)
         user->getFd()));
     else
     {
-        for(std::vector<std::string>::iterator it = user_list.begin(); it != user_list.end(); ++it)
+        for(std::vector<std::string>::iterator it = user_list.begin(); it != user_list.end(); it++)
         {
             user_info = user->getServer()->getUser(*it);
 
