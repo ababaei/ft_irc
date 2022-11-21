@@ -113,7 +113,6 @@ void User::addChannel(const std::string& new_channel)
 
 void User::toCommand(std::string msg)
 {
-	std::cout << CYAN "msg is " << msg << E << std::endl;
 	std::stringstream ss(msg);
 	std::vector<std::string> words;
 	std::string tmp;
@@ -123,26 +122,15 @@ void User::toCommand(std::string msg)
 	{
 		words.push_back(tmp);
 	}
-	this->_command = words[0]; //SEGFAULT here when msg is "\r\n"
+	this->_command = words[0];
 	this->param_list.assign(words.begin() + 1, words.end());
-	// std::cout << "size=" << this->param_list.size() << "\n";
-	// check when no pwd --> A mettre dans une autre fct ?
+
     if ((this->_command != "CAP" && this->_command != "PASS" && this->_status == "entering" && this->_username == ""))
     {
         std::cout << RED "FAILED TO CONNECT : no password" E << std::endl;
         this->setStatus("entering");
         return;
     }
-
-	// std::cout << "WORDS are:" << std::endl;
-	// for (std::vector<std::string>::iterator it = words.begin(); it != words.end(); ++it)
-	// 	std::cout << ' ' << *it;
-	// std::cout << std::endl;
-
-	// std::cout << "PARAM LIST 1 are:" << std::endl;
-	// for (std::vector<std::string>::iterator it = this->param_list.begin(); it != this->param_list.end(); ++it)
-	// 	std::cout << ' ' << *it;
-	// std::cout << std::endl;
 
 	this->execCmd();
 	this->clearCmd();
@@ -155,8 +143,6 @@ void User::clearCmd(void)
 	this->param_list.clear();
 }
 
-/* TO PROTECT
-vvvvvvvvvvvvvvvvvvvvvvvvvvvvvv*/
 void User::execCmd(void)
 {
 	if (this->_cmd_list.find(this->_command) == this->_cmd_list.end())
@@ -166,7 +152,9 @@ void User::execCmd(void)
 	}
 	else
 	{
-		std::cout << "exe>" << this->_command << "\n";
+		#ifdef DEBUG
+			std::cout << "exe>" << this->_command << "\n";
+		#endif
 		this->_cmd_list[this->_command](this);
 		this->updateActivity();
 	}

@@ -14,12 +14,16 @@ void    PASS(User *user)
     }
 	if (user->getServer()->getPassword() != user->param_list[0])
     {
-        std::cout << RED "FAILED TO CONNECT : wrong password" E << std::endl;
-		user->setStatus("entering");
+        #ifdef DEBUG
+            std::cout << RED "FAILED TO CONNECT : wrong password" E << std::endl;
+        #endif
+		user->setStatus("out");
     }
     else
     {
-        std::cout << GREEN "CONNECTED/REGISTERED !" E << std::endl;
+        #ifdef DEBUG
+            std::cout << GREEN "CONNECTED/REGISTERED !" E << std::endl;
+        #endif
         user->setStatus("pending");
     }
 }

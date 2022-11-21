@@ -3,6 +3,7 @@
 #else
 #include "Server.hpp"
 #endif
+#include "colors.hpp"
 
 /*
 ** ------------------------------- CONSTRUCTOR/DESTRUCTOR --------------------------------
@@ -100,7 +101,6 @@ void Server::pollLoop()
 {
 	while (1)
 	{
-		// std::cout << "polling fds..." << std::endl;
 		if (g_end == 1)
 		{
 			cleanServer();
@@ -190,7 +190,7 @@ void Server::handlePfds()
 				else
 				{
 					_buf[nbytes] = '\0';
-					std::cout << "< received " << nbytes << " bytes (" << _buf << ")\n";
+					std::cout << BBLUE << "< received " << nbytes << " bytes (" << _buf << ")" << E << "\n";
 					handleRaw(sender_fd);
 				}
 				// std::cout << message << "\n";
@@ -238,16 +238,12 @@ void Server::handleRaw(int sender_fd)
 	tmp.append(_buf);
 
 	std::size_t pos = tmp.find("\r\n");
-//	std::cout << "pos: " << pos << std::endl;
 	while ((pos = tmp.find("\r\n")) != std::string::npos)
 	{
 		if (pos != 0)
 			_user_list[sender_fd]->toCommand(tmp.substr(0, pos));
 		if (_user_list[sender_fd]->getStatus() == "out")
 			return ;
-		// std::cout << "pos: " << pos << "\n";
-		// std::cout << "tmp: " << tmp << "\n";
-		// std::cout << "tmp[pos + 2]: " << tmp.substr(pos + 2) << "\n";
 		tmp = tmp.substr(pos + 2);
 	}
 	this->_user_list[sender_fd]->message = tmp;

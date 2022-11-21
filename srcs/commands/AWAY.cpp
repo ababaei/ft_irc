@@ -5,19 +5,11 @@
 
 void AWAY(User *user)
 {
-    // syntax : AWAY text 
-    // ou sans text = remove away
-
-    // replies :
-    // RPL_NOWAWAY = marked as away
-    // RPL_UNAWAY    = plus away
-
     if (user->param_list[0].size() > 0  && user->param_list.size() > 0)
     {
         user->setMode("away", true);
          user->setStatus("away");
 
-		// std::vector<std::string> msg(user->param_list.begin(), user->param_list.end());
         if (user->param_list[0][0] == ':')
             user->param_list[0] = user->param_list[0].substr(1, user->param_list[0].size());
         user->setAway(getStr(user->param_list));
@@ -26,7 +18,6 @@ void AWAY(User *user)
                                     user->getFd());
 		user->getServer()->toSend(RPL_UMODEIS(getArgs("+a"), user->getNick()),
 					user->getFd());
-        // std::cout << "RPL_NOWAWAY" << std::endl;
     }
     else
     {
@@ -38,6 +29,5 @@ void AWAY(User *user)
                                     user->getFd());
 		user->getServer()->toSend(RPL_UMODEIS(getArgs("-a"), user->getNick()),
 					user->getFd());
-        // std::cout << "RPL_UNAWAY" << std::endl;
     }
 }

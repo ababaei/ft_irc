@@ -14,13 +14,11 @@ void	userMsg(User* recipient, User* user, std::vector<std::string>& params)
 { 
 	if (recipient->getStatus() == "away")
 	{
-		std::cout << "is away" << std::endl;
 		user->getServer()->toSend(RPL_AWAY(getArgs(recipient->getNick(), recipient->getAway()),
 					user->getNick()), user->getFd());
 	}
 	else
 		user->getServer()->toSend(getMsg(user, "PRIVMSG", params), recipient->getFd());
-	std::cout << user->getFd() << " to " << recipient->getFd() << std::endl;
 }
 
 void	PRIVMSG(User* user)

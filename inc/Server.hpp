@@ -22,12 +22,12 @@ public:
 
 	void setListenerSock(void); // set le socket listener
 	void addSocketToList(int filed, short ev, short rev);
-	void addChannel(const std::string& new_channel); // doublon avec arthur ?
+	void addChannel(const std::string& new_channel);
 	void addNick(const std::string& new_nick);
 	void removeNick(const std::string& old_nick);
 	void deleteUser(const std::string& nick);
 	void deleteChannel(const std::string& name);
-	void addChannel(const std::string& new_channel, Channel *chan); // doublon avec arthur ?
+	void addChannel(const std::string& new_channel, Channel *chan);
 	void handlePfds(void);
 	void handleNewConnection(void);
 	void closeConnection(int sender_fd, int nbytes);
