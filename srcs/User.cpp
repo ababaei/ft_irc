@@ -33,7 +33,7 @@ User::User(int fd, Server *server) : _fd(fd), _server(server)
 	modes["operator"] = false;
 	modes["local_op"] = false;
 	modes["server_notice"] = false;
-	_chanelsLimit = 10;
+	_channelsLimit = 10;
 }
 
 User::~User() {}
@@ -46,12 +46,12 @@ std::string User::getRealName() { return (this->_real_name); }
 std::string User::getStatus() { return (this->_status); }
 time_t User::getActivity(void) { return (this->_last_activity); }
 Server *User::getServer() { return (this->_server); }
-int User::getChannelLimit() const { return this->_chanelsLimit; }
+int User::getChannelLimit() const { return this->_channelsLimit; }
 const std::vector<std::string> User::getChannelList() const
 {
 	std::vector<std::string> channelList;
-	for (std::vector<std::string>::const_iterator it = _chanels.begin();
-		 it != _chanels.end(); it++)
+	for (std::vector<std::string>::const_iterator it = _channels.begin();
+		 it != _channels.end(); it++)
 		channelList.push_back(*it);
 	return channelList;
 }
@@ -101,14 +101,14 @@ void User::setAway(const std::string& awayMsg)
 	this->awayMsg = awayMsg;
 }
 
-void	User::setChannelLimit(int aChanelLimit)
+void	User::setChannelLimit(int aChannelLimit)
 {
-	_chanelsLimit = aChanelLimit;
+	_channelsLimit = aChannelLimit;
 }
 
 void User::addChannel(const std::string& new_channel)
 {
-	this->_chanels.push_back(new_channel);
+	this->_channels.push_back(new_channel);
 }
 
 void User::toCommand(std::string msg)
@@ -179,5 +179,5 @@ void User::updateActivity(void)
 
 void	User::removeChannel(const std::string& name)
 {
-	_chanels.erase(std::find(_chanels.begin(), _chanels.end(), name));
+	_channels.erase(std::find(_channels.begin(), _channels.end(), name));
 }

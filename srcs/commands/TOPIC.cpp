@@ -6,7 +6,7 @@
 /*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:42:08 by ali               #+#    #+#             */
-/*   Updated: 2022/11/15 16:18:10 by ali              ###   ########.fr       */
+/*   Updated: 2022/11/21 12:29:22 by amontaut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void TOPIC(User *user)
 	Channel* chan = user->getServer()->getChannel(channel);
 	if (chan == NULL)
 	{
-		std::cout << RED "Chanel doesnt exist" E << std::endl; // utile ?
+		std::cout << RED "Channel doesnt exist" E << std::endl; // utile ?
 		return user->getServer()->toSend(ERR_NEEDMOREPARAMS(getArgs("TOPIC"), user->getNick()),
 				user->getFd());
 	}

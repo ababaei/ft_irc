@@ -54,8 +54,8 @@ private: // variables
         std::string _status;               // connected ou enregistre / disconnected / en attente de connexion / inactif
         std::map<std::string, bool> modes; // ex: modes["away"] = true indique que le user est away
         Server *_server;
-        std::vector<std::string> _chanels;
-        int _chanelsLimit;
+        std::vector<std::string> _channels;
+        int _channelsLimit;
 
         time_t _last_activity;
 
