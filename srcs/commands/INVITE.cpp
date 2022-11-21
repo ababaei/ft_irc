@@ -5,7 +5,7 @@ void INVITE(User *user)
 {
     if (user->param_list.size() < 2)
     {
-		return user->getServer()->toSend(ERR_NEEDMOREPARAMS(getArgs("TOPIC"), user->getNick()),
+		return user->getServer()->toSend(ERR_NEEDMOREPARAMS(getArgs("INVITE"), user->getNick()),
 				user->getFd());
     }
 
@@ -48,6 +48,7 @@ void INVITE(User *user)
 	std::vector<int> fds;
 	fds.push_back(user->getFd());
 	fds.push_back(invited->getFd());
+	chan->inviteUser(invited->getNick());
 	user->getServer()->toSend(RPL_INVITING(getArgs(chan->getName(), invited->getNick()), user->getNick()),
 		fds);
 }
