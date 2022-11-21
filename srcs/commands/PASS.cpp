@@ -9,6 +9,7 @@ void    PASS(User *user)
             ERR_ALREADYREGISTRED(getArgs(), user->getNick()), user->getFd()));
     if (user->param_list.size() == 0)
     {
+        user->setStatus("out");
         return (user->getServer()->toSend(
             ERR_NEEDMOREPARAMS(getArgs("PASS"), user->getNick()), user->getFd()));
     }
