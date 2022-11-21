@@ -7,6 +7,7 @@ void	QUIT(User* user)
 
 	for (std::vector<std::string>::iterator it = chanList.begin(); it != chanList.end(); it++)
 	{
+		serv->toSend(getMsg(user, "QUIT", user->getNick()), serv->getChannel(*it)->getOtherFds(user->getNick()));
 		serv->getChannel(*it)->kickUser(user->getNick());
 		if (serv->getChannel(*it)->getUserNum() == 0)
 			serv->deleteChannel(*it);
