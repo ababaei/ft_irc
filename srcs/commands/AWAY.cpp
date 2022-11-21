@@ -1,7 +1,7 @@
-#include "../../inc/command.hpp"
-#include "../../inc/Server.hpp"
-#include "../../inc/replies.hpp"
-#include "../../inc/utils.hpp"
+#include "command.hpp"
+#include "Server.hpp"
+#include "replies.hpp"
+#include "utils.hpp"
 
 void AWAY(User *user)
 {

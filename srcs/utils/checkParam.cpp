@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   checkParam.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 10:45:52 by ali               #+#    #+#             */
-/*   Updated: 2022/10/31 10:46:03 by ali              ###   ########.fr       */
+/*   Updated: 2022/11/21 10:33:21 by amontaut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/utils.hpp"
+#include "utils.hpp"
 
 bool	isChanName(const std::string& param)
 {

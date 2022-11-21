@@ -6,12 +6,12 @@
 /*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 11:02:35 by amontaut          #+#    #+#             */
-/*   Updated: 2022/11/20 21:00:01 by amontaut         ###   ########.fr       */
+/*   Updated: 2022/11/21 10:33:21 by amontaut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/command.hpp"
-#include "../../inc/colors.hpp"
+#include "command.hpp"
+#include "colors.hpp"
 
 // syntax : [ <channel> *( "," <channel> ) ]
 // list all nicknames that are visible. CAD pas ceux qui sont en mode anonymous + When a channel is "secret", the server will act as if the channel does not exist

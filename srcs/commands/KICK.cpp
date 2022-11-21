@@ -6,11 +6,11 @@
 /*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 11:42:08 by ali               #+#    #+#             */
-/*   Updated: 2022/11/16 18:07:49 by ali              ###   ########.fr       */
+/*   Updated: 2022/11/21 10:33:21 by amontaut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/command.hpp"
+#include "command.hpp"
 
 void	kickUser(Channel* chan, User* user, std::string& nick, std::string& kickMsg)
 {

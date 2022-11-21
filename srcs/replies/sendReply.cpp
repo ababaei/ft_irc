@@ -1,4 +1,4 @@
-#include "../../inc/Server.hpp"
+#include "Server.hpp"
 
 /*  the first one is used to send msg to multiple socket,
     the second only to one. DEBUG is defined in Server.hpp

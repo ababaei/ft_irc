@@ -6,11 +6,11 @@
 /*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 18:17:03 by ali               #+#    #+#             */
-/*   Updated: 2022/11/15 16:25:22 by ali              ###   ########.fr       */
+/*   Updated: 2022/11/21 10:33:21 by amontaut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/utils.hpp"
+#include "utils.hpp"
 
 const std::string    getMsg(User* user, const std::string& command,
         std::vector<std::string>& params)

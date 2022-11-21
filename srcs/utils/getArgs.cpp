@@ -6,11 +6,11 @@
 /*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 15:06:39 by ali               #+#    #+#             */
-/*   Updated: 2022/11/03 16:37:43 by ali              ###   ########.fr       */
+/*   Updated: 2022/11/21 10:33:21 by amontaut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/utils.hpp"
+#include "utils.hpp"
 
 const std::vector<std::string>	getArgs(const std::string& arg0,
 		const std::string& arg1,

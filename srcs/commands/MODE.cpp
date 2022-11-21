@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   MODE.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ali <ali@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 15:06:42 by ali               #+#    #+#             */
-/*   Updated: 2022/11/16 18:48:11 by ali              ###   ########.fr       */
+/*   Updated: 2022/11/21 10:33:21 by amontaut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/command.hpp"
-#include "../../inc/Server.hpp"
-#include "../../inc/colors.hpp"
+#include "command.hpp"
+#include "Server.hpp"
+#include "colors.hpp"
 
 
 void	setChanMode(User* user, Channel* channel, const std::vector<std::string>& params)

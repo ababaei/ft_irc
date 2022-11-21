@@ -6,11 +6,11 @@
 /*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 18:53:39 by ali               #+#    #+#             */
-/*   Updated: 2022/11/10 14:06:49 by amontaut         ###   ########.fr       */
+/*   Updated: 2022/11/21 10:33:21 by amontaut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/replies.hpp"
+#include "replies.hpp"
 
 std::string	getReply(unsigned short code, std::vector<std::string> args,
 		std::string target_nickname)

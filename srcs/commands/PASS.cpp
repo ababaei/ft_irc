@@ -1,6 +1,6 @@
-#include "../../inc/command.hpp"
-#include "../../inc/Server.hpp"
-#include "../../inc/colors.hpp"
+#include "command.hpp"
+#include "Server.hpp"
+#include "colors.hpp"
 
 void    PASS(User *user)
 {

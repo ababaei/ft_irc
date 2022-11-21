@@ -1,5 +1,5 @@
-#include "../../inc/command.hpp"
-#include "../../inc/Server.hpp"
+#include "command.hpp"
+#include "Server.hpp"
 
 void	chanMsg(Channel* chan, User* user, std::vector<std::string>& params)
 {
