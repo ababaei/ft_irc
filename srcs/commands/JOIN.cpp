@@ -195,12 +195,8 @@ void JOIN(User *user)
         Channel *chan = user->getServer()->getChannel(listNewChans[i]);
         if (listNewPwd.size() > 0)
         {
-            if ((i == 0 && listNewPwd.size() == 1) || (i == 1 && listNewPwd.size() == 2))
-            {
+            if (listNewPwd[i].size() > 0)
                 key = listNewPwd[i];
-            }
-            else
-                key = "";
         }
         else
         {
@@ -223,7 +219,6 @@ void JOIN(User *user)
                 user->getServer()->toSend(ERR_BADCHANNELKEY(getArgs(listNewChans[i]), user->getNick()),
                                           user->getFd());
         }
-
         i++;
     }
 

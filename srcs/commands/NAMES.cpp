@@ -6,7 +6,7 @@
 /*   By: amontaut <amontaut@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 11:02:35 by amontaut          #+#    #+#             */
-/*   Updated: 2022/11/21 10:33:21 by amontaut         ###   ########.fr       */
+/*   Updated: 2022/11/21 11:30:53 by amontaut         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,11 @@ void nameReply_names(User *user, Channel *chan)
 	for (std::vector<std::string>::iterator it = nick_list.begin(); it != nick_list.end(); it++)
 	{
 		if (chan->isChanOp(*it))
-			reply_nick += "@" + *it;
+			reply_nick += "@" + *it + " ";
 		else if (chan->isModerated() && chan->canSpeak(*it))
-			reply_nick += "+" + *it;
+			reply_nick += "+" + *it  + " ";
 		else
-			reply_nick += " " + *it;
+			reply_nick += " " + *it  + " ";
 	}
 	user->getServer()->toSend(RPL_NAMEREPLY(getArgs(reply_channel, reply_nick),
 											user->getNick()),
