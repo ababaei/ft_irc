@@ -3,22 +3,8 @@
 #include "colors.hpp"
 #include "Channel.hpp"
 
-// Pattern : ( <channel> *( "," <channel> ) [ <key> *( "," <key> ) ] )
-//    / "0"
-// #chan
-// #chan key
-// #chan, #chan
-// #chan, #chan key, key
-// #chan, #chan key
-
-//     +pareil avec & + !
-
 int specialchar_join(char c)
 {
-    // _ - = @ , . ;
-
-    //(' '), a control G (^G or ASCII 7), ',' , ':'
-
     if (c == ' ' ||
         c == 7 ||
         c == ',' ||
@@ -143,7 +129,6 @@ void JOIN(User *user)
     {
         for (std::map<std::string, Channel *>::iterator it = channelList.begin(); it != channelList.end(); ++it)
         {
-            std::cout << RED "Part " << it->first << E << std::endl;
             user->toCommand("PART " + it->first);
         }
         user->toCommand("PART 0");
