@@ -38,6 +38,7 @@ const std::string	convert(const T& elem)
 {
 	std::ostringstream ss;
 	ss << elem;
+	std::cout << "convert=" << ss.str() << std::endl;
 	return ss.str();
 }
 

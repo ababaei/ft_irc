@@ -76,7 +76,6 @@ void nameReply_join(User *user, Channel *chan)
 
 void create_channel(User *user, std::string channel, std::string pwdchan)
 {
-    std::cout << "Creating the chan" << std::endl;
     if (channel.size() >= 50)
         return user->getServer()->toSend(ERR_NOSUCHCHANNEL(getArgs(channel), user->getNick()),
                                          user->getFd());
@@ -116,7 +115,6 @@ void join_channel(Channel *chan, User *user)
         return user->getServer()->toSend(ERR_INVITEONLYCHAN(getArgs(channel), user->getNick()),
                                          user->getFd());
 
-    std::cout << "Joined the chan" << std::endl;
     chan->addUser(user);
     user->addChannel(chan->getName());
 
@@ -137,16 +135,6 @@ void join_channel(Channel *chan, User *user)
 
 void JOIN(User *user)
 {
-    // check needmore param s'il faut une key (ERR_NEEDMOREPARAMS)
-    // Key correct (ERR_BADCHANNELKEY)
-    // OK check que cest pas sur invite (ERR_INVITEONLYCHAN)
-    // OK chan lenght = 164 max ERR_NOSUCHCHANNEL
-    // OK Channel names should only include lower and uppercase letters, numbers and the following punctuation _ - = @ , . ; ERR_NOSUCHCHANNEL
-    // OK Cannot join chan is banned (ERR_BANNEDFROMCHAN)
-    // OK ERR_CHANNELISFULL
-    // OK joined too many chans : ERR_TOOMANYCHANNELS
-
-    // JOIN 0 = leave all channel grace via PART
     if (user->param_list.size() == 0)
         return user->getServer()->toSend(ERR_NEEDMOREPARAMS(getArgs("JOIN"), user->getNick()),
                                          user->getFd());
@@ -159,7 +147,6 @@ void JOIN(User *user)
             user->toCommand("PART " + it->first);
         }
         user->toCommand("PART 0");
-        user->toCommand("PART #0");
         return;
     }
 
@@ -176,15 +163,17 @@ void JOIN(User *user)
             listNewPwd = splitStr(user->param_list[1], ",");
     }
 
-    std::cout << YELLOW "chans are:" E << std::endl;
-    for (std::vector<std::string>::iterator it = listNewChans.begin(); it != listNewChans.end(); ++it)
-        std::cout << ' ' << *it;
-    std::cout << std::endl;
+    #ifdef DEBUG
+        std::cout << YELLOW "chans are:" E << std::endl;
+        for (std::vector<std::string>::iterator it = listNewChans.begin(); it != listNewChans.end(); ++it)
+            std::cout << ' ' << *it;
+        std::cout << std::endl;
 
-    std::cout << YELLOW "pwd are:" E << std::endl;
-    for (std::vector<std::string>::iterator it = listNewPwd.begin(); it != listNewPwd.end(); ++it)
-        std::cout << ' ' << *it;
-    std::cout << std::endl;
+        std::cout << YELLOW "pwd are:" E << std::endl;
+        for (std::vector<std::string>::iterator it = listNewPwd.begin(); it != listNewPwd.end(); ++it)
+            std::cout << ' ' << *it;
+        std::cout << std::endl;
+    #endif
 
     unsigned int i = 0;
     while (i < listNewChans.size())
@@ -218,15 +207,16 @@ void JOIN(User *user)
         }
         i++;
     }
-
-    std::cout << YELLOW "all chan + pwd + nick in the chan" E << std::endl;
-    std::map<std::string, Channel *> channelsList = user->getServer()->getChannelList();
-    for (std::map<std::string, Channel *>::iterator it = channelsList.begin(); it != channelsList.end(); ++it)
-    {
-        std::cout << it->first << "   ";
-        std::cout << it->second->getKey() << std::endl;
-        std::vector<std::string> listNick = it->second->getNickList();
-        for (std::vector<std::string>::iterator it = listNick.begin(); it != listNick.end(); ++it)
-            std::cout << ' ' << *it << std::endl;
-    }
+    #ifdef DEBUG
+        std::cout << YELLOW "all chan + pwd + nick in the chan" E << std::endl;
+        std::map<std::string, Channel *> channelsList = user->getServer()->getChannelList();
+        for (std::map<std::string, Channel *>::iterator it = channelsList.begin(); it != channelsList.end(); ++it)
+        {
+            std::cout << it->first << "   ";
+            std::cout << it->second->getKey() << std::endl;
+            std::vector<std::string> listNick = it->second->getNickList();
+            for (std::vector<std::string>::iterator it = listNick.begin(); it != listNick.end(); ++it)
+                std::cout << ' ' << *it << std::endl;
+        }
+    #endif
 }

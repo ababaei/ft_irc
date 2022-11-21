@@ -4,8 +4,6 @@
 #include "Server.hpp"
 #include "replies.hpp"
 
-// patern :   nickname   =  ( letter / special ) *8( letter / digit / special / "-" )
-
 int specialcharNick(char c)
 {
     if (c == '-' ||
@@ -21,8 +19,6 @@ int specialcharNick(char c)
         return (1);
     return (0);
 }
-
-// patern :   nickname   =  ( letter / special ) *8( letter / digit / special / "-" )
 
 int checkForbidenCharNick(std::string nick)
 {
@@ -41,7 +37,6 @@ int checkForbidenCharNick(std::string nick)
                 return (-1);
             i++;
         }
-        std::cout << "CHAR IS " << nick[i] << std::endl;
         if (isalnum(nick[i]) == 0 && specialcharNick(nick[i]) == 0)
             return (-1);
         return (0);
@@ -54,7 +49,6 @@ void NICK(User *user)
     if (user->param_list[0][0] == ':') // tbc
         user->param_list[0].erase(0, 1);
     std::string nickname = user->param_list[0].substr(0, 9);
-    // user->param_list[0] = user->param_list[0].substr(0, 9);
     if (user->param_list.size() == 0)                                    // quand on passe NICK dans irssi sans param ca fait rien a part redire le nick
         return user->getServer()->toSend(ERR_NEEDMOREPARAMS(getArgs("JOIN"), user->getNick()),
 				user->getFd());

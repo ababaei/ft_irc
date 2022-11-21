@@ -43,7 +43,6 @@ void	PART(User* user)
 		partMsg = getStr(msg);
 	}
 
-	std::cout << "HERE" << std::endl;
 	std::vector<std::string> chanNames = splitStr(params[0], ",");
 	Channel* chan;
 	for (std::vector<std::string>::iterator it = chanNames.begin(); it != chanNames.end(); it++)
