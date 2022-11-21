@@ -3,9 +3,6 @@
 #include "colors.hpp"
 #include "Channel.hpp"
 
-#include <iostream>
-#include <algorithm>
-
 // Pattern : ( <channel> *( "," <channel> ) [ <key> *( "," <key> ) ] )
 //    / "0"
 // #chan

@@ -1,5 +1,5 @@
 #include "command.hpp"
-#include <stdlib.h>
+// #include <stdlib.h>
 
 void send_infos(User *user, std::string nick, std::string username, std::string realname, std::string host,
 time_t idle, User *user_info)

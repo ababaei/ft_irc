@@ -1,6 +1,6 @@
-#include "../inc/User.hpp"
-#include "../inc/command.hpp"
-#include "../inc/colors.hpp"
+#include "User.hpp"
+#include "command.hpp"
+#include "colors.hpp"
 
 /*	The cmd_list's functions are declared in command.hpp and defined in their respective files.
 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv */
