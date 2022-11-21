@@ -38,7 +38,32 @@ void LIST(User *user)
     {
         for (std::map<std::string, Channel *>::iterator it = channelList.begin(); it != channelList.end(); ++it)
         {
-            if (it->second->isSecret() == false)
+            if (it->second->isSecret() == true &&  it->second->isHere(user->getNick()) == true)
+            {
+            std::vector<std::string> listNick = it->second->getNickList();
+            if (it->second->getTopic().size() > 0)
+                user->getServer()->toSend(RPL_LIST(getArgs(it->first, count_users(listNick, user), it->second->getTopic()), user->getNick()),
+                                        user->getFd());
+            else
+                user->getServer()->toSend(RPL_LIST(getArgs(it->first, count_users(listNick, user), " "), user->getNick()),
+                                        user->getFd());
+            }
+            else if (it->second->isPrivate() == true && it->second->isHere(user->getNick()) == false)
+            {
+                user->getServer()->toSend(RPL_LIST(getArgs("Prv", "Prv", " "), user->getNick()),
+                                        user->getFd());
+            }
+            else if (it->second->isPrivate() == true && it->second->isHere(user->getNick()) == true)
+            {
+            std::vector<std::string> listNick = it->second->getNickList();
+            if (it->second->getTopic().size() > 0)
+                user->getServer()->toSend(RPL_LIST(getArgs(it->first, count_users(listNick, user), it->second->getTopic()), user->getNick()),
+                                        user->getFd());
+            else
+                user->getServer()->toSend(RPL_LIST(getArgs(it->first, count_users(listNick, user), " "), user->getNick()),
+                                        user->getFd());
+            }
+            else if (it->second->isPrivate() == false && it->second->isSecret() == false)
             {
             std::vector<std::string> listNick = it->second->getNickList();
             if (it->second->getTopic().size() > 0)
